@@ -110,36 +110,36 @@
     <div class="w-full max-w-screen-lg shadow-lg shadow-green-800">
         <img src="{{ Vite::asset('resources/image/DMI-3.jpg') }}" alt="" class="py-40 px-5 pb-0.5">
         <!-- Jadwal Sholat start -->
-        <div class="flex justify-center mt-10">
+        <div class="flex justify-center">
             <div class="w-full max-w-screen-lg bg-white rounded-lg p-5">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-green-700">Jadwal Sholat</h2>
-                    <span class="text-sm text-gray-500">Sabtu, 3 Mei 2025</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-green-700">Jadwal Sholat</h2>
+                    <span class="text-sm md:text-base text-gray-500">Jumat, 24 Maret 2023</span>
                 </div>
-                <div class="grid grid-cols-6 gap-4 text-center">
-                    <div class="shadow shadow-gray-500 rounded-2xl p-5">
-                        <h3 class="text-lg font-semibold text-green-600">Subuh</h3>
-                        <p class="text-gray-700">04:25</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4 text-center">
+                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
+                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Subuh</h3>
+                        <p class="text-sm sm:text-base text-gray-700">04:25</p>
                     </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-5">
-                        <h3 class="text-lg font-semibold text-green-600">Dzuhur</h3>
-                        <p class="text-gray-700">11:50</p>
+                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
+                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Dzuhur</h3>
+                        <p class="text-sm sm:text-base text-gray-700">11:50</p>
                     </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-5">
-                        <h3 class="text-lg font-semibold text-green-600">Ashar</h3>
-                        <p class="text-gray-700">15:13</p>
+                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
+                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Ashar</h3>
+                        <p class="text-sm sm:text-base text-gray-700">15:13</p>
                     </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-5">
-                        <h3 class="text-lg font-semibold text-green-600">Maghrib</h3>
-                        <p class="text-gray-700">18:25</p>
+                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
+                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Maghrib</h3>
+                        <p class="text-sm sm:text-base text-gray-700">18:25</p>
                     </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-5">
-                        <h3 class="text-lg font-semibold text-green-600">Isya</h3>
-                        <p class="text-gray-700">19:40</p>
+                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
+                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Isya</h3>
+                        <p class="text-sm sm:text-base text-gray-700">19:40</p>
                     </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-5">
-                        <h3 class="text-lg font-semibold text-green-600">Imsak</h3>
-                        <p class="text-gray-700">04:15</p>
+                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
+                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Imsak</h3>
+                        <p class="text-sm sm:text-base text-gray-700">04:15</p>
                     </div>
                 </div>
             </div>
@@ -238,7 +238,8 @@
                                 <tr class="odd:bg-white even:bg-green-100">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">2.
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Masjid Baiturrahman</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Masjid Baiturrahman
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Masjid Besar</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">1974</td>
@@ -248,7 +249,7 @@
                                         <div
                                             class="max-w-[200px] overflow-x-auto whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden">
                                             <span class="text-sm text-gray-800">
-                                            Jl. Pandanaran 126 Semarang
+                                                Jl. Pandanaran 126 Semarang
                                             </span>
                                         </div>
                                     </td>

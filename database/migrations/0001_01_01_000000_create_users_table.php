@@ -13,16 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('nama_masjid');
+            $table->string('nama_takmir');
+            $table->year('tahun');
+            $table->enum('status_tanah', ['Milik Sendiri', 'Wakaf', 'Sewa', 'Pinjam Pakai']);
+            $table->string('username')->unique();
             $table->string('password');
+            $table->string('gambar')->nullable()->comment('Foto/gambar masjid');
+            $table->string('surat')->nullable()->comment('Surat keterangan Tanah atau dokumen legalitas');
             $table->rememberToken();
             $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
+            $table->string('username')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
