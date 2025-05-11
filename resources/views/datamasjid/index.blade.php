@@ -37,7 +37,7 @@
                     class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Berita</a>
             </li>
             <li>
-                <a href='javascript:void(0)'
+                <a href='{{ url('/tentangdmi') }}'
                     class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Tentang
                     DMI Jateng</a>
             </li>
@@ -73,7 +73,7 @@
                     </button>
                 </a>
 
-                <a href='javascript:void(0)' class="block">
+                <a href='{{url('/daftar')}}' class="block">
                     <button
                         class="w-full md:w-auto relative flex items-center px-6 py-2 overflow-hidden font-medium transition-all bg-green-700 rounded-md group">
                         <span

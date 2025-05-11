@@ -23,7 +23,8 @@ class User extends Authenticatable
         'username',
         'password',
         'gambar',
-        'surat'
+        'surat',
+        'notlp'
     ];
 
     /**
@@ -48,7 +49,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 
+    public function isSuperadmin()
+    {
+        return $this->role === 'superadmin';
+    }
     /**
      * Get the username field for authentication.
      *

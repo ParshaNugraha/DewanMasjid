@@ -21,8 +21,10 @@ return new class extends Migration
             $table->string('password');
             $table->string('gambar')->nullable()->comment('Foto/gambar masjid');
             $table->string('surat')->nullable()->comment('Surat keterangan Tanah atau dokumen legalitas');
+            $table->string('notlp')->nullable()->comment('Nomor telepon');
             $table->rememberToken();
             $table->timestamps();
+            $table->enum('role', ['superadmin', 'admin'])->default('admin');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

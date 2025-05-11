@@ -39,8 +39,12 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'surat' => 'required|file|mimes:pdf|max:5120'
+            'surat' => 'required|file|mimes:pdf|max:5120',
+            'notlp' => 'required|string|max:15'
         ]);
+
+        // Set role secara otomatis menjadi admin
+        $validated['role'] = 'admin';
 
         // Handle file uploads
         if ($request->hasFile('gambar')) {
@@ -55,10 +59,13 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
 
         // Create user
-        User::create($validated);
+        $user = User::create($validated);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User created successfully.');
+        // Login user setelah registrasi
+        auth()->login($user);
+
+        return redirect()->route('admin.dashboard')
+            ->with('success', 'Registrasi berhasil! Selamat datang di dashboard admin.');
     }
 
     /**
@@ -93,8 +100,9 @@ class UserController extends Controller
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
             'username' => 'required|string|max:255|unique:users,username,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'surat' => 'nullable|file|mimes:pdf|max:5120'
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'surat' => 'required|file|mimes:pdf|max:5120',
+            'notlp' => 'required|string|max:15'
         ]);
 
         // Handle file uploads
