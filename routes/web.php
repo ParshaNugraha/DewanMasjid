@@ -2,15 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MasjidController;
 
 // Public Routes
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect('/admin/dashboard'); // atau /admin/dashboard
+    }
     return view('home');
 });
 
-Route::get('/masjid', function () {
-    return view('/datamasjid/index');
-});
+
 
 Route::get('/tentangdmi', function () {
     return view('/tentangdmi/index');
@@ -47,9 +49,22 @@ Route::get('/login', function () {
 
 use App\Http\Controllers\AuthController;
 
-// ...
-
 // Login Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+// Data_Masjid_admin
+Route::get('/masjid', function() {
+    if (auth()->check()) {
+        return redirect('/admin/datamasjid');
+    }
+    return app(MasjidController::class)->index();
+})->name('masjid.index');
+
+Route::middleware(['auth', Admin::class])->group(function () {
+    Route::get('/admin/datamasjid', function () {
+        return view('admin.datamasjid.index');
+    })->name('admin.dashboard');
+});

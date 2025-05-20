@@ -1,7 +1,6 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 <!-- Header -->
-
 <div
     class="flex flex-col md:flex-row items-center justify-between border px-4 md:px-10 py-4 shadow-lg shadow-green-800 bg-white fixed top-0 left-0 right-0 z-50">
     <!-- Logo dan Brand -->
@@ -96,13 +95,7 @@
         </ul>
     </nav>
 </div>
-<script>
-    // Toggle mobile menu
-    document.getElementById('mobile-menu-button').addEventListener('click', function () {
-        const menu = document.getElementById('main-nav');
-        menu.classList.toggle('hidden');
-    });
-</script>
+
 <!-- End Header -->
 <!-- Body -->
 <div class="flex justify-center">
@@ -357,7 +350,7 @@
             </div>
         </div>
         <style>
-           /* menyembunyikan scroll-bar */
+            /* menyembunyikan scroll-bar */
             #news-scroll-container::-webkit-scrollbar {
                 display: none;
             }
@@ -647,6 +640,15 @@
 
 
 <!-- End Body -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('main-nav');
+        menuBtn?.addEventListener('click', function () {
+            menu.classList.toggle('hidden');
+        });
+    });
+</script>
 <!-- Section Bottom start -->
 <footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
     <div class="container mx-auto px-4 py-12">

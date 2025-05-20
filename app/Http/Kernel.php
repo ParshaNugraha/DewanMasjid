@@ -59,5 +59,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // Tambahkan middleware admin di sini
         'admin' => \App\Http\Middleware\Admin::class,
+        'redirect.authenticated' => \App\Http\Middleware\RedirectIfAuthenticatedToDashboard::class,
     ];
 }

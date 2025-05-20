@@ -48,7 +48,8 @@ class UserController extends Controller
 
         // Handle file uploads
         if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('public/gambar_masjid');
+            $path = $request->file('gambar')->store('gambar_masjid', 'public');
+            $validated['gambar'] = $path; // Akan menyimpan 'gambar_masjid/nama_file.jpg'
         }
 
         if ($request->hasFile('surat')) {
@@ -106,12 +107,10 @@ class UserController extends Controller
         ]);
 
         // Handle file uploads
+        // Di method store dan update, ganti bagian file upload menjadi:
         if ($request->hasFile('gambar')) {
-            // Delete old image if exists
-            if ($user->gambar) {
-                Storage::delete($user->gambar);
-            }
-            $validated['gambar'] = $request->file('gambar')->store('public/gambar_masjid');
+            $path = $request->file('gambar')->store('gambar_masjid', 'public');
+            $validated['gambar'] = $path; // Akan menyimpan 'gambar_masjid/nama_file.jpg'
         }
 
         if ($request->hasFile('surat')) {

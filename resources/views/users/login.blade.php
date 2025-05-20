@@ -49,16 +49,24 @@
                         type="password" 
                         required
                         autocomplete="current-password" />
-                </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember" name="remember" type="checkbox" 
-                               class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
-                        <label for="remember" class="ml-2 block text-sm text-gray-900">
-                            Ingat Saya
+                    <div class="flex items-center mt-3">
+                        <input id="show-password" type="checkbox" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" onclick="togglePasswordVisibility()">
+                        <label for="show-password" class="ml-2 block text-sm text-gray-900">
+                            Tampilkan Password
                         </label>
                     </div>
                 </div>
+                <script>
+                    function togglePasswordVisibility() {
+                        var passwordInput = document.getElementById('password');
+                        var showPasswordCheckbox = document.getElementById('show-password');
+                        if (showPasswordCheckbox.checked) {
+                            passwordInput.type = 'text';
+                        } else {
+                            passwordInput.type = 'password';
+                        }
+                    }
+                </script>
                 <div class="mt-10">
                     <button
                         class="w-full px-4 py-3 tracking-wide text-white transition-colors duration-200 transform bg-gradient-to-r from-green-600 to-cyan-600 rounded-lg hover:from-green-700 hover:to-cyan-700 focus:outline-none focus:ring-4 focus:ring-green-400 dark:focus:ring-green-800"
