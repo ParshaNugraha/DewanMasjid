@@ -45,7 +45,7 @@
                     DMI Jateng</a>
             </li>
             <li class="md:mt-6">
-                <a href='{{url('/masjid')}}'
+                <a href='{{url('/admin/datamasjid')}}'
                     class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Data
                     Masjid</a>
             </li>

@@ -27,39 +27,12 @@
             </svg>
         </button>
     </div>
-
-    <!-- Menu Navbar -->
-    <nav id="main-nav" class="hidden md:flex w-full md:w-auto mt-4 md:mt-0">
-        <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full">
-            <li>
-                <a href='{{url('/')}}'
-                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Beranda</a>
-            </li>
-            <li>
-                <a href='javascript:void(0)'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Berita</a>
-            </li>
-            <li>
-                <a href='{{ url('/tentangdmi') }}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Tentang
-                    DMI Jateng</a>
-            </li>
-            <li>
-                <a href='{{url('/masjid')}}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Data
-                    Masjid</a>
-            </li>
-            <li>
-                <a href='javascript:void(0)'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Pengurus</a>
-            </li>
-
                 <!-- Menu Navbar -->
     <nav id="main-nav" class="hidden md:flex w-full md:w-auto mt-4 md:mt-0">
         <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full">
             <li class="md:mt-6">
                 <a href='{{url('/')}}'
-                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Beranda</a>
+                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Beranda</a>
             </li>
             <li class="md:mt-6">
                 <a href='javascript:void(0)'
@@ -72,7 +45,7 @@
             </li>
             <li class="md:mt-6">
                 <a href='{{url('/masjid')}}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Data
+                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] no-underline py-2 px-3 border-b-4 border-green-500">Data
                     Masjid</a>
             </li>
             <li class="md:mt-6">

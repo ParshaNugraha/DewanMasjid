@@ -56,15 +56,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // Data_Masjid_admin
+// Route untuk tamu/non-admin
 Route::get('/masjid', function() {
     if (auth()->check()) {
-        return redirect('/admin/datamasjid');
+        return redirect()->route('admin.datamasjid');
     }
     return app(MasjidController::class)->index();
 })->name('masjid.index');
 
+// Route group untuk admin
 Route::middleware(['auth', Admin::class])->group(function () {
-    Route::get('/admin/datamasjid', function () {
-        return view('admin.datamasjid.index');
-    })->name('admin.dashboard');
+    Route::get('/admin/datamasjid', [MasjidController::class, 'adminIndex'])
+         ->name('admin.datamasjid');
 });

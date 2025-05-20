@@ -27,7 +27,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'username' => 'Username atau password salah.',
+            'username' => 'Username atau Password salah.',
         ])->onlyInput('username');
     }
 
