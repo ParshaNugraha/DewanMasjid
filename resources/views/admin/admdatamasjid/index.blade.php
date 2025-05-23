@@ -253,25 +253,24 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                             {{ $masjid->nama_takmir }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex items-center justify-center h-full mt-8">
-                                            @if(auth()->user()->id == $masjid->id)
-                                                <!-- Tombol Edit - Hanya muncul untuk user yang login -->
-                                                <a href="{{ route('users.edit', $masjid->id) }}"
-                                                    class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                                                    Edit
-                                                </a>
+                                        <td @if(auth()->user()->id !== $masjid->id) class="hidden" @endif
+                                            class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex items-center justify-center h-full mt-8">
+                                            <!-- Tombol Edit - Arahkan ke route edit -->
+                                            <a href="{{ route('users.edit', $masjid->id) }}"
+                                                class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                                Edit
+                                            </a>
 
-                                                <!-- Form Delete - Hanya muncul untuk user yang login -->
-                                                <form action="{{ route('users.destroy', $masjid->id) }}" method="POST"
-                                                    class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                                                        Hapus
-                                                    </button>
-                                                </form>
-                                            @endif
+                                            <!-- Form Delete -->
+                                            <form action="{{ route('users.destroy', $masjid->id) }}" method="POST"
+                                                class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                                    Hapus
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

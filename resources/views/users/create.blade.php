@@ -48,7 +48,7 @@
                         Tahun Berdiri
                     </label>
                     <div class="mt-1">
-                        <input id="tahun" name="tahun" type="number" min="1900" max="{{ date('Y') }}" required
+                        <input type="number" name="tahun" min="1000" max="9999" required
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm @error('tahun') border-red-500 @enderror"
                             value="{{ old('tahun') }}" onkeydown="return event.keyCode !== 69 && event.keyCode !== 189"
                             style="-moz-appearance: textfield;">

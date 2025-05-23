@@ -34,7 +34,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'nama_masjid' => 'required|string|max:255',
             'nama_takmir' => 'required|string|max:255',
-            'tahun' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'tahun' => 'required|integer|min:1000|max:9999',
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
             'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
             'kecamatan' => 'required|string|max:100',
@@ -42,7 +42,7 @@ class UserController extends Controller
             'alamat' => 'required|string|max:500',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'required|file|mimes:pdf|max:5120',
             'notlp' => 'required|string|max:15'
         ]);
@@ -102,15 +102,15 @@ class UserController extends Controller
         $validated = $request->validate([
             'nama_masjid' => 'required|string|max:255',
             'nama_takmir' => 'required|string|max:255',
-            'tahun' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'tahun' => 'required|digits:4|integer|min:1500|max:' . date('Y'),
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
             'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
             'alamat' => 'required|string|max:500',
             'username' => 'required|string|max:255|unique:users,username,' . $id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5048',
+            'password' => 'nullable|string|min:8',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => 'required|string|max:15'
         ]);

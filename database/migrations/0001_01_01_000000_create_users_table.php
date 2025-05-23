@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_masjid');
             $table->string('nama_takmir');
-            $table->year('tahun');
+            $table->integer('tahun');
             $table->enum('status_tanah', ['Milik Sendiri', 'Wakaf', 'Sewa', 'Pinjam Pakai']);
             $table->enum('topologi_masjid', ['Masjid Jami', 'Masjid Negara', 'Masjid Agung', 'Masjid Raya', 'Masjid Besar', 'Masjid Kecil']);
             $table->string('kecamatan');
