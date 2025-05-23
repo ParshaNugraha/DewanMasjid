@@ -104,6 +104,72 @@
                         @enderror
                     </div>
                 </div>
+                <!-- Topologi Masjid -->
+                <div>
+                    <label for="topologi_masjid" class="block text-sm font-medium text-gray-700">
+                        Topologi Masjid
+                    </label>
+                    <div class="mt-1">
+                        <select id="topologi_masjid" name="topologi_masjid" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:green-indigo-500 sm:text-sm @error('topologi_masjid') border-red-500 @enderror">
+                            <option value="">-- Pilih Topologi Masjid --</option>
+                            <option value="Masjid Jami" {{ old('topologi_masjid') == 'Masjid Jami' ? 'selected' : '' }}>Masjid Jami</option>
+                            <option value="Masjid Negara" {{ old('topologi_masjid') == 'Masjid Negara' ? 'selected' : '' }}>Masjid Negara</option>
+                            <option value="Masjid Agung" {{ old('topologi_masjid') == 'Masjid Agung' ? 'selected' : '' }}>Masjid Agung</option>
+                            <option value="Masjid Raya" {{ old('topologi_masjid') == 'Masjid Raya' ? 'selected' : '' }}>Masjid Raya</option>
+                            <option value="Masjid Besar" {{ old('topologi_masjid') == 'Masjid Besar' ? 'selected' : '' }}>Masjid Besar</option>
+                            <option value="Masjid Kecil" {{ old('topologi_masjid') == 'Masjid Kecil' ? 'selected' : '' }}>Masjid Kecil</option>
+                        </select>
+                        @error('topologi_masjid')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Kecamatan -->
+                <div>
+                    <label for="kecamatan" class="block text-sm font-medium text-gray-700">
+                        Kecamatan
+                    </label>
+                    <div class="mt-1">
+                        <input id="kecamatan" name="kecamatan" type="text" required maxlength="100"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm @error('kecamatan') border-red-500 @enderror"
+                            value="{{ old('kecamatan') }}">
+                        @error('kecamatan')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Kabupaten -->
+                <div>
+                    <label for="kabupaten" class="block text-sm font-medium text-gray-700">
+                        Kabupaten/Kota
+                    </label>
+                    <div class="mt-1">
+                        <input id="kabupaten" name="kabupaten" type="text" required maxlength="100"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm @error('kabupaten') border-red-500 @enderror"
+                            value="{{ old('kabupaten') }}">
+                        @error('kabupaten')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Alamat -->
+                <div>
+                    <label for="alamat" class="block text-sm font-medium text-gray-700">
+                        Alamat Lengkap
+                    </label>
+                    <div class="mt-1">
+                        <textarea id="alamat" name="alamat" required maxlength="500"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm @error('alamat') border-red-500 @enderror"
+                            rows="3">{{ old('alamat') }}</textarea>
+                        @error('alamat')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
                 <!-- Username -->
                 <div>

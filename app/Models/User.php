@@ -20,11 +20,16 @@ class User extends Authenticatable
         'nama_takmir',
         'tahun',
         'status_tanah',
+        'topologi_masjid',
+        'kecamatan',
+        'kabupaten',
+        'alamat',
         'username',
         'password',
         'gambar',
         'surat',
-        'notlp'
+        'notlp',
+        'role'
     ];
 
     /**

@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('nama_takmir');
             $table->year('tahun');
             $table->enum('status_tanah', ['Milik Sendiri', 'Wakaf', 'Sewa', 'Pinjam Pakai']);
+            $table->enum('topologi_masjid', ['Masjid Jami', 'Masjid Negara', 'Masjid Agung', 'Masjid Raya', 'Masjid Besar', 'Masjid Kecil']);
+            $table->string('kecamatan');
+            $table->string('kabupaten');
+            $table->string('alamat');
             $table->string('username')->unique();
             $table->string('password');
             $table->string('gambar')->nullable()->comment('Foto/gambar masjid');

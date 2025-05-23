@@ -36,6 +36,10 @@ class UserController extends Controller
             'nama_takmir' => 'required|string|max:255',
             'tahun' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
+            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+            'kecamatan' => 'required|string|max:100',
+            'kabupaten' => 'required|string|max:100', 
+            'alamat' => 'required|string|max:500',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -49,11 +53,12 @@ class UserController extends Controller
         // Handle file uploads
         if ($request->hasFile('gambar')) {
             $path = $request->file('gambar')->store('gambar_masjid', 'public');
-            $validated['gambar'] = $path; // Akan menyimpan 'gambar_masjid/nama_file.jpg'
+            $validated['gambar'] = $path;
         }
 
         if ($request->hasFile('surat')) {
-            $validated['surat'] = $request->file('surat')->store('public/surat_masjid');
+            $path = $request->file('surat')->store('surat_masjid', 'public');
+            $validated['surat'] = $path;
         }
 
         // Hash password
@@ -84,7 +89,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        return view('users.update', compact('user'));
     }
 
     /**
@@ -99,29 +104,37 @@ class UserController extends Controller
             'nama_takmir' => 'required|string|max:255',
             'tahun' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
+            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+            'kecamatan' => 'required|string|max:100',
+            'kabupaten' => 'required|string|max:100',
+            'alamat' => 'required|string|max:500',
             'username' => 'required|string|max:255|unique:users,username,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'surat' => 'required|file|mimes:pdf|max:5120',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5048',
+            'surat' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => 'required|string|max:15'
         ]);
 
         // Handle file uploads
-        // Di method store dan update, ganti bagian file upload menjadi:
         if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($user->gambar) {
+                Storage::disk('public')->delete($user->gambar);
+            }
             $path = $request->file('gambar')->store('gambar_masjid', 'public');
-            $validated['gambar'] = $path; // Akan menyimpan 'gambar_masjid/nama_file.jpg'
+            $validated['gambar'] = $path;
         }
 
         if ($request->hasFile('surat')) {
-            // Delete old document if exists
+            // Hapus surat lama jika ada
             if ($user->surat) {
-                Storage::delete($user->surat);
+                Storage::disk('public')->delete($user->surat);
             }
-            $validated['surat'] = $request->file('surat')->store('public/surat_masjid');
+            $path = $request->file('surat')->store('surat_masjid', 'public');
+            $validated['surat'] = $path;
         }
 
-        // Update password only if provided
+        // Update password hanya jika diisi
         if ($request->filled('password')) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
@@ -130,8 +143,8 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User updated successfully.');
+        return redirect()->route('admin.datamasjid')
+            ->with('success', 'Data user berhasil diperbarui.');
     }
 
     /**
@@ -141,17 +154,17 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Delete associated files
+        // Hapus file terkait
         if ($user->gambar) {
-            Storage::delete($user->gambar);
+            Storage::disk('public')->delete($user->gambar);
         }
         if ($user->surat) {
-            Storage::delete($user->surat);
+            Storage::disk('public')->delete($user->surat);
         }
 
         $user->delete();
 
         return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully.');
+            ->with('success', 'User berhasil dihapus.');
     }
 }

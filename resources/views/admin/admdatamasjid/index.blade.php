@@ -27,7 +27,7 @@
             </svg>
         </button>
     </div>
-                <!-- Menu Navbar -->
+    <!-- Menu Navbar -->
     <nav id="main-nav" class="hidden md:flex w-full md:w-auto mt-4 md:mt-0">
         <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full">
             <li class="md:mt-6">
@@ -103,8 +103,7 @@
 
 <!-- Body -->
 <div class="flex justify-center">
-    <div class="w-full max-w-screen-lg shadow-lg shadow-green-800">
-        <img src="{{ Vite::asset('resources/image/DMI-3.jpg') }}" alt="" class="py-40 px-5 pb-0.5">
+    <div class="w-full max-w-screen-lg shadow-lg shadow-green-800 mt-45">
         <!-- Jadwal Sholat start -->
         <div class="flex justify-center">
             <div class="w-full max-w-screen-lg bg-white rounded-lg p-5">
@@ -188,31 +187,64 @@
                             </thead>
                             <tbody>
                                 @foreach($masjids as $index => $masjid)
-                                    <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-100' }}">
+                                    <tr class="{{ $index % 2 === 0 ? 'bg-white' : 'bg-green-100' }}">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                             {{ $index + 1 }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                             {{ $masjid->nama_masjid }}
                                         </td>
+                                        
                                         <td>
                                             @if($masjid->gambar)
-                                            <img src="{{ Vite::asset('storage/app/public/' . $masjid->gambar) }}" 
-                                                    alt="Gambar {{ $masjid->nama_masjid }}"
-                                                    class="h-16 w-auto object-cover rounded">
+                                                <button onclick="showImageModal('{{ Vite::asset('storage/app/public/' . $masjid->gambar) }}', '{{ $masjid->nama_masjid }}')">
+                                                    <img src="{{ Vite::asset('storage/app/public/' . $masjid->gambar) }}"
+                                                        alt="Gambar {{ $masjid->nama_masjid }}"
+                                                        class="h-32 w-48 object-cover rounded-lg hover:opacity-80 transition-opacity">
+                                                </button>
                                             @else
                                                 <span class="text-gray-400">Tidak ada gambar</span>
                                             @endif
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">-</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $masjid->tahun }}
+
+                                        <!-- Modal untuk gambar besar -->
+                                        <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center">
+                                            <div class="relative max-w-4xl w-full">
+                                                <button onclick="hideImageModal()" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300">
+                                                    &times;
+                                                </button>
+                                                <img id="modalImage" src="" alt="" class="w-full h-auto max-h-[90vh] object-contain">
+                                                <p id="modalCaption" class="text-white text-center mt-2 text-lg"></p>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            function showImageModal(src, caption) {
+                                                document.getElementById('modalImage').src = src;
+                                                document.getElementById('modalCaption').textContent = caption;
+                                                document.getElementById('imageModal').classList.remove('hidden');
+                                            }
+
+                                            function hideImageModal() {
+                                                document.getElementById('imageModal').classList.add('hidden');
+                                            }
+                                        </script>
+                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                            {{ $masjid->topologi_masjid }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">-</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">-</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                            {{ $masjid->tahun }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                          {{ $masjid->kecamatan }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                            {{ $masjid->kabupaten }}
+                                        </td>
                                         <td class="px-6 py-4">
                                             <div
                                                 class="max-w-[200px] overflow-x-auto whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden">
-                                                <span class="text-sm text-gray-800">-</span>
+                                                <span class="text-sm text-gray-800">{{ $masjid->alamat }}</span>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
@@ -221,21 +253,25 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                             {{ $masjid->nama_takmir }}
                                         </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex items-center justify-center h-full">
-                                            <a href="{{ route('users.edit', $masjid->id) }}"
-                                                class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                                                Edit
-                                            </a>
-                                            <form action="{{ route('users.destroy', $masjid->id) }}" method="POST"
-                                                class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                                                    Hapus
-                                                </button>
-                                            </form>
+                                        <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex items-center justify-center h-full mt-8">
+                                            @if(auth()->user()->id == $masjid->id)
+                                                <!-- Tombol Edit - Hanya muncul untuk user yang login -->
+                                                <a href="{{ route('users.edit', $masjid->id) }}"
+                                                    class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                                    Edit
+                                                </a>
+
+                                                <!-- Form Delete - Hanya muncul untuk user yang login -->
+                                                <form action="{{ route('users.destroy', $masjid->id) }}" method="POST"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                                        Hapus
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
