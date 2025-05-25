@@ -29,7 +29,7 @@
         <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full">
             <li>
                 <a href='{{url('/')}}'
-                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Beranda</a>
+                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 no-underline">Beranda</a>
             </li>
             <li>
                 <a href='javascript:void(0)'
@@ -42,7 +42,7 @@
             </li>
             <li>
                 <a href='{{url('/masjid')}}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Data
+                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] py-2 px-3 border-green-500">Data
                     Masjid</a>
             </li>
             <li>

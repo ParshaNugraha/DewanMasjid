@@ -102,7 +102,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'nama_masjid' => 'required|string|max:255',
             'nama_takmir' => 'required|string|max:255',
-            'tahun' => 'required|digits:4|integer|min:1500|max:' . date('Y'),
+            'tahun' => 'required|integer|min:1000|max:9999',
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
             'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
             'kecamatan' => 'required|string|max:100',
