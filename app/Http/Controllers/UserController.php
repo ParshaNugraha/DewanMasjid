@@ -3,103 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Masjid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+public function __construct()
+{
+    // Semua method butuh login kecuali create dan store (form daftar & submit registrasi)
+    $this->middleware('auth')->except(['create', 'store']);
+    $this->middleware('can:manage-users')->except(['create', 'store', 'show']);
+}
+
     public function index()
     {
-        $users = User::all();
+        // Superadmin lihat semua, admin lihat sendiri saja
+        if (auth()->user()->role === 'superadmin') {
+            $users = User::with('masjid')->get();
+        } else {
+            $users = User::with('masjid')->where('id', auth()->id())->get();
+        }
+
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
+
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+
+        // Gabungkan validasi user + masjid sekaligus
         $validated = $request->validate([
-            'nama_masjid' => 'required|string|max:255',
-            'nama_takmir' => 'required|string|max:255',
-            'tahun' => 'required|integer|min:1000|max:9999',
-            'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
-            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
-            'kecamatan' => 'required|string|max:100',
-            'kabupaten' => 'required|string|max:100', 
-            'alamat' => 'required|string|max:500',
+            // User
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:5120',
-            'surat' => 'required|file|mimes:pdf|max:5120',
-            'notlp' => 'required|string|max:15'
-        ]);
 
-        // Set role secara otomatis menjadi admin
-        $validated['role'] = 'admin';
-
-        // Handle file uploads
-        if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('gambar_masjid', 'public');
-            $validated['gambar'] = $path;
-        }
-
-        if ($request->hasFile('surat')) {
-            $path = $request->file('surat')->store('surat_masjid', 'public');
-            $validated['surat'] = $path;
-        }
-
-        // Hash password
-        $validated['password'] = Hash::make($validated['password']);
-
-        // Create user
-        $user = User::create($validated);
-
-        // Login user setelah registrasi
-        auth()->login($user);
-
-        return redirect()->route('admin.dashboard')
-            ->with('success', 'Registrasi berhasil! Selamat datang di dashboard admin.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $user = User::findOrFail($id);
-        return view('users.update', compact('user'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $user = User::findOrFail($id);
-
-        $validated = $request->validate([
+            // Masjid
             'nama_masjid' => 'required|string|max:255',
             'nama_takmir' => 'required|string|max:255',
             'tahun' => 'required|integer|min:1000|max:9999',
@@ -108,63 +55,119 @@ class UserController extends Controller
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
             'alamat' => 'required|string|max:500',
-            'username' => 'required|string|max:255|unique:users,username,' . $id,
-            'password' => 'nullable|string|min:8',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
-            'notlp' => 'required|string|max:15'
+            'notlp' => 'required|string|max:15',
         ]);
 
-        // Handle file uploads
+        $user = User::create([
+            'username' => $validated['username'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'admin',
+        ]);
+
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
-            if ($user->gambar) {
-                Storage::disk('public')->delete($user->gambar);
-            }
-            $path = $request->file('gambar')->store('gambar_masjid', 'public');
-            $validated['gambar'] = $path;
+            $validated['gambar'] = $request->file('gambar')->store('gambar_masjid', 'public');
         }
 
         if ($request->hasFile('surat')) {
-            // Hapus surat lama jika ada
-            if ($user->surat) {
-                Storage::disk('public')->delete($user->surat);
-            }
-            $path = $request->file('surat')->store('surat_masjid', 'public');
-            $validated['surat'] = $path;
+            $validated['surat'] = $request->file('surat')->store('surat_masjid', 'public');
         }
 
-        // Update password hanya jika diisi
-        if ($request->filled('password')) {
-            $validated['password'] = Hash::make($validated['password']);
+        $user->masjid()->create($validated);
+
+        // Perbaikan pengecekan agar tidak error jika belum login
+        if (auth()->check() && auth()->user()->role === 'superadmin') {
+            return redirect()->route('users.index')->with('success', 'User berhasil dibuat.');
         } else {
-            unset($validated['password']);
+            auth()->login($user);
+            return redirect()->route('admin.dashboard')->with('success', 'Registrasi berhasil! Selamat datang di dashboard admin.');
         }
-
-        $user->update($validated);
-
-        return redirect()->route('admin.datamasjid')
-            ->with('success', 'Data user berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
+        $this->authorize('view', $user);
+        $user->load('masjid');
 
-        // Hapus file terkait
-        if ($user->gambar) {
-            Storage::disk('public')->delete($user->gambar);
+        return view('users.show', compact('user'));
+    }
+
+    public function edit(User $user)
+    {
+        $this->authorize('update', $user);
+        $user->load('masjid');
+
+        return view('users.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $this->authorize('update', $user);
+
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+
+            'nama_masjid' => 'required|string|max:255',
+            'nama_takmir' => 'required|string|max:255',
+            'tahun' => 'required|integer|min:1000|max:9999',
+            'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
+            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+            'kecamatan' => 'required|string|max:100',
+            'kabupaten' => 'required|string|max:100',
+            'alamat' => 'required|string|max:500',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'surat' => 'nullable|file|mimes:pdf|max:5120',
+            'notlp' => 'required|string|max:15',
+        ]);
+
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
         }
-        if ($user->surat) {
-            Storage::disk('public')->delete($user->surat);
+
+        $user->username = $validated['username'];
+        $user->save();
+
+        $masjid = $user->masjid;
+
+        if ($request->hasFile('gambar')) {
+            if ($masjid->gambar) {
+                Storage::disk('public')->delete($masjid->gambar);
+            }
+            $validated['gambar'] = $request->file('gambar')->store('gambar_masjid', 'public');
+        }
+
+        if ($request->hasFile('surat')) {
+            if ($masjid->surat) {
+                Storage::disk('public')->delete($masjid->surat);
+            }
+            $validated['surat'] = $request->file('surat')->store('surat_masjid', 'public');
+        }
+
+        $masjid->update($validated);
+
+        return redirect()->route('users.index')->with('success', 'Data berhasil diperbarui.');
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('delete', $user);
+
+        $masjid = $user->masjid;
+
+        if ($masjid) {
+            if ($masjid->gambar) {
+                Storage::disk('public')->delete($masjid->gambar);
+            }
+            if ($masjid->surat) {
+                Storage::disk('public')->delete($masjid->surat);
+            }
+            $masjid->delete();
         }
 
         $user->delete();
 
-        return redirect()->route('users.index')
-            ->with('success', 'User berhasil dihapus.');
+        return redirect()->route('users.index')->with('success', 'User dan data masjid berhasil dihapus.');
     }
 }

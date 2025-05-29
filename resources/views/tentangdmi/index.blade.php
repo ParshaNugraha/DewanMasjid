@@ -30,30 +30,31 @@
         <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full">
             <li>
                 <a href='{{url('/')}}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] py-2 px-3">Beranda</a>
+                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Beranda</a>
             </li>
             <li>
-                <a href='javascript:void(0)'
+                <a href='{{ url('/berita') }}'
                     class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Berita</a>
             </li>
             <li>
                 <a href='{{ url('/tentangdmi') }}'
-                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Tentang
+                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Tentang
                     DMI Jateng</a>
             </li>
             <li>
                 <a href='{{url('/masjid')}}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] py-2 px-3 ">Data
+                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Data
                     Masjid</a>
             </li>
             <li>
-                <a href='javascript:void(0)'
+                <a href='{{ url('/pengurus') }}'
                     class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Pengurus</a>
             </li>
 
+
             <!-- Tombol Masuk & Daftar -->
             <li class="md:ml-4 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
-                <a href='https://www.youtube.com/' class="block">
+                <a href='{{url('/login')}}' class="block">
                     <button
                         class="w-full md:w-auto relative flex items-center px-6 py-2 overflow-hidden font-medium transition-all bg-green-500 rounded-md group">
                         <span

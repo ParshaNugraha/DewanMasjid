@@ -32,7 +32,7 @@
                     class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Beranda</a>
             </li>
             <li>
-                <a href='javascript:void(0)'
+                <a href='{{ url('/berita') }}'
                     class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Berita</a>
             </li>
             <li>
@@ -46,7 +46,7 @@
                     Masjid</a>
             </li>
             <li>
-                <a href='javascript:void(0)'
+                <a href='{{ url('/pengurus') }}'
                     class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Pengurus</a>
             </li>
 

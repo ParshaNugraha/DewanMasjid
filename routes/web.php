@@ -1,78 +1,94 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MasjidController;
+use App\Http\Controllers\AuthController;
 
-// Public Routes
+/*
+|--------------------------------------------------------------------------
+| Public Routes (Tanpa login)
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect('/admin/dashboard'); // atau /admin/dashboard
-    }
     return view('home');
 });
 
 
 
-Route::get('/tentangdmi', function () {
-    return view('/tentangdmi/index');
-});
+// Halaman statis
+Route::view('/berita', 'berita.index');
+Route::view('/pengurus', 'pengurus.index');
+Route::view('/tentangdmi', 'tentangdmi.index');
 
-Route::get('/daftar', function () {
-    return view('/users/create');
-});
+// Tampilan daftar masjid untuk umum
+Route::get('/masjid', [MasjidController::class, 'index'])->name('masjid.index');
 
-Route::resource('users', UserController::class);
+// Registrasi user (admin biasa bisa daftar)
+Route::get('/daftar', [UserController::class, 'create'])->name('users.create');
+Route::post('/daftar', [UserController::class, 'store'])->name('users.store');
 
-// Authentication Routes
-Route::post('/logout', function () {
-    auth()->logout();
-    return redirect('/');
-})->name('logout');
-
-// Admin Routes
-use App\Http\Middleware\Admin;
-
-Route::middleware(['auth', Admin::class])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.index');
-    })->name('admin.dashboard');
-});
-
-Route::get('/test-middleware', function () {
-    return 'Middleware works!';
-})->middleware('admin');
-
-Route::get('/login', function () {
-    return view('/users/login');
-});
-
-use App\Http\Controllers\AuthController;
-
-// Login Routes
+// Login dan Logout
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+/*
+|--------------------------------------------------------------------------
+| Routes untuk Admin Biasa (role = admin)
+|--------------------------------------------------------------------------
+*/
 
-// Data_Masjid_admin
-// Route untuk tamu/non-admin
-Route::get('/masjid', function() {
-    if (auth()->check()) {
-        return redirect()->route('admin.datamasjid');
-    }
-    return app(MasjidController::class)->index();
-})->name('masjid.index');
+Route::middleware(['auth', 'role:admin'])->group(function () {
 
-// Route group untuk admin
-Route::middleware(['auth', Admin::class])->group(function () {
-    Route::get('/admin/datamasjid', [MasjidController::class, 'adminIndex'])
-         ->name('admin.datamasjid');
+    // Dashboard admin biasa
+    Route::get('/admin/dashboard', function () {
+        return view('admin.index');
+    })->name('admin.dashboard');
+    // Data masjid milik admin (hanya masjidnya sendiri)
+    Route::get('/admin/datamasjid', [MasjidController::class, 'adminIndex'])->name('admin.datamasjid');
+
+    // Admin bisa mengedit masjidnya sendiri, wajib pakai middleware pengecekan kepemilikan masjid
+    Route::middleware(['masjid.owner:id'])->group(function () {
+        Route::get('/masjids/{id}/edit', [MasjidController::class, 'edit'])->name('masjids.edit');
+        Route::put('/masjids/{id}', [MasjidController::class, 'update'])->name('masjids.update');
+        Route::delete('/masjids/{id}', [MasjidController::class, 'destroy'])->name('masjids.destroy');
+    });
 });
 
-Route::resource('users', UserController::class);
-// atau spesifik untuk edit:
-Route::get('/users/{masjid}/update', [UserController::class, 'edit'])->name('users.edit');
+/*
+|--------------------------------------------------------------------------
+| Routes untuk Superadmin (role = superadmin)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'role:superadmin'])->group(function () {
+
+    // Dashboard superadmin (bisa pakai dashboard berbeda atau sama dengan admin)
+    Route::get('/superadmin/dashboard', [MasjidController::class, 'dashboardSuperadmin'])
+    ->name('superadmin.dashboard');
 
 
+    // Superadmin bisa kelola semua users kecuali registrasi (daftar) yang hanya di public route
+    Route::resource('users', UserController::class)->except(['create', 'store']);
 
+    // Superadmin bisa akses semua data masjid tanpa batasan
+    Route::resource('masjids', MasjidController::class)->except(['index']); 
+    // Kalau mau buat index khusus superadmin, bisa di masjidController juga
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Routes untuk Admin dan Superadmin (gabungan)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'role:superadmin,admin'])->group(function () {
+
+    // Contoh route yang boleh diakses keduanya, jika ada
+    // Route::get('/some-route', [SomeController::class, 'method'])->name('some.name');
+
+});

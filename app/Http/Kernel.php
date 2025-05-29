@@ -9,7 +9,7 @@ class Kernel extends HttpKernel
     /**
      * The application's global HTTP middleware stack.
      *
-     * @var array
+     * @var array<int, class-string|string>
      */
     protected $middleware = [
         \App\Http\Middleware\TrustProxies::class,
@@ -23,7 +23,7 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware groups.
      *
-     * @var array
+     * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
         'web' => [
@@ -36,7 +36,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            'throttle:api',  // <== ini yang benar, bukan pake concatenation .
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -44,7 +44,9 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware.
      *
-     * @var array
+     * These middleware may be assigned to groups or used individually.
+     *
+     * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
@@ -52,13 +54,9 @@ class Kernel extends HttpKernel
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        // Tambahkan middleware admin di sini
-        'admin' => \App\Http\Middleware\Admin::class,
-        'redirect.authenticated' => \App\Http\Middleware\RedirectIfAuthenticatedToDashboard::class,
     ];
 }

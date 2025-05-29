@@ -12,28 +12,40 @@ class AuthController extends Controller
         return view('users.login');
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string'
-        ]);
+public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ]);
 
-        if (Auth::attempt($credentials, $request->remember)) {
-            $request->session()->regenerate();
-            
-            return redirect()->intended('/admin/dashboard')
-                ->with('success', 'Login berhasil!');
+    if (Auth::attempt($credentials, $request->has('remember'))) {
+        // Regenerate session setelah login
+        $request->session()->regenerate();
+
+        // Ambil user yang login
+        $user = Auth::user();
+
+        // Redirect berdasarkan role
+        if ($user->role === 'superadmin') {
+            return redirect()->intended('/superadmin/dashboard')
+                ->with('success', 'Login berhasil sebagai Superadmin!');
         }
 
-        return back()->withErrors([
-            'username' => 'Username atau Password salah.',
-        ])->onlyInput('username');
+        // Default untuk admin
+        return redirect()->intended('/admin/dashboard')
+            ->with('success', 'Login berhasil!');
     }
+
+    return back()->withErrors([
+        'username' => 'Username atau Password salah.',
+    ])->onlyInput('username');
+}
 
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
