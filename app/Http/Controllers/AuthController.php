@@ -20,19 +20,23 @@ public function login(Request $request)
     ]);
 
     if (Auth::attempt($credentials, $request->has('remember'))) {
-        // Regenerate session setelah login
         $request->session()->regenerate();
 
-        // Ambil user yang login
         $user = Auth::user();
 
-        // Redirect berdasarkan role
+        // ✅ Cek status hanya untuk admin
+        if ($user->role === 'admin' && $user->status === 'pending') {
+            Auth::logout();
+            return redirect()->route('login')->withErrors([
+                'username' => 'Akun Anda belum disetujui oleh superadmin.',
+            ]);
+        }
+
         if ($user->role === 'superadmin') {
             return redirect()->intended('/superadmin/dashboard')
                 ->with('success', 'Login berhasil sebagai Superadmin!');
         }
 
-        // Default untuk admin
         return redirect()->intended('/admin/dashboard')
             ->with('success', 'Login berhasil!');
     }
@@ -41,6 +45,8 @@ public function login(Request $request)
         'username' => 'Username atau Password salah.',
     ])->onlyInput('username');
 }
+
+
 
     public function logout(Request $request)
     {

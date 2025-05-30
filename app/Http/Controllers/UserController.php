@@ -39,31 +39,33 @@ public function __construct()
 
     public function store(Request $request)
     {
-
         // Gabungkan validasi user + masjid sekaligus
-        $validated = $request->validate([
-            // User
-            'username' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+       $validated = $request->validate([
+        // User
+        'username' => 'required|string|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
 
-            // Masjid
-            'nama_masjid' => 'required|string|max:255',
-            'nama_takmir' => 'required|string|max:255',
-            'tahun' => 'required|integer|min:1000|max:9999',
-            'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
-            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
-            'kecamatan' => 'required|string|max:100',
-            'kabupaten' => 'required|string|max:100',
-            'alamat' => 'required|string|max:500',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-            'surat' => 'nullable|file|mimes:pdf|max:5120',
-            'notlp' => 'required|string|max:15',
-        ]);
-
+        // Masjid
+        'nama_masjid' => 'required|string|max:255',
+        'nama_takmir' => 'required|string|max:255',
+        'tahun' => 'required|integer|min:1000|max:9999',
+        'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
+        'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+        'kecamatan' => 'required|string|max:100',
+        'kabupaten' => 'required|string|max:100',
+        'alamat' => 'required|string|max:500',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+        'surat' => 'nullable|file|mimes:pdf|max:5120',
+        'notlp' => ['required', 'regex:/^08[0-9]{8,11}$/'],
+    ], 
+    [
+        'notlp.regex' => 'Nomor telepon harus valid, hanya angka, dan dimulai dengan 08.',
+    ]);
         $user = User::create([
             'username' => $validated['username'],
             'password' => Hash::make($validated['password']),
             'role' => 'admin',
+            'status' => 'pending', // ini supaya status user baru belum disetujui
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -76,14 +78,9 @@ public function __construct()
 
         $user->masjid()->create($validated);
 
-        // Perbaikan pengecekan agar tidak error jika belum login
-        if (auth()->check() && auth()->user()->role === 'superadmin') {
-            return redirect()->route('users.index')->with('success', 'User berhasil dibuat.');
-        } else {
-            auth()->login($user);
-            return redirect()->route('admin.dashboard')->with('success', 'Registrasi berhasil! Selamat datang di dashboard admin.');
+        // Ganti redirect setelah registrasi: user diarahkan ke halaman menunggu verifikasi
+        return redirect()->route('login')->with('success', 'silahkan menunggu verifikasi superadmin.');
         }
-    }
 
     public function show(User $user)
     {
@@ -101,54 +98,57 @@ public function __construct()
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
-    {
-        $this->authorize('update', $user);
+public function update(Request $request, User $user)
+{
+    $this->authorize('update', $user);
 
-        $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
+    $validated = $request->validate([
+        'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+        'password' => 'nullable|string|min:8|confirmed',
 
-            'nama_masjid' => 'required|string|max:255',
-            'nama_takmir' => 'required|string|max:255',
-            'tahun' => 'required|integer|min:1000|max:9999',
-            'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
-            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
-            'kecamatan' => 'required|string|max:100',
-            'kabupaten' => 'required|string|max:100',
-            'alamat' => 'required|string|max:500',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-            'surat' => 'nullable|file|mimes:pdf|max:5120',
-            'notlp' => 'required|string|max:15',
-        ]);
+        'nama_masjid' => 'required|string|max:255',
+        'nama_takmir' => 'required|string|max:255',
+        'tahun' => 'required|integer|min:1000|max:9999',
+        'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
+        'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+        'kecamatan' => 'required|string|max:100',
+        'kabupaten' => 'required|string|max:100',
+        'alamat' => 'required|string|max:500',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+        'surat' => 'nullable|file|mimes:pdf|max:5120',
+        'notlp' => ['required', 'regex:/^08[0-9]{8,11}$/'],
+    ], [
+        'notlp.regex' => 'Nomor telepon harus valid, hanya angka, dan dimulai dengan 08.',
+    ]);
 
-        if (!empty($validated['password'])) {
-            $user->password = Hash::make($validated['password']);
-        }
-
-        $user->username = $validated['username'];
-        $user->save();
-
-        $masjid = $user->masjid;
-
-        if ($request->hasFile('gambar')) {
-            if ($masjid->gambar) {
-                Storage::disk('public')->delete($masjid->gambar);
-            }
-            $validated['gambar'] = $request->file('gambar')->store('gambar_masjid', 'public');
-        }
-
-        if ($request->hasFile('surat')) {
-            if ($masjid->surat) {
-                Storage::disk('public')->delete($masjid->surat);
-            }
-            $validated['surat'] = $request->file('surat')->store('surat_masjid', 'public');
-        }
-
-        $masjid->update($validated);
-
-        return redirect()->route('users.index')->with('success', 'Data berhasil diperbarui.');
+    if (!empty($validated['password'])) {
+        $user->password = Hash::make($validated['password']);
     }
+
+    $user->username = $validated['username'];
+    $user->save();
+
+    $masjid = $user->masjid;
+
+    if ($request->hasFile('gambar')) {
+        if ($masjid->gambar) {
+            Storage::disk('public')->delete($masjid->gambar);
+        }
+        $validated['gambar'] = $request->file('gambar')->store('gambar_masjid', 'public');
+    }
+
+    if ($request->hasFile('surat')) {
+        if ($masjid->surat) {
+            Storage::disk('public')->delete($masjid->surat);
+        }
+        $validated['surat'] = $request->file('surat')->store('surat_masjid', 'public');
+    }
+
+    $masjid->update($validated);
+
+    return redirect()->route('users.index')->with('success', 'Data berhasil diperbarui.');
+}
+
 
     public function destroy(User $user)
     {
@@ -170,4 +170,8 @@ public function __construct()
 
         return redirect()->route('users.index')->with('success', 'User dan data masjid berhasil dihapus.');
     }
+    public function pending()
+{
+    return view('registration.pending');
+}
 }

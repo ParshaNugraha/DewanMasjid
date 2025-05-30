@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PendaftarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::get('/masjid', [MasjidController::class, 'index'])->name('masjid.index');
 // Registrasi user (admin biasa bisa daftar)
 Route::get('/daftar', [UserController::class, 'create'])->name('users.create');
 Route::post('/daftar', [UserController::class, 'store'])->name('users.store');
+Route::get('/registration-pending', [UserController::class, 'pending'])->name('registration.pending');
 
 // Login dan Logout
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -66,18 +68,29 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
-    // Dashboard superadmin (bisa pakai dashboard berbeda atau sama dengan admin)
+    // Dashboard superadmin
     Route::get('/superadmin/dashboard', [MasjidController::class, 'dashboardSuperadmin'])
-    ->name('superadmin.dashboard');
+        ->name('superadmin.dashboard');
 
+    // ✅ Halaman daftar user admin yang belum disetujui
+    Route::get('/superadmin/pendaftar', [PendaftarController::class, 'index'])
+        ->name('pendaftar.index');
 
-    // Superadmin bisa kelola semua users kecuali registrasi (daftar) yang hanya di public route
+    // ✅ Setujui pendaftar
+    Route::put('/superadmin/pendaftar/{user}/approve', [PendaftarController::class, 'approve'])
+        ->name('pendaftar.approve');
+
+    // ✅ Hapus (tolak) pendaftar
+    Route::delete('/superadmin/pendaftar/{user}', [PendaftarController::class, 'destroy'])
+        ->name('pendaftar.destroy');
+
+    // User management
     Route::resource('users', UserController::class)->except(['create', 'store']);
 
-    // Superadmin bisa akses semua data masjid tanpa batasan
-    Route::resource('masjids', MasjidController::class)->except(['index']); 
-    // Kalau mau buat index khusus superadmin, bisa di masjidController juga
+    // Masjid management
+    Route::resource('masjids', MasjidController::class)->except(['index']);
 });
+
 
 
 /*

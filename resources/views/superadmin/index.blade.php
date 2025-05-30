@@ -3,6 +3,12 @@
 @section('title', 'Dashboard Superadmin')
 
 @section('content')
+<a href="{{ route('pendaftar.index') }}"
+   class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+   Kelola Pendaftar Baru
+</a>
+
+
 
 <div class="mb-8">
     <h2 class="text-3xl font-semibold mb-4">Dashboard Superadmin</h2>

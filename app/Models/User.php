@@ -16,6 +16,7 @@ class User extends Authenticatable
         'username',
         'password',
         'role',
+        'status',
     ];
 
     // Kolom yang harus disembunyikan saat model diubah jadi array atau JSON
