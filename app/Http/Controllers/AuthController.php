@@ -12,39 +12,39 @@ class AuthController extends Controller
         return view('users.login');
     }
 
-public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => 'required|string',
-        'password' => 'required|string',
-    ]);
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
-    if (Auth::attempt($credentials, $request->has('remember'))) {
-        $request->session()->regenerate();
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $request->session()->regenerate();
 
-        $user = Auth::user();
+            $user = Auth::user();
 
-        // ✅ Cek status hanya untuk admin
-        if ($user->role === 'admin' && $user->status === 'pending') {
-            Auth::logout();
-            return redirect()->route('login')->withErrors([
-                'username' => 'Akun Anda belum disetujui oleh superadmin.',
-            ]);
+            // ✅ Cek status hanya untuk admin
+            if ($user->role === 'admin' && $user->status === 'pending') {
+                Auth::logout();
+                return redirect()->route('login')->withErrors([
+                    'username' => 'Akun Anda belum disetujui oleh superadmin.',
+                ]);
+            }
+
+            if ($user->role === 'superadmin') {
+                return redirect()->intended('/superadmin/dashboard')
+                    ->with('success', 'Login berhasil sebagai Superadmin!');
+            }
+
+            return redirect()->intended('/admin/dashboard')
+                ->with('success', 'Login berhasil!');
         }
 
-        if ($user->role === 'superadmin') {
-            return redirect()->intended('/superadmin/dashboard')
-                ->with('success', 'Login berhasil sebagai Superadmin!');
-        }
-
-        return redirect()->intended('/admin/dashboard')
-            ->with('success', 'Login berhasil!');
+        return back()->withErrors([
+            'username' => 'Username atau Password salah.',
+        ])->onlyInput('username');
     }
-
-    return back()->withErrors([
-        'username' => 'Username atau Password salah.',
-    ])->onlyInput('username');
-}
 
 
 

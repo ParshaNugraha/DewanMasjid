@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('home');
 });
 
+//Halaman Deskripsi
+Route::get('/masjids/{id}', [MasjidController::class, 'show'])->name('datamasjid.show');
 
 
 // Halaman statis
@@ -25,7 +27,7 @@ Route::view('/pengurus', 'pengurus.index');
 Route::view('/tentangdmi', 'tentangdmi.index');
 
 // Tampilan daftar masjid untuk umum
-Route::get('/masjid', [MasjidController::class, 'index'])->name('masjid.index');
+Route::get('/masjid', [MasjidController::class, 'index'])->name('datamasjid.index');
 
 // Registrasi user (admin biasa bisa daftar)
 Route::get('/daftar', [UserController::class, 'create'])->name('users.create');
@@ -49,16 +51,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.index');
     })->name('admin.dashboard');
-    // Data masjid milik admin (hanya masjidnya sendiri)
+
+    // Data masjid milik admin
     Route::get('/admin/datamasjid', [MasjidController::class, 'adminIndex'])->name('admin.datamasjid');
 
-    // Admin bisa mengedit masjidnya sendiri, wajib pakai middleware pengecekan kepemilikan masjid
+    // Change password HARUS berada di dalam group ini
+    Route::get('/admin/change-password', [MasjidController::class, 'showChangePasswordForm'])->name('password.change.form');
+    Route::post('/admin/change-password', [MasjidController::class, 'changePassword'])->name('password.change');
+
+    // Akses edit masjid milik sendiri
     Route::middleware(['masjid.owner:id'])->group(function () {
         Route::get('/masjids/{id}/edit', [MasjidController::class, 'edit'])->name('masjids.edit');
         Route::put('/masjids/{id}', [MasjidController::class, 'update'])->name('masjids.update');
         Route::delete('/masjids/{id}', [MasjidController::class, 'destroy'])->name('masjids.destroy');
     });
+
 });
+
 
 /*
 |--------------------------------------------------------------------------

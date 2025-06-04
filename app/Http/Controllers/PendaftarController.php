@@ -11,27 +11,27 @@ class PendaftarController extends Controller
     public function index()
     {
         $pendaftar = User::where('role', 'admin')
-                         ->where('status', 'pending')
-                         ->with('masjid')
-                         ->get();
+            ->where('status', 'pending')
+            ->with('masjid')
+            ->get();
 
         return view('superadmin.pendaftar.index', compact('pendaftar'));
     }
 
     // Setujui pendaftar
-public function approve(User $user)
-{
-    // Cek dulu apa method ini terpanggil
-    // dd('approve method called', $user);
+    public function approve(User $user)
+    {
+        // Cek dulu apa method ini terpanggil
+        // dd('approve method called', $user);
 
-    $updated = $user->update(['status' => 'approved']);
+        $updated = $user->update(['status' => 'approved']);
 
-    if ($updated) {
-        return redirect()->back()->with('success', 'Pendaftar berhasil disetujui.');
-    } else {
-        return redirect()->back()->with('error', 'Gagal menyetujui pendaftar.');
+        if ($updated) {
+            return redirect()->back()->with('success', 'Pendaftar berhasil disetujui.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menyetujui pendaftar.');
+        }
     }
-}
 
 
     // Tolak dan hapus pendaftar beserta data masjidnya
@@ -41,7 +41,7 @@ public function approve(User $user)
         if ($user->masjid) {
             $user->masjid()->delete();
         }
-        
+
         // Hapus user
         $user->delete();
 

@@ -29,7 +29,7 @@
         <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full">
             <li>
                 <a href='{{url('/')}}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3>Beranda</a>
+                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Beranda</a>
             </li>
             <li>
                 <a href='{{ url('/berita') }}'
@@ -42,7 +42,7 @@
             </li>
             <li>
                 <a href='{{url('/masjid')}}'
-                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Data
+                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Data
                     Masjid</a>
             </li>
             <li>
@@ -136,113 +136,37 @@
             </div>
         </div>
         <!-- Jadwal Sholat End -->
-<div class="flex justify-between items-center mb-4 ml-5 mr-5">
-    <h2 class="text-xl font-bold text-green-700">Data Masjid di Jawa Tengah</h2>
-    <p class="text-sm text-gray-600">Klik pada baris untuk melihat detail masjid.</p>
-</div>
 
-<!-- Tabel Start -->
-<div class="flex flex-col ml-5 mr-5 mb-5 shadow-sm shadow-zinc-800">
-    <div class="-m-1.5 overflow-x-auto">
-        <div class="p-1.5 min-w-full inline-block align-middle">
-            <div class="overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead>
-                        <tr>
-                            <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">No</th>
-                            <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Masjid</th>
-                            <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Gambar</th>
-                            <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Tipologi Masjid</th>
-                            <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Tahun Berdiri</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Kecamatan</th>
-                            <th class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Kabupaten/Kota</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Alamat</th>
-                            <th class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Status Tanah</th>
-                            <th class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Takmir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($masjids as $index => $masjid)
-                            <tr 
-                                onclick="window.location='{{ route('datamasjid.show', $masjid) }}'" 
-                                class="cursor-pointer {{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-100' }} hover:bg-green-100 transition">
-                                
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                    {{ $index + 1 }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {{ $masjid->nama_masjid }}
-                                </td>
-                                
-                                <td class="px-6 py-4">
-                                    @if($masjid->gambar)
-                                        <button onclick="event.stopPropagation(); showImageModal('{{ Vite::asset('storage/app/public/' . $masjid->gambar) }}', '{{ $masjid->nama_masjid }}')">
-                                            <img src="{{ Vite::asset('storage/app/public/' . $masjid->gambar) }}"
-                                                alt="Gambar {{ $masjid->nama_masjid }}"
-                                                class="h-32 w-48 object-cover rounded-lg hover:opacity-80 transition-opacity">
-                                        </button>
-                                    @else
-                                        <span class="text-gray-400">Tidak ada gambar</span>
-                                    @endif
-                                </td>
+<!-- Konten -->
+<div class="max-w-5xl mx-auto px-4 py-6 bg-white rounded-lg shadow-lg mb-10">
+    <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-4">{{ $masjid->nama_masjid }}</h1>
 
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {{ $masjid->topologi_masjid }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {{ $masjid->tahun }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {{ $masjid->kecamatan }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {{ $masjid->kabupaten }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="max-w-[200px] overflow-x-auto whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden">
-                                        <span class="text-sm text-gray-800">{{ $masjid->alamat }}</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {{ $masjid->status_tanah }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {{ $masjid->nama_takmir }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    @if ($masjid->gambar)
+        <img src="{{ asset('storage/' . $masjid->gambar) }}"
+             alt="Gambar {{ $masjid->nama_masjid }}"
+             class="w-full h-auto max-h-[400px] object-cover rounded-lg mb-6 shadow">
+    @endif
 
-                <!-- Modal Gambar -->
-                <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center">
-                    <div class="relative max-w-4xl w-full">
-                        <button onclick="hideImageModal()" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300">
-                            &times;
-                        </button>
-                        <img id="modalImage" src="" alt="" class="w-full h-auto max-h-[90vh] object-contain">
-                        <p id="modalCaption" class="text-white text-center mt-2 text-lg"></p>
-                    </div>
-                </div>
-
-                <script>
-                    function showImageModal(src, caption) {
-                        document.getElementById('modalImage').src = src;
-                        document.getElementById('modalCaption').textContent = caption;
-                        document.getElementById('imageModal').classList.remove('hidden');
-                    }
-
-                    function hideImageModal() {
-                        document.getElementById('imageModal').classList.add('hidden');
-                    }
-                </script>
-                <!-- End Modal -->
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 text-sm">
+        <div><strong>Tipologi Masjid:</strong> {{ $masjid->topologi_masjid }}</div>
+        <div><strong>Tahun Berdiri:</strong> {{ $masjid->tahun }}</div>
+        <div><strong>Kecamatan:</strong> {{ $masjid->kecamatan }}</div>
+        <div><strong>Kabupaten/Kota:</strong> {{ $masjid->kabupaten }}</div>
+        <div><strong>Status Tanah:</strong> {{ $masjid->status_tanah }}</div>
+        <div><strong>Takmir:</strong> {{ $masjid->nama_takmir }}</div>
+        <div class="md:col-span-2">
+            <strong>Alamat:</strong>
+            <p class="mt-1">{{ $masjid->alamat }}</p>
         </div>
     </div>
-</div>
-<!-- Tabel End -->
 
+    <div class="mt-8">
+        <a href="{{ url()->previous() }}"
+           class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+            ← Kembali
+        </a>
+    </div>
+</div>
     </div>
 </div>
 

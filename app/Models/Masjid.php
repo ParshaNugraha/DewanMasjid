@@ -24,9 +24,11 @@ class Masjid extends Model
         'kecamatan',
         'kabupaten',
         'alamat',
+        'deskripsi',
         'gambar',
         'surat',
         'notlp',
+
     ];
 
     // Casting tipe data untuk atribut tertentu

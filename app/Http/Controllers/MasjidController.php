@@ -7,9 +7,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 
 class MasjidController extends Controller
 {
+
     public function index()
     {
         $user = auth()->user();
@@ -27,25 +30,25 @@ class MasjidController extends Controller
 
         return view('datamasjid.index', compact('masjids'));
     }
-    
+
     public function dashboardSuperadmin()
-{
-    $user = Auth::user();
-    if (!$user || $user->role !== 'superadmin') {
-        abort(403, 'Unauthorized');
+    {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'superadmin') {
+            abort(403, 'Unauthorized');
+        }
+
+        $totalUsers = User::whereIn('role', ['admin', 'superadmin'])->count();
+        $totalAdmins = User::where('role', 'admin')->count();
+        $totalMasjids = Masjid::count();
+
+        // Ambil data user yang role admin dan superadmin beserta data masjidnya
+        $users = User::with('masjid')
+            ->whereIn('role', ['admin', 'superadmin'])
+            ->paginate(10);
+
+        return view('superadmin.index', compact('totalUsers', 'totalAdmins', 'totalMasjids', 'users'));
     }
-
-    $totalUsers = User::whereIn('role', ['admin', 'superadmin'])->count();
-    $totalAdmins = User::where('role', 'admin')->count();
-    $totalMasjids = Masjid::count();
-
-    // Ambil data user yang role admin dan superadmin beserta data masjidnya
-    $users = User::with('masjid')
-        ->whereIn('role', ['admin', 'superadmin'])
-        ->paginate(10);
-
-    return view('superadmin.index', compact('totalUsers', 'totalAdmins', 'totalMasjids', 'users'));
-}
 
 
 
@@ -61,6 +64,37 @@ class MasjidController extends Controller
         $masjids = Masjid::where('user_id', $user->id)->paginate(10);
 
         return view('admin.datamasjid', compact('masjids'));
+    }
+
+    public function show($id)
+    {
+        $masjid = Masjid::findOrFail($id);
+        return view('datamasjid.show', compact('masjid'));
+    }
+
+
+    public function showChangePasswordForm()
+    {
+        return view('admin.changepassword'); // pastikan file blade ada di resources/views/user/change-password.blade.php
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password lama salah.']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Password berhasil diubah.');
     }
 
     public function create()
