@@ -130,6 +130,9 @@ class MasjidController extends Controller
 
         $validated['user_id'] = $user->id;
 
+        // Tambahan untuk field deskripsi (biarkan null jika belum ada input)
+        $validated['deskripsi'] = $request->input('deskripsi', null);
+
         Masjid::create($validated);
 
         if ($user->role === 'admin') {
@@ -140,6 +143,7 @@ class MasjidController extends Controller
                 ->with('success', 'Data masjid berhasil ditambahkan.');
         }
     }
+
 
     public function edit($id)
     {
