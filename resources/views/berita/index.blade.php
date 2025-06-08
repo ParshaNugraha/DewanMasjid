@@ -137,125 +137,54 @@
             </div>
         </div>
         <!-- Jadwal Sholat End -->
+@php
+    $beritasPertama = $beritas->take(5);
+    $beritasSelanjutnya = $beritas->slice(5);
+@endphp
 
-            <div class="relative">
-                <!-- Container untuk berita dengan scroll horizontal -->
-                <div id="news-scroll-container"
-                    class="flex overflow-x-auto pb-6 snap-x snap-mandatory whitespace-nowrap space-x-4 scrollbar-hide"
-                    style="cursor: grab; scroll-behavior: smooth;" onmousedown="handleMouseDown(event)"
-                    onmousemove="handleMouseMove(event)" onmouseup="handleMouseUp()" onmouseleave="handleMouseUp()"
-                    ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)"
-                    ontouchend="handleTouchEnd()">
-
-                    <!-- Card Berita 1 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Pertama</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">John Doe</p>
-                                    <p class="text-xs text-gray-500">2 jam lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 2 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Kedua</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Jane Smith</p>
-                                    <p class="text-xs text-gray-500">Kemarin</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 3 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Ketiga</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Ahmad Budi</p>
-                                    <p class="text-xs text-gray-500">3 hari lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 4 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-cyan-100 text-cyan-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Keempat</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Budi Santoso</p>
-                                    <p class="text-xs text-gray-500">1 minggu lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 5 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Kelima</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Dewi Lestari</p>
-                                    <p class="text-xs text-gray-500">2 minggu lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="flex overflow-x-auto space-x-4 pb-6">
+    @foreach ($beritasPertama as $berita)
+    <div class="w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal flex-shrink-0">
+        <img src="{{ $berita->image ? asset('storage/' . $berita->image) : 'https://via.placeholder.com/600x400' }}" alt="Gambar Berita" class="w-full h-48 object-cover">
+        <div class="p-4">
+            <span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">{{ $berita->tag ?? 'DMI Jateng' }}</span>
+            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">{{ $berita->title }}</h3>
+            <p class="mt-2 text-gray-600 text-sm line-clamp-2">{{ Str::limit(strip_tags($berita->content), 80) }}</p>
+            <div class="mt-3 flex items-center">
+                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
+                <div class="ml-2">
+                    <p class="text-xs font-medium text-gray-700">{{ $berita->author_name ?? 'Penulis' }}</p>
+                    <p class="text-xs text-gray-500">{{ $berita->created_at->diffForHumans() }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+    @endforeach
+</div>
 
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+    @foreach ($beritasSelanjutnya as $berita)
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="relative">
+            @if ($berita->image)
+                <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $berita->image) }}" alt="{{ $berita->title }}">
+            @else
+                <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x360" alt="placeholder">
+            @endif
+
+            @if ($berita->created_at->diffInDays(now()) <= 7)
+                <div class="absolute top-0 right-0 bg-indigo-500 text-white font-bold px-2 py-1 m-2 rounded-md">New</div>
+            @endif
+
+            <div class="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">
+                {{ $berita->read_duration ?? 3 }} min read
+            </div>
+        </div>
+        <div class="p-4">
+            <div class="text-lg font-medium text-gray-800 mb-2">{{ $berita->title }}</div>
+            <p class="text-gray-500 text-sm line-clamp-3">{{ Str::limit(strip_tags($berita->content), 100, '...') }}</p>
+            <a href="{{ route('berita.show', $berita->id) }}" class="text-indigo-600 hover:underline mt-2 inline-block">Read More</a>
+        </div>
+    </div>
+    @endforeach
+</div>

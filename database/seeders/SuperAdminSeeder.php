@@ -10,15 +10,14 @@ class SuperAdminSeeder extends Seeder
 {
     public function run()
     {
-        if (!User::where('username', 'superadmin')->exists()) {
-            User::create([
-                'username' => 'superadmin',
-                'password' => Hash::make('password123'), // Ganti passwordnya sesuai keinginan
-                'role' => 'superadmin',
-            ]);
-            $this->command->info('Superadmin berhasil dibuat.');
-        } else {
-            $this->command->info('Superadmin sudah ada.');
-        }
+        $user = User::firstOrNew(['username' => 'superadmin']);
+
+        $user->email = 'superadmindmi@gmail.com';
+        $user->password = Hash::make('password123');
+        $user->role = 'superadmin';
+
+        $user->save();
+
+        $this->command->info('Superadmin berhasil disimpan/diupdate.');
     }
 }

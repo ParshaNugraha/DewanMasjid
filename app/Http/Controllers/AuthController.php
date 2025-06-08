@@ -14,21 +14,29 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // Validasi input
         $credentials = $request->validate([
-            'username' => 'required|string',
+            'login' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($credentials, $request->has('remember'))) {
+        $loginInput = $credentials['login'];
+        $password = $credentials['password'];
+
+        // Cek apakah input adalah email atau username
+        $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        // Coba login menggunakan field yang terdeteksi
+        if (Auth::attempt([$fieldType => $loginInput, 'password' => $password], $request->has('remember'))) {
             $request->session()->regenerate();
 
             $user = Auth::user();
 
-            // ✅ Cek status hanya untuk admin
+            // Cek status jika user adalah admin
             if ($user->role === 'admin' && $user->status === 'pending') {
                 Auth::logout();
                 return redirect()->route('login')->withErrors([
-                    'username' => 'Akun Anda belum disetujui oleh superadmin.',
+                    'login' => 'Akun Anda belum disetujui oleh superadmin.',
                 ]);
             }
 
@@ -41,12 +49,11 @@ class AuthController extends Controller
                 ->with('success', 'Login berhasil!');
         }
 
+        // Jika gagal login
         return back()->withErrors([
-            'username' => 'Username atau Password salah.',
-        ])->onlyInput('username');
+            'login' => 'Username atau Email dan Password salah.',
+        ])->onlyInput('login');
     }
-
-
 
     public function logout(Request $request)
     {

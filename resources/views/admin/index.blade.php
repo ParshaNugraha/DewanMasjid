@@ -3,6 +3,7 @@
 @section('title', 'Dashboard Admin')
 
 @section('content')
+
 <div class="flex-grow max-w-screen-xl mx-auto px-6 py-8">
     <h1 class="text-3xl sm:text-4xl font-bold mb-6 flex justify-between items-center">
         Dashboard Admin
@@ -42,6 +43,7 @@
                         '🏞️ Status Kepemilikan Tanah' => $m->status_tanah,
                         '🌍 Kategori Topologi' => $m->topologi_masjid,
                         '📍 Alamat Lengkap' => "{$m->alamat}, {$m->kecamatan}, {$m->kabupaten}",
+                        '📚 Deskripsi' => $m->deskripsi,
                         '📞 Nomor Telepon' => $m->notlp ?? '-'
                     ] as $label => $value)
                         <div class="bg-gray-50 p-5 rounded-lg shadow-sm flex items-center gap-3">

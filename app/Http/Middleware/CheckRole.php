@@ -23,6 +23,7 @@ class CheckRole
         $user = Auth::user();
         
         //dd($user);
+        
         if (!$user) {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }

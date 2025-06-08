@@ -1,5 +1,7 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+
+
 <!-- Header -->
 <div
     class="flex flex-col md:flex-row items-center justify-between border px-4 md:px-10 py-4 shadow-lg shadow-green-800 bg-white fixed top-0 left-0 right-0 z-50">

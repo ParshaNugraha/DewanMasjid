@@ -14,7 +14,7 @@ class PendaftarController extends Controller
             ->where('status', 'pending')
             ->with('masjid')
             ->get();
-
+            
         return view('superadmin.pendaftar.index', compact('pendaftar'));
     }
 

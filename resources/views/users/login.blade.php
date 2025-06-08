@@ -1,5 +1,6 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+
 <div class="flex justify-center items-center min-h-screen">
     <form method="POST" action="{{ route('login') }}" 
           class="bg-white shadow-2xl rounded-2xl overflow-hidden border-4 border-green-400 dark:border-green-800 max-w-md mx-auto">
@@ -28,16 +29,16 @@
             
             <div class="mt-10">
                 <div class="relative">
-                    <label class="block mb-3 text-sm md:text-base lg:text-lg font-medium text-zinc-900"
-                        for="username">Username</label>
-                    <input
-                        class="block w-full px-4 py-3 mt-2 text-zinc-800 bg-white border-2 rounded-lg dark:border-zinc-600 dark:bg-zinc-200 dark:text-zinc-800 focus:border-green-500 dark:focus:green-blue-400 focus:ring-opacity-50 focus:outline-none focus:ring focus:ring-green-400"
-                        name="username" 
-                        id="username" 
-                        type="text"
-                        value="{{ old('username') }}"
-                        required
-                        autofocus />
+<label class="block mb-3 text-sm md:text-base lg:text-lg font-medium text-zinc-900"
+    for="login">Username atau Email</label>
+<input
+    class="block w-full px-4 py-3 mt-2 text-zinc-800 bg-white border-2 rounded-lg dark:border-zinc-600 dark:bg-zinc-200 dark:text-zinc-800 focus:border-green-500 dark:focus:green-blue-400 focus:ring-opacity-50 focus:outline-none focus:ring focus:ring-green-400"
+    name="login" 
+    id="login" 
+    type="text"
+    value="{{ old('login') }}"
+    required
+    autofocus />
                 </div>
                 <div class="mt-6">
                     <label class="block mb-3 text-sm md:text-base lg:text-lg font-medium text-zinc-900"
