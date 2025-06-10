@@ -146,7 +146,7 @@ public function dashboardSuperadmin()
             'email' => $validated['email'],
             'password' => $password_hashed,
             'role' => 'admin',        // role admin
-            'status' => 'aprove',    // sesuai kebutuhan, bisa disesuaikan
+            'status' => 'approved',    // sesuai kebutuhan, bisa disesuaikan
         ]);
 
         // upload gambar dan surat jika ada
