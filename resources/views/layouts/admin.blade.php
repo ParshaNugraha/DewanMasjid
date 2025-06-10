@@ -39,7 +39,7 @@
         class="absolute right-0 mt-2 w-44 bg-white rounded shadow-md z-10"
         style="display: none;"
     >
-        <a href="{{ route('password.change.form') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+        <a href="{{ route('admin.password.change.form') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
             Ganti Kata Sandi
         </a>
         <form method="POST" action="{{ route('logout') }}">

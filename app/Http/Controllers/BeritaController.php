@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Helpers\VisitorHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -118,16 +119,16 @@ class BeritaController extends Controller
     // =============================
     // Bagian Public (Tampilan Berita)
     // =============================
-
-    public function publicIndex()
+    public function publicIndex(Request $request)
     {
+        VisitorHelper::recordVisitor($request, 'berita');
         $beritas = Berita::where('is_published', true)->latest()->get();
         return view('berita.index', compact('beritas'));
     }
 
-    public function publicShow($id)
+    public function publicShow(Request $request, $id)
     {
-        // Menampilkan detail berita untuk publik, hanya jika sudah publish
+        VisitorHelper::recordVisitor($request, 'berita');
         $berita = Berita::where('is_published', true)->findOrFail($id);
         return view('berita.show', compact('berita'));
     }

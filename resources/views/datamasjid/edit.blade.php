@@ -14,7 +14,7 @@
             </div>
 
             <div class="p-6">
-                <form method="POST" action="{{ route('masjids.update', $masjid->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.masjids.update', $masjid->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 

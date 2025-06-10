@@ -137,3 +137,25 @@
             </div>
         </div>
         <!-- Jadwal Sholat End -->
+
+<!-- Gambar Pengurus Full Lebar -->
+@foreach($penguruses as $pengurus)
+    <div class="w-full mb-6">
+        <img src="{{ asset('storage/' . $pengurus->gambar) }}"
+             alt="Gambar Pengurus"
+             class="w-full h-[500px] object-cover object-center rounded shadow-lg">
+    </div>
+@endforeach
+
+<!-- Pagination -->
+<div class="mt-8">
+    {{ $penguruses->links() }}
+</div>
+
+
+
+
+
+
+
+

@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form action="{{ route('password.change') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.password.change') }}" method="POST" class="space-y-6">
         @csrf
 
         {{-- Password Lama --}}

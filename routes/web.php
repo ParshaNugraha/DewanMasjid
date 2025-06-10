@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Visitor;
+use App\Helpers\VisitorHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -9,19 +9,20 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PendaftarController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\PengurusController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Tanpa login)
 |--------------------------------------------------------------------------
 */
 
+
+
 Route::get('/', function (Request $request) {
-    Visitor::create([
-        'ip_address' => $request->ip(), // ini dari instance $request, bukan facade
-        'user_agent' => $request->header('User-Agent'),
-    ]);
+    VisitorHelper::recordVisitor($request, 'home');
     return view('home');
 });
+
 
 
 
@@ -29,7 +30,7 @@ Route::get('/', function (Request $request) {
 // Halaman publik berita tanpa middleware
 Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita.publicIndex');
 Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berita.show');
-Route::view('/pengurus', 'pengurus.index');
+Route::get('/pengurus', [PengurusController::class, 'publicIndex'])->name('pengurus.index');
 Route::view('/tentangdmi', 'tentangdmi.index');
 
 // Tampilan daftar masjid untuk umum
@@ -53,7 +54,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 */
 
 Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
-    
+    Route::resource('pengurus', PengurusController::class)->only(['index', 'store', 'destroy']);
+
     // Dashboard superadmin
     Route::get('/dashboard', [AdminController::class, 'dashboardSuperadmin'])->name('dashboard');
 
@@ -70,25 +72,36 @@ Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->name('supe
         Route::get('/{id}/edit', [BeritaController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BeritaController::class, 'update'])->name('update');
         Route::delete('/{id}', [BeritaController::class, 'destroy'])->name('destroy');
-
     });
-});
 
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    // Dashboard admin
-    Route::get('/admin/dashboard', [AdminController::class, 'adminIndex'])->name('admin.dashboard');
-});
+    // Tampilkan daftar masjid (Kelola Masjid & Admin)
 
-
-
-Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
-    // Crud masjid
+    // Masjid CRUD
+    Route::get('/masjids', [AdminController::class, 'index'])->name('masjids.index');
+    Route::get('/masjids/create', [AdminController::class, 'create'])->name('masjids.create');
+    Route::post('/masjids', [AdminController::class, 'store'])->name('masjids.store');
     Route::get('/masjids/{id}/edit', [AdminController::class, 'edit'])->name('masjids.edit');
     Route::put('/masjids/{id}', [AdminController::class, 'update'])->name('masjids.update');
     Route::delete('/masjids/{id}', [AdminController::class, 'destroy'])->name('masjids.destroy');
 
-    // Ganti Pw
+    // Ganti Password
+    Route::get('/change-password', [AdminController::class, 'showChangePasswordForm'])->name('password.change.form');
+    Route::post('/change-password', [AdminController::class, 'changePassword'])->name('password.change');
+});
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard admin
+    Route::get('/dashboard', [AdminController::class, 'adminIndex'])->name('dashboard');
+
+
+    // Edit masjid
+    Route::get('/masjids/{id}/edit', [AdminController::class, 'edit'])->name('masjids.edit');
+    Route::put('/masjids/{id}', [AdminController::class, 'update'])->name('masjids.update');
+
+    // Hapus masjid
+    Route::delete('/masjids/{id}', [AdminController::class, 'destroy'])->name('masjids.destroy');
+
+    // Ganti Password
     Route::get('/change-password', [AdminController::class, 'showChangePasswordForm'])->name('password.change.form');
     Route::post('/change-password', [AdminController::class, 'changePassword'])->name('password.change');
 });

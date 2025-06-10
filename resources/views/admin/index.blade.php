@@ -63,7 +63,7 @@
                 @endif
 
                 <div class="mt-8">
-                    <a href="{{ route('masjids.edit', $m->id) }}" class="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition text-lg font-semibold">
+                    <a href="{{ route('admin.masjids.edit', $m->id) }}" class="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition text-lg font-semibold">
                         Edit Informasi Masjid
                     </a>
                 </div>
