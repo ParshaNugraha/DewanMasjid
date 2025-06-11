@@ -28,6 +28,7 @@ class Masjid extends Model
         'gambar',
         'surat',
         'notlp',
+        'donasi',
 
     ];
 

@@ -44,7 +44,8 @@
                         '🌍 Kategori Topologi' => $m->topologi_masjid,
                         '📍 Alamat Lengkap' => "{$m->alamat}, {$m->kecamatan}, {$m->kabupaten}",
                         '📚 Deskripsi' => $m->deskripsi,
-                        '📞 Nomor Telepon' => $m->notlp ?? '-'
+                        '📞 Nomor Telepon' => $m->notlp ?? '-',
+                        '💰 Donasi' => $m->donasi
                     ] as $label => $value)
                         <div class="bg-gray-50 p-5 rounded-lg shadow-sm flex items-center gap-3">
                             <span class="font-semibold w-44">{{ $label }}</span> 

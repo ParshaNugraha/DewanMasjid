@@ -40,6 +40,7 @@ class UserController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => ['required', 'regex:/^08[0-9]{8,15}$/'],
+            'donasi'=> 'nullable|string|max:100',
         ], [
             'notlp.regex' => 'Nomor telepon harus valid, hanya angka, dan dimulai dengan 08.',
         ]);

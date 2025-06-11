@@ -129,6 +129,15 @@
         </div>
 
         <div class="mb-4">
+            <label for="donasi" class="block text-sm font-medium">Donasi</label>
+            <input type="text" name="donasi" id="donasi" class="w-full border p-2 rounded"
+                value="{{ old('donasi', $user->masjid->donasi ?? '') }}">
+            @error('donasi')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="mb-4">
             <label class="block text-sm font-medium">Gambar Masjid (opsional)</label>
             @if($user->masjid && $user->masjid->gambar)
                 <div class="mb-2">
@@ -153,6 +162,8 @@
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
+
+        
 
         <div class="mt-6 flex items-center">
             <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Update</button>

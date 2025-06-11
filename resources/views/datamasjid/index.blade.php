@@ -159,6 +159,7 @@
                             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Alamat</th>
                             <th class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Status Tanah</th>
                             <th class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Takmir</th>
+                            <th class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Donasi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -208,6 +209,9 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                     {{ $masjid->nama_takmir }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    {{ $masjid->donasi }}
                                 </td>
                             </tr>
                         @endforeach

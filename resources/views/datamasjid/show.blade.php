@@ -121,6 +121,8 @@
             <div><strong>Kabupaten/Kota:</strong> {{ $masjid->kabupaten }}</div>
             <div><strong>Status Tanah:</strong> {{ $masjid->status_tanah }}</div>
             <div><strong>Takmir:</strong> {{ $masjid->nama_takmir }}</div>
+            <div><strong>notlp:</strong> {{ $masjid->notlp }}</div>
+            <div><strong>Donasi:</strong> {{ $masjid->donasi }}</div>
             <div><strong>Deskripsi:</strong> {{ $masjid->deskripsi }}</div>
             <div class="md:col-span-2">
                 <strong>Alamat:</strong>

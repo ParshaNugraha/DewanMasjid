@@ -30,6 +30,7 @@
                 <th class="border border-gray-300 px-3 py-1 text-left">Kabupaten</th>
                 <th class="border border-gray-300 px-3 py-1 text-left">Alamat</th>
                 <th class="border border-gray-300 px-3 py-1 text-left">No. Telepon</th>
+                <th class="border border-gray-300 px-3 py-1 text-left">Donasi</th>
                 <th class="border border-gray-300 px-3 py-1 text-left">Deskripsi</th>
                 <th class="border border-gray-300 px-3 py-1 text-left">Gambar</th>
                 <th class="border border-gray-300 px-3 py-1 text-left">Surat</th>
@@ -56,6 +57,7 @@
                     <td class="border border-gray-300 px-3 py-1">{{ $masjid->kabupaten }}</td>
                     <td class="border border-gray-300 px-3 py-1">{{ $masjid->alamat }}</td>
                     <td class="border border-gray-300 px-3 py-1">{{ $masjid->notlp }}</td>
+                    <td class="border border-gray-300 px-3 py-1">{{ $masjid->donasi }}</td>
                     <td class="border border-gray-300 px-3 py-1">{{ $masjid->deskripsi }}</td>
                     <td class="border border-gray-300 px-3 py-1">
                         @if($masjid->gambar)

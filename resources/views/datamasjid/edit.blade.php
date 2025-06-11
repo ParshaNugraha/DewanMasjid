@@ -117,6 +117,17 @@
                             @enderror
                         </div>
 
+                        <!-- Donasi -->
+                        <div>
+                            <label for="donasi" class="block text-sm font-medium text-gray-700">Donasi</label>
+                            <input id="donasi" name="donasi" type="text" required
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                                value="{{ old('donasi', $masjid->donasi) }}">
+                            @error('donasi')
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <!-- Alamat -->
                         <div class="md:col-span-2">
                             <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat Lengkap</label>
@@ -127,7 +138,7 @@
                             @enderror
                         </div>
 
-                        <!-- Alamat -->
+                        <!-- Deskripsi -->
                         <div class="md:col-span-2">
                             <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
                             <textarea id="deskripsi" name="deskripsi" rows="3" required
@@ -136,6 +147,8 @@
                                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+
+
 
                         <!-- Gambar Masjid -->
                         <div>
@@ -154,8 +167,8 @@
                             @enderror
                         </div>
 
-<!-- Surat -->
-<div>
+                        <!-- Surat -->
+                            <div>
                                 <label for="surat" class="block text-sm font-medium text-gray-700">Surat Keterangan
                                     Tanah</label>
                                 <input id="surat" name="surat" type="file"

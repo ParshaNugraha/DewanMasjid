@@ -22,41 +22,41 @@ class AdminController extends Controller
 
 
 
-public function dashboardSuperadmin()
-{
-    $user = Auth::user();
-    if (!$user || $user->role !== 'superadmin') {
-        abort(403, 'Unauthorized');
+    public function dashboardSuperadmin()
+    {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'superadmin') {
+            abort(403, 'Unauthorized');
+        }
+
+        $totalAdmins = User::where('role', 'admin')->count();
+        $totalVisitorHome = Visitor::where('page', 'home')->count();
+        $totalVisitorBerita = Visitor::where('page', 'berita')->count();
+
+        $startDate = Carbon::today()->subDays(7);
+
+        $visitorsHomePerDay = Visitor::selectRaw('DATE(created_at) as date, COUNT(*) as total')
+            ->where('page', 'home')
+            ->whereDate('created_at', '>=', $startDate)
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $visitorsBeritaPerDay = Visitor::selectRaw('DATE(created_at) as date, COUNT(*) as total')
+            ->where('page', 'berita')
+            ->whereDate('created_at', '>=', $startDate)
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        return view('superadmin.index', compact(
+            'totalAdmins',
+            'totalVisitorHome',
+            'totalVisitorBerita',
+            'visitorsHomePerDay',
+            'visitorsBeritaPerDay'
+        ));
     }
-
-    $totalAdmins = User::where('role', 'admin')->count();
-    $totalVisitorHome = Visitor::where('page', 'home')->count();
-    $totalVisitorBerita = Visitor::where('page', 'berita')->count();
-
-    $startDate = Carbon::today()->subDays(7);
-
-    $visitorsHomePerDay = Visitor::selectRaw('DATE(created_at) as date, COUNT(*) as total')
-        ->where('page', 'home')
-        ->whereDate('created_at', '>=', $startDate)
-        ->groupBy('date')
-        ->orderBy('date')
-        ->get();
-
-    $visitorsBeritaPerDay = Visitor::selectRaw('DATE(created_at) as date, COUNT(*) as total')
-        ->where('page', 'berita')
-        ->whereDate('created_at', '>=', $startDate)
-        ->groupBy('date')
-        ->orderBy('date')
-        ->get();
-
-    return view('superadmin.index', compact(
-        'totalAdmins',
-        'totalVisitorHome',
-        'totalVisitorBerita',
-        'visitorsHomePerDay',
-        'visitorsBeritaPerDay'
-    ));
-}
 
 
 
@@ -135,6 +135,7 @@ public function dashboardSuperadmin()
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => 'nullable|string|max:15',
+            'donasi' => 'nullable|string|max:100',
         ]);
 
         // hash password
@@ -161,6 +162,7 @@ public function dashboardSuperadmin()
             'deskripsi' => $validated['deskripsi'],
             'alamat' => $validated['alamat'],
             'notlp' => $validated['notlp'] ?? null,
+            'donasi' => $validated['donasi'],
             'user_id' => $user->id,
         ];
 
@@ -219,6 +221,7 @@ public function dashboardSuperadmin()
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => 'nullable|string|max:15',
+            'donasi' => 'nullable|string|max:100',
         ]);
 
         if ($request->hasFile('gambar')) {

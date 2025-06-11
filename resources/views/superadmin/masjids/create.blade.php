@@ -82,6 +82,10 @@
                 <input type="text" name="notlp" class="w-full border rounded p-2">
             </div>
             <div>
+                <label for="donasi" class="block">Donasi</label>
+                <input type="text" name="donasi" class="w-full border rounded p-2">
+            </div>
+            <div>
                 <label for="gambar" class="block">Gambar Masjid</label>
                 <input type="file" name="gambar" class="w-full border rounded p-2">
             </div>
