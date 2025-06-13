@@ -20,7 +20,6 @@
                 <img src="{{ asset('storage/' . $galeri->gambar) }}" class="w-full h-40 object-cover rounded mb-2">
                 <p class="font-semibold">{{ $galeri->judul }}</p>
                 <div class="flex gap-2 mt-2">
-                    <a href="{{ route('superadmin.galeri.edit', $galeri->id) }}" class="text-blue-600 text-sm">Edit</a>
                     <form action="{{ route('superadmin.galeri.destroy', $galeri->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus foto ini?');">
                         @csrf
                         @method('DELETE')

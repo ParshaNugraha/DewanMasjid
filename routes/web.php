@@ -59,7 +59,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
     Route::resource('pengurus', PengurusController::class)->only(['index', 'store', 'destroy']);
-    Route::resource('galeri', GaleriController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('galeri', GaleriController::class)->only(['index', 'create', 'destroy']);
     // Dashboard superadmin
     Route::get('/dashboard', [AdminController::class, 'dashboardSuperadmin'])->name('dashboard');
 

@@ -37,31 +37,6 @@ class GaleriController extends Controller
         return redirect()->route('superadmin.galeri.index')->with('success', 'Foto berhasil ditambahkan.');
     }
 
-    public function edit(Galeri $galeri)
-    {
-        return view('superadmin.galeri.edit', compact('galeri'));
-    }
-
-    public function update(Request $request, Galeri $galeri)
-    {
-        $request->validate([
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'judul' => 'nullable|string|max:255',
-        ]);
-
-        if ($request->hasFile('gambar')) {
-            // hapus gambar lama
-            Storage::disk('public')->delete($galeri->gambar);
-            $path = $request->file('gambar')->store('galeri', 'public');
-            $galeri->gambar = $path;
-        }
-
-        $galeri->judul = $request->judul;
-        $galeri->save();
-
-        return redirect()->route('superadmin.galeri.index')->with('success', 'Foto berhasil diperbarui.');
-    }
-
     public function destroy(Galeri $galeri)
     {
         Storage::disk('public')->delete($galeri->gambar);
