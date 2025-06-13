@@ -3,16 +3,19 @@
 
 <!-- Body -->
 <main class="pt-28 md:pt-32 bg-gradient-to-b from-green-50 to-gray-50">
-    <div class="flex justify-center px-4">
-        <div class="w-full max-w-screen-lg shadow-lg shadow-green-800/30 rounded-xl overflow-hidden">
-            <!-- Hero Image -->
-            <div class="relative h-64 md:h-80 lg:h-96">
-                <img src="{{ Vite::asset('resources/image/DMI-3.jpg') }}" alt="DMI Jawa Tengah" 
-                     class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-green-900/60 to-transparent flex items-end p-6 justify-center">
-                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-5 text-center">Dewan Masjid Indonesia <br>Jawa Tengah</h1>
-                </div>
-            </div>
+    <section class="relative h-[70vh] max-h-[800px] overflow-hidden">
+        <div class="absolute inset-0 bg-black/30 z-10"></div>
+        <img src="{{ Vite::asset('resources/image/DMI-3.jpg') }}" alt="DMI Jawa Tengah" 
+             class="w-full h-full object-cover object-center">
+        
+        <div class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 animate-fade-in-down">
+                Dewan Masjid Indonesia
+            </h1>
+            <h2 class="text-2xl md:text-4xl font-semibold text-white mb-6 animate-fade-in-down delay-100">
+                Provinsi Jawa Tengah
+            </h2>
+    </section>
             
             <!-- Jadwal Sholat Section -->
             <div class="bg-white rounded-lg p-6 mx-4 -mt-8 relative z-10 shadow-lg">

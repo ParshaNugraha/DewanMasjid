@@ -1,108 +1,138 @@
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
-<div class="flex justify-center items-center min-h-screen">
-    <form method="POST" action="{{ route('login') }}" 
-          class="bg-white shadow-2xl rounded-2xl overflow-hidden border-4 border-green-400 dark:border-green-800 max-w-md mx-auto">
-        @csrf
-        
-        <div class="px-8 py-10 md:px-10">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-center text-zinc-800 dark:text-black">
+<form method="POST" action="{{ route('login') }}" 
+      class="bg-white shadow-lg rounded-xl overflow-hidden w-full max-w-md mx-auto">
+    @csrf
+    
+    <div class="p-8">
+        <div class="text-center mb-3">
+            <div class="mb-0 transform hover:scale-105 transition-transform duration-300">
+                <img src="{{ Vite::asset('resources\image\logo-dmi.jpg') }}" alt="Logo DMI" class="w-32 h-32 mx-auto drop-shadow-lg rounded-full object-cover">
+            </div>
+            <h2 class="mt-5 text-3xl font-bold text-gray-800 bg-gradient-to-r from-green-600 to-green-800 bg-clip-text">
                 Selamat Datang
             </h2>
-            <p class="text-center text-zinc-900 dark:text-zinc-400 mt-3 text-base md:text-lg lg:text-xl">
+            <p class="text-gray-600 mt-1 text-lg">
                 Silahkan masukan username & password
             </p>
+            <div class="mt-4 w-70 h-0.5 bg-green-500 mx-auto rounded-full"></div>
+        </div>
+        
+        @if($errors->any())
+            <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm notification" data-duration="5000">
+                {{ $errors->first() }}
+            </div>
+        @endif
+        
+        @if(session('success'))
+            <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-600 rounded-lg text-sm notification" data-duration="5000">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <style>
+            .notification {
+                animation: fadeInOut 5s ease-in-out forwards;
+            }
+
+            @keyframes fadeInOut {
+                0% { 
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                10% { 
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                80% { 
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                100% { 
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const notifications = document.querySelectorAll('.notification');
+                
+                notifications.forEach(notification => {
+                    const duration = notification.dataset.duration || 5000;
+                    
+                    setTimeout(() => {
+                        notification.style.opacity = '0';
+                        notification.style.transform = 'translateY(-10px)';
+                        
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 500);
+                    }, duration);
+                });
+            });
+        </script>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="login">
+                    Username atau Email
+                </label>
+                <input
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-colors"
+                    name="login" 
+                    id="login" 
+                    type="text"
+                    value="{{ old('login') }}"
+                    required
+                    autofocus />
+            </div>
             
-            <!-- Tambahkan pesan error -->
-            @if($errors->any())
-                <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
-                    {{ $errors->first() }}
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="password">
+                    Password
+                </label>
+                <input
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-colors"
+                    name="password" 
+                    id="password" 
+                    type="password" 
+                    required
+                    autocomplete="current-password" />
+                    
+                <div class="flex items-center mt-2">
+                    <input id="show-password" type="checkbox" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" onclick="togglePasswordVisibility()">
+                    <label for="show-password" class="ml-2 text-sm text-gray-600">
+                        Tampilkan Password
+                    </label>
                 </div>
-            @endif
+            </div>
             
-            @if(session('success'))
-                <div class="mt-4 p-3 bg-green-100 text-green-700 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-            
-            <div class="mt-10">
-                <div class="relative">
-<label class="block mb-3 text-sm md:text-base lg:text-lg font-medium text-zinc-900"
-    for="login">Username atau Email</label>
-<input
-    class="block w-full px-4 py-3 mt-2 text-zinc-800 bg-white border-2 rounded-lg dark:border-zinc-600 dark:bg-zinc-200 dark:text-zinc-800 focus:border-green-500 dark:focus:green-blue-400 focus:ring-opacity-50 focus:outline-none focus:ring focus:ring-green-400"
-    name="login" 
-    id="login" 
-    type="text"
-    value="{{ old('login') }}"
-    required
-    autofocus />
-                </div>
-                <div class="mt-6">
-                    <label class="block mb-3 text-sm md:text-base lg:text-lg font-medium text-zinc-900"
-                        for="password">Password</label>
-                    <input
-                        class="block w-full px-4 py-3 mt-2 text-zinc-800 bg-white border-2 rounded-lg dark:border-zinc-600 dark:bg-zinc-200 dark:text-zinc-800 focus:border-green-500 dark:focus:border-green-400 focus:ring-opacity-50 focus:outline-none focus:ring focus:ring-green-400"
-                        name="password" 
-                        id="password" 
-                        type="password" 
-                        required
-                        autocomplete="current-password" />
-                    <div class="flex items-center mt-3">
-                        <input id="show-password" type="checkbox" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" onclick="togglePasswordVisibility()">
-                        <label for="show-password" class="ml-2 block text-sm text-gray-900">
-                            Tampilkan Password
-                        </label>
-                    </div>
-                </div>
-                <script>
-                    function togglePasswordVisibility() {
-                        var passwordInput = document.getElementById('password');
-                        var showPasswordCheckbox = document.getElementById('show-password');
-                        if (showPasswordCheckbox.checked) {
-                            passwordInput.type = 'text';
-                        } else {
-                            passwordInput.type = 'password';
-                        }
+            <script>
+                function togglePasswordVisibility() {
+                    var passwordInput = document.getElementById('password');
+                    var showPasswordCheckbox = document.getElementById('show-password');
+                    if (showPasswordCheckbox.checked) {
+                        passwordInput.type = 'text';
+                    } else {
+                        passwordInput.type = 'password';
                     }
-                </script>
-                <div class="mt-10">
-                    <button
-                        class="w-full px-4 py-3 tracking-wide text-white transition-colors duration-200 transform bg-gradient-to-r from-green-600 to-cyan-600 rounded-lg hover:from-green-700 hover:to-cyan-700 focus:outline-none focus:ring-4 focus:ring-green-400 dark:focus:ring-green-800"
-                        type="submit">
-                        Masuk
-                    </button>
-                </div>
-            </div>
+                }
+            </script>
+            
+            <button
+                class="w-full py-2.5 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                type="submit">
+                Masuk
+            </button>
         </div>
-        <div class="px-8 py-4 bg-green-200 dark:bg-zinc-600">
-            <div class="text-sm md:text-base lg:text-lg text-green-900 dark:text-green-300 text-center">
-                <div class="flex items-center justify-center">
-                    <span class="mr-2">Belum Memiliki Akun ?</span>
-                    <a href='{{ url('/daftar') }}' class="inline-block">
-                        <button
-                            class="w-full md:w-auto relative flex items-center px-4 py-1.5 overflow-hidden font-medium transition-all bg-green-700 rounded-md group"
-                            type="button">
-                            <span
-                                class="absolute top-0 right-0 inline-block w-3 h-3 transition-all duration-500 ease-in-out bg-green-500 rounded group-hover:-mr-3 group-hover:-mt-3">
-                                <span
-                                    class="absolute top-0 right-0 w-4 h-4 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                            </span>
-                            <span
-                                class="absolute bottom-0 rotate-180 left-0 inline-block w-3 h-3 transition-all duration-500 ease-in-out bg-green-500 rounded group-hover:-ml-3 group-hover:-mb-3">
-                                <span
-                                    class="absolute top-0 right-0 w-4 h-4 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                            </span>
-                            <span
-                                class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-green-600 rounded-md group-hover:translate-x-0"></span>
-                            <span
-                                class="relative w-full text-center text-white transition-colors duration-200 ease-in-out group-hover:text-white">Daftar</span>
-                        </button>
-                    </a>
-                </div>
-            </div>
+    </div>
+    
+    <div class="px-8 py-4 bg-gray-50 border-t border-gray-100">
+        <div class="text-center text-sm">
+            <span class="text-gray-600">Belum Memiliki Akun?</span>
+            <button onclick="showRegisterPopup()" class="ml-2 text-green-600 hover:text-green-700 font-medium">
+                Daftar Sekarang
+            </button>
         </div>
-    </form>
-</div>
+    </div>
+</form>

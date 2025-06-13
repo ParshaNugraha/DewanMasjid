@@ -71,7 +71,7 @@ class AdminController extends Controller
     // Dashboard admin: daftar masjid miliknya
     public function adminIndex()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user->role !== 'admin') {
             abort(403, 'Unauthorized');
@@ -92,7 +92,7 @@ class AdminController extends Controller
     */
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user->role === 'superadmin') {
             $masjids = Masjid::with('user')->paginate(10);
@@ -105,7 +105,7 @@ class AdminController extends Controller
 
     public function create()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user->role === 'superadmin') {
             return view('superadmin.masjids.create');
@@ -184,7 +184,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         $masjid = Masjid::findOrFail($id);
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user->role === 'superadmin') {
             $targetUser = $masjid->user;  // user admin yang punya masjid
@@ -202,7 +202,7 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $masjid = Masjid::findOrFail($id);
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user->role !== 'superadmin' && $masjid->user_id !== $user->id) {
             abort(403, 'Unauthorized');
@@ -267,7 +267,7 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $masjid = Masjid::findOrFail($id);
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user->role !== 'superadmin' && $masjid->user_id !== $user->id) {
             abort(403, 'Unauthorized');
@@ -298,7 +298,7 @@ class AdminController extends Controller
 
     public function showChangePasswordForm()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user->role === 'superadmin') {
             return view('superadmin.changepassword');
@@ -310,18 +310,19 @@ class AdminController extends Controller
 
     public function changePassword(Request $request)
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         $request->validate([
             'current_password' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        if (!\Hash::check($request->current_password, $user->password)) {
+        if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Password lama salah.']);
         }
 
-        $user->password = \Hash::make($request->password);
+        $user->password = Hash::make($request->password);
         $user->save();
 
         if ($user->role === 'superadmin') {

@@ -11,7 +11,7 @@ class GaleriController extends Controller
 {
     public function index()
     {
-        $galeris = Galeri::latest()->get();
+        $galeris = Galeri::latest()->paginate(10); // Menggunakan paginate() bukan get()
         return view('superadmin.galeri.index', compact('galeris'));
     }
 
@@ -45,13 +45,21 @@ class GaleriController extends Controller
         return redirect()->route('superadmin.galeri.index')->with('success', 'Foto berhasil dihapus.');
     }
 
-
-
     //PUBLIC
-
     public function galeri()
     {
-        $galeris = Galeri::latest()->get();
+        $galeris = Galeri::latest()->paginate(12); // Menggunakan paginate() untuk public view juga
+        return view('galeri.index', compact('galeris'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $galeris = Galeri::where('judul', 'like', "%$search%")
+                        ->latest()
+                        ->paginate(12)
+                        ->appends(['search' => $search]);
+
         return view('galeri.index', compact('galeris'));
     }
 }

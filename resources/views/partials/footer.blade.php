@@ -37,10 +37,10 @@
                 <div>
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gradient-to-r after:from-green-500 after:to-blue-500 after:left-0 after:-bottom-1 after:rounded-full">Bantuan & Kontak</h3>
                     <ul class="space-y-2">
-                        <li><a href="#"
+                        <li><a href="https://wa.me/6282134575163"
                                 class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Telepon/WA
                                 : 0821 3457 5163</a></li>
-                        <li><a href="#"
+                        <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dmijateng@gmail.com"
                                 class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Email
                                 : dmijateng@gmail.com</a></li>
                     </ul>

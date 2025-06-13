@@ -1,8 +1,11 @@
-use App\Models\Masjid;
 @extends('partials.header')
 
+
+
+
+
 <!-- Body -->
-<main class="pt-28 md:pt-32 bg-gray-50">
+<main class="pt-20 md:pt-22 bg-gray-50">
     <!-- Hero Section -->
     <section class="relative h-[70vh] max-h-[800px] overflow-hidden">
         <div class="absolute inset-0 bg-black/30 z-10"></div>
@@ -229,7 +232,7 @@ use App\Models\Masjid;
                                 </svg>
                                 <div>
                                     <h3 class="font-semibold">Telepon</h3>
-                                    <p class="text-green-100">(024) 1234567</p>
+                                    <p class="text-green-100">0821 3457 5163</p>
                                 </div>
                             </div>
                             
@@ -239,7 +242,7 @@ use App\Models\Masjid;
                                 </svg>
                                 <div>
                                     <h3 class="font-semibold">Email</h3>
-                                    <p class="text-green-100">info@dmijawatengah.id</p>
+                                    <p class="text-green-100">dmijateng@gmail.com</p>
                                 </div>
                             </div>
                         </div>
@@ -398,10 +401,10 @@ use App\Models\Masjid;
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                @foreach(range(1, 8) as $i)
-                <div class="relative group overflow-hidden rounded-xl aspect-square">
-                    <img src="https://source.unsplash.com/random/600x600/?mosque,event,{{ $i }}" 
-                         alt="Galeri Kegiatan {{ $i }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                @foreach($galeris as $galeri)
+                <div class="relative group overflow-hidden rounded-xl aspect-square cursor-pointer" onclick="event.stopPropagation(); showImageModal('{{ asset('storage/' . $galeri->gambar) }}', '{{ $galeri->judul ?? 'Galeri Kegiatan' }}')">
+                    <img src="{{ asset('storage/' . $galeri->gambar) }}" 
+                         alt="{{ $galeri->judul ?? 'Galeri Kegiatan' }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -411,8 +414,19 @@ use App\Models\Masjid;
                 @endforeach
             </div>
 
+            <!-- Modal untuk gambar besar -->
+            <div id="imageModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+                <div class="relative max-w-4xl w-full bg-white rounded-xl overflow-hidden shadow-2xl transform transition-all duration-300 scale-95 group-hover:scale-100">
+                    <button onclick="hideImageModal()" class="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all hover:rotate-90">
+                        &times;
+                    </button>
+                    <img id="modalImage" src="" alt="" class="w-full h-auto max-h-[80vh] object-contain transition-transform duration-500 group-hover:scale-105">
+                    <p id="modalCaption" class="text-center py-4 text-xl font-semibold text-gray-800 bg-white bg-opacity-90 backdrop-blur-sm"></p>
+                </div>
+            </div>
+
             <div class="text-center mt-10">
-                <a href="#" 
+                <a href="{{ route('galeri.index') }}" 
                    class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md transition duration-300">
                     Lihat Galeri Lengkap
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -421,6 +435,27 @@ use App\Models\Masjid;
                 </a>
             </div>
         </div>
+
+        <script>
+            function showImageModal(src, caption) {
+                document.getElementById('modalImage').src = src;
+                document.getElementById('modalCaption').textContent = caption;
+                document.getElementById('imageModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideImageModal() {
+                document.getElementById('imageModal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Tutup modal saat klik di luar gambar
+            document.getElementById('imageModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideImageModal();
+                }
+            });
+        </script>
     </section>
 </main>
 

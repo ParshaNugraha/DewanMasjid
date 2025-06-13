@@ -68,7 +68,7 @@ class UserController extends Controller
         $user->masjid()->create($validated);
 
         // Redirect ke halaman login dengan pesan sukses menunggu verifikasi
-        return redirect()->route('login')->with('success', 'Silahkan menunggu verifikasi superadmin.');
+        return redirect()->route('home')->with('success', 'Silahkan menunggu verifikasi superadmin.');
     }
 
     // Halaman menunggu verifikasi pendaftaran user baru

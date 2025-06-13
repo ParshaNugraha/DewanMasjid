@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Berita;
+use App\Models\Galeri;
 use Illuminate\Http\Request;
 use App\Helpers\VisitorHelper;
 use Illuminate\Support\Facades\Route;
@@ -8,10 +9,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PendaftarController;
-use App\Http\Controllers\GaleriController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Tanpa login)
@@ -20,12 +21,18 @@ use App\Http\Controllers\GaleriController;
 
 
 
+// Route untuk halaman home
 Route::get('/', function (Request $request) {
     VisitorHelper::recordVisitor($request, 'home');
-    return view('home');
-});
+    
+    $beritas = Berita::latest()->get();
+    $galeris = Galeri::latest()->get();
+    
+    return view('home', compact('beritas', 'galeris'));
+})->name('home');
 
-
+// Route untuk halaman pending verifikasi
+Route::get('/pending', [UserController::class, 'pending'])->name('pending');
 
 
 // Halaman statis
@@ -51,6 +58,8 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Routes untuk Admin Biasa (role = admin)
@@ -59,7 +68,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
     Route::resource('pengurus', PengurusController::class)->only(['index', 'store', 'destroy']);
-    Route::resource('galeri', GaleriController::class)->only(['index', 'create', 'destroy']);
+    Route::resource('galeri', GaleriController::class)->only(methods: ['index', 'create', 'store', 'destroy']);
     // Dashboard superadmin
     Route::get('/dashboard', [AdminController::class, 'dashboardSuperadmin'])->name('dashboard');
 
@@ -110,9 +119,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/change-password', [AdminController::class, 'changePassword'])->name('password.change');
 });
 
-Route::get('/', function (Request $request) {
-    VisitorHelper::recordVisitor($request, 'home');
-
-    $beritas = Berita::latest()->get(); // ambil semua berita terbaru
-    return view('home', compact('beritas'));
+// Route untuk galeri publik
+Route::prefix('galeri')->name('galeri.')->group(function () {
+    Route::get('/', [GaleriController::class, 'galeri'])->name('index');
+    Route::get('/search', [GaleriController::class, 'search'])->name('search');
 });
+
+
+
