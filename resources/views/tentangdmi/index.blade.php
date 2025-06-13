@@ -46,8 +46,10 @@
             <div class="px-6 py-10">
                 <div class="max-w-4xl mx-auto">
                     <div class="text-center mb-10">
-                        <h2 class="text-3xl font-bold text-green-700 mb-2">Tentang DMI Jawa Tengah</h2>
-                        <div class="w-20 h-1 bg-green-600 mx-auto"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-green-800 mb-3 relative inline-block">
+                <span class="relative z-10">Tentang DMI Jawa Tengah</span>
+                <span class="absolute bottom-0 left-0 w-full h-2 bg-green-200/70 z-0 -rotate-1"></span>
+            </h2>
                     </div>
 
                     <div class="space-y-8">

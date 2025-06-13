@@ -7,8 +7,6 @@
     <title>DMI Jawa Tengah</title>
     <!-- Load Vite CSS/JS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-50">
@@ -151,11 +149,6 @@
                 </li>
             </ul>
         </div>
-    </div>
-
-    <!-- Main Content (Placeholder) -->
-    <div class="pt-32 px-4 md:px-8 pb-8">
-        <!-- Your main content here -->
     </div>
 
     <!-- Popup Overlay -->
