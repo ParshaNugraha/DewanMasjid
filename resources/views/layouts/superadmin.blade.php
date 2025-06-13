@@ -38,8 +38,7 @@
                 </a>
                 <a href="{{ route('superadmin.berita.index') }}" class="px-4 py-2 md:py-3 rounded-md hover:bg-green-200">📰 Kelola Berita</a>
                 <a href="{{ route('superadmin.pengurus.index') }}" class="px-4 py-2 md:py-3 rounded-md hover:bg-green-200">👤 Kelola Pengurus</a>
-                <a href="#" class="px-4 py-2 md:py-3 rounded-md hover:bg-green-200">💰 Kelola Donasi</a>
-                <a href="#" class="px-4 py-2 md:py-3 rounded-md hover:bg-green-200">🖼️ Kelola Galeri</a>
+                <a href="{{ route('superadmin.galeri.index') }}" class="px-4 py-2 md:py-3 rounded-md hover:bg-green-200">🖼️ Kelola Galeri</a>
             </nav>
         </aside>
 

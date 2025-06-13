@@ -46,6 +46,10 @@
                    class="px-1 transition-colors duration-200 {{ request()->is('pengurus*') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
                     Pengurus
                 </a>
+                <a href="{{ url('/galeri') }}" 
+                   class="px-1 transition-colors duration-200 {{ request()->is('galeri*') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
+                    Galeri
+                </a>
             </nav>
 
             <!-- KANAN: Tombol Login & Daftar -->

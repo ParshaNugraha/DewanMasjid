@@ -11,6 +11,7 @@ use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PendaftarController;
+use App\Http\Controllers\GaleriController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Tanpa login)
@@ -38,6 +39,8 @@ Route::view('/tentangdmi', 'tentangdmi.index');
 Route::get('/masjid', [MasjidController::class, 'index'])->name('datamasjid.index');
 Route::get('/masjids/{id}', [MasjidController::class, 'show'])->name('datamasjid.show');
 
+Route::get('/galeri', [GaleriController::class, 'galeri'])->name('galeri.index');
+
 // Registrasi user (admin biasa bisa daftar)
 Route::get('/daftar', [UserController::class, 'create'])->name('users.create');
 Route::post('/daftar', [UserController::class, 'store'])->name('users.store');
@@ -56,7 +59,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
     Route::resource('pengurus', PengurusController::class)->only(['index', 'store', 'destroy']);
-
+    Route::resource('galeri', GaleriController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     // Dashboard superadmin
     Route::get('/dashboard', [AdminController::class, 'dashboardSuperadmin'])->name('dashboard');
 
