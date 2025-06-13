@@ -1,15 +1,16 @@
 <?php
 
-use App\Helpers\VisitorHelper;
+use App\Models\Berita;
 use Illuminate\Http\Request;
+use App\Helpers\VisitorHelper;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PendaftarController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\PengurusController;
+use App\Http\Controllers\PendaftarController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Tanpa login)
@@ -104,4 +105,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Ganti Password
     Route::get('/change-password', [AdminController::class, 'showChangePasswordForm'])->name('password.change.form');
     Route::post('/change-password', [AdminController::class, 'changePassword'])->name('password.change');
+});
+
+Route::get('/', function (Request $request) {
+    VisitorHelper::recordVisitor($request, 'home');
+
+    $beritas = Berita::latest()->get(); // ambil semua berita terbaru
+    return view('home', compact('beritas'));
 });

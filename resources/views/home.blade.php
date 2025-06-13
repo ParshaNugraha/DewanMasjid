@@ -1,801 +1,523 @@
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+use App\Models\Masjid;
+@extends('partials.header')
 
-
-
-<!-- Header -->
-<div
-    class="flex flex-col md:flex-row items-center justify-between border px-4 md:px-10 py-4 shadow-lg shadow-green-800 bg-white fixed top-0 left-0 right-0 z-50">
-    <!-- Logo dan Brand -->
-    <div class="flex items-center justify-between w-full md:w-auto">
-        <a href="{{ url('') }}" class="flex items-center">
-            <img src="{{ Vite::asset('resources/image/logo-dmi.jpg') }}" alt="" class="h-20 w-auto">
-            <div class="ml-3">
-                <h3 class="text-xl font-bold">
-                    <span class="hidden md:inline">Dewan Masjid Indonesia</span><br>
-                    <span class="block md:inline pb-5">Provinsi Jawa Tengah</span>
-                </h3>
-            </div>
-        </a>
-
-        <!-- Tombol Menu -->
-        <button id="mobile-menu-button" class="md:hidden focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                </path>
-            </svg>
-        </button>
-    </div>
-
-    <!-- Menu Navbar -->
-    <nav id="main-nav" class="hidden md:flex w-full md:w-auto mt-4 md:mt-0">
-        <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full">
-            <li>
-                <a href='{{url('/')}}'
-                    class="hover:text-green-700 text-green-800 block font-medium text-[15px] py-2 px-3 border-b-4 border-green-500">Beranda</a>
-            </li>
-            <li>
-                <a href='{{ url('/berita') }}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Berita</a>
-            </li>
-            <li>
-                <a href='{{ url('/tentangdmi') }}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Tentang
-                    DMI Jateng</a>
-            </li>
-            <li>
-                <a href='{{url('/masjid')}}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Data
-                    Masjid</a>
-            </li>
-            <li>
-                <a href='{{ url('/pengurus') }}'
-                    class="hover:text-green-700 text-slate-900 block font-medium text-[15px] no-underline py-2 px-3">Pengurus</a>
-            </li>
-
-            <!-- Tombol Masuk & Daftar -->
-            <li class="md:ml-4 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
-                <a href='{{url('/login')}}' class="block">
-                    <button
-                        class="w-full md:w-auto relative flex items-center px-6 py-2 overflow-hidden font-medium transition-all bg-green-500 rounded-md group">
-                        <span
-                            class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-700 rounded group-hover:-mr-4 group-hover:-mt-4">
-                            <span
-                                class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                        </span>
-                        <span
-                            class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-700 rounded group-hover:-ml-4 group-hover:-mb-4">
-                            <span
-                                class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                        </span>
-                        <span
-                            class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-green-600 rounded-md group-hover:translate-x-0"></span>
-                        <span
-                            class="relative w-full text-center text-white transition-colors duration-200 ease-in-out group-hover:text-white">Masuk</span>
-                    </button>
-                </a>
-
-                <a href='{{url('/daftar')}}' class="block">
-                    <button
-                        class="w-full md:w-auto relative flex items-center px-6 py-2 overflow-hidden font-medium transition-all bg-green-700 rounded-md group">
-                        <span
-                            class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-500 rounded group-hover:-mr-4 group-hover:-mt-4">
-                            <span
-                                class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                        </span>
-                        <span
-                            class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-500 rounded group-hover:-ml-4 group-hover:-mb-4">
-                            <span
-                                class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                        </span>
-                        <span
-                            class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-green-600 rounded-md group-hover:translate-x-0"></span>
-                        <span
-                            class="relative w-full text-center text-white transition-colors duration-200 ease-in-out group-hover:text-white">Daftar</span>
-                    </button>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
-
-<!-- End Header -->
 <!-- Body -->
-<div class="flex justify-center">
-    <div class="w-full max-w-screen-lg shadow-lg shadow-green-800">
-        <img src="{{ Vite::asset('resources/image/DMI-3.jpg') }}" alt="" class="py-40 px-5 pb-0.5">
-        <!-- Jadwal Sholat start -->
-        <div class="flex justify-center">
-            <div class="w-full max-w-screen-lg bg-white rounded-lg p-5">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl md:text-2xl font-bold text-green-700">Jadwal Sholat</h2>
-                    <span class="text-sm md:text-base text-gray-500">Jumat, 24 Maret 2023</span>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4 text-center">
-                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
-                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Subuh</h3>
-                        <p class="text-sm sm:text-base text-gray-700">04:25</p>
-                    </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
-                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Dzuhur</h3>
-                        <p class="text-sm sm:text-base text-gray-700">11:50</p>
-                    </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
-                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Ashar</h3>
-                        <p class="text-sm sm:text-base text-gray-700">15:13</p>
-                    </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
-                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Maghrib</h3>
-                        <p class="text-sm sm:text-base text-gray-700">18:25</p>
-                    </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
-                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Isya</h3>
-                        <p class="text-sm sm:text-base text-gray-700">19:40</p>
-                    </div>
-                    <div class="shadow shadow-gray-500 rounded-2xl p-3 sm:p-5">
-                        <h3 class="text-base sm:text-lg font-semibold text-green-600">Imsak</h3>
-                        <p class="text-sm sm:text-base text-gray-700">04:15</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Jadwal Sholat End -->
-        <!-- Profil Start -->
-        <div
-            class="flex flex-col md:flex-row items-center justify-center md:justify-start px-4 md:px-0 md:ml-10 gap-4 md:gap-10 mb-5">
-            <!-- Profil 1 -->
-            <div
-                class="rounded-xl overflow-hidden relative text-center p-7 group items-center flex flex-col w-full max-w-sm hover:shadow-2xl transition-all duration-500 shadow-xl">
-                <div class="text-gray-500 group-hover:scale-105 transition-all">
-                    <svg class="w-16 h-16" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                            stroke-linejoin="round" stroke-linecap="round"></path>
-                    </svg>
-                </div>
-                <div class="group-hover:pb-10 transition-all duration-500 delay-200">
-                    <h1 class="font-semibold text-gray-700">Nama</h1>
-                    <p class="text-gray-500 text-sm">Ketua DMI</p>
-                </div>
-                <div
-                    class="flex items-center transition-all duration-500 delay-200 group-hover:bottom-3 -bottom-full absolute gap-2 justify-evenly w-full">
-                    <div
-                        class="flex gap-3 text-2xl bg-green-700 text-white p-1 hover:p-2 transition-all duration-500 delay-200 rounded-full shadow-sm">
-                        <a class="hover:scale-110 transition-all duration-500 delay-200">
-                            <span class="text-white-700 font-semibold text-sm">PROFIL</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Profil 2 -->
-            <div
-                class="rounded-xl overflow-hidden relative text-center p-7 group items-center flex flex-col w-full max-w-sm hover:shadow-2xl transition-all duration-500 shadow-xl">
-                <div class="text-gray-500 group-hover:scale-105 transition-all">
-                    <svg class="w-16 h-16" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                            stroke-linejoin="round" stroke-linecap="round"></path>
-                    </svg>
-                </div>
-                <div class="group-hover:pb-10 transition-all duration-500 delay-200">
-                    <h1 class="font-semibold text-gray-700">Nama Lain</h1>
-                    <p class="text-gray-500 text-sm">Jabatan Lain</p>
-                </div>
-                <div
-                    class="flex items-center transition-all duration-500 delay-200 group-hover:bottom-3 -bottom-full absolute gap-2 justify-evenly w-full">
-                    <div
-                        class="flex gap-3 text-2xl bg-green-700 text-white p-1 hover:p-2 transition-all duration-500 delay-200 rounded-full shadow-sm">
-                        <a class="hover:scale-110 transition-all duration-500 delay-200">
-                            <span class="text-white-700 font-semibold text-sm">PROFIL</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Location -->
-            <div class="md:w-auto md:mr-10">
-                <a href="https://maps.app.goo.gl/nEbpU9Cywkv7zyKY8"
-                    class="relative bg-green-500 rounded-xl p-6 flex flex-col justify-center w-full min-w-[300px] md:min-w-[350px] max-w-lg shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl group">
-                    <div class="flex items-start">
-                        <div class="flex-1">
-                            <h2
-                                class="text-white font-bold text-lg mb-1 transition-all duration-500 group-hover:tracking-wide">
-                                Masjid Agung Jawa Tengah</h2>
-                            <p class="text-white text-base transition-all duration-500 group-hover:pl-2">Jalan Gajah
-                                Raya, Komplek Masjid Agung Jawa Tengah (MAJT) Kota Semarang</p>
-                        </div>
-                        <div
-                            class="absolute -top-6 -right-6 transition-all duration-500 group-hover:-top-8 group-hover:-right-8">
-                            <div
-                                class="bg-white rounded-full w-20 h-20 flex items-center justify-center shadow-md transition-all duration-500 group-hover:scale-110">
-                                <svg class="w-8 h-8 text-green-500 transition-all duration-500 group-hover:text-green-700"
-                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 21s-6-5.686-6-10A6 6 0 1118 11c0 4.314-6 10-6 10z" />
-                                    <circle cx="12" cy="11" r="2.5" fill="currentColor" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
+<main class="pt-28 md:pt-32 bg-gray-50">
+    <!-- Hero Section -->
+    <section class="relative h-[70vh] max-h-[800px] overflow-hidden">
+        <div class="absolute inset-0 bg-black/30 z-10"></div>
+        <img src="{{ Vite::asset('resources/image/DMI-3.jpg') }}" alt="Masjid Agung Jawa Tengah" 
+             class="w-full h-full object-cover object-center">
+        
+        <div class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 animate-fade-in-down">
+                Dewan Masjid Indonesia
+            </h1>
+            <h2 class="text-2xl md:text-4xl font-semibold text-white mb-6 animate-fade-in-down delay-100">
+                Provinsi Jawa Tengah
+            </h2>
+            <p class="text-lg md:text-xl text-white max-w-2xl mb-8 animate-fade-in-down delay-200">
+                Menjalin ukhuwah, memakmurkan masjid, membangun peradaban
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up delay-300">
+                <a href="{{ route('berita.publicIndex') }}" 
+                   class="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                    Lihat Berita Terkini
+                </a>
+                <a href="#jadwal-sholat" 
+                   class="bg-white/90 hover:bg-white text-green-700 font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                    Jadwal Sholat
                 </a>
             </div>
         </div>
-        <!-- Profil End -->
-        <div class="w-full max-w-screen-lg bg-white rounded-lg p-5">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl md:text-2xl font-bold text-green-700">Berita Terkini</h2>
-            </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
         </div>
-        <!-- Berita start -->
-        <div class="container mx-auto px-4 py-2">
-            <div class="relative">
-                <!-- Container untuk berita dengan scroll horizontal -->
-                <div id="news-scroll-container"
-                    class="flex overflow-x-auto pb-6 snap-x snap-mandatory whitespace-nowrap space-x-4 scrollbar-hide"
-                    style="cursor: grab; scroll-behavior: smooth;" onmousedown="handleMouseDown(event)"
-                    onmousemove="handleMouseMove(event)" onmouseup="handleMouseUp()" onmouseleave="handleMouseUp()"
-                    ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)"
-                    ontouchend="handleTouchEnd()">
+    </section>
 
-                    <!-- Card Berita 1 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Pertama</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">John Doe</p>
-                                    <p class="text-xs text-gray-500">2 jam lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 2 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Kedua</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Jane Smith</p>
-                                    <p class="text-xs text-gray-500">Kemarin</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 3 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Ketiga</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Ahmad Budi</p>
-                                    <p class="text-xs text-gray-500">3 hari lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 4 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-cyan-100 text-cyan-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Keempat</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Budi Santoso</p>
-                                    <p class="text-xs text-gray-500">1 minggu lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Berita 5 -->
-                    <div
-                        class="snap-start flex-shrink-0 w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 whitespace-normal">
-                        <img src="https://via.placeholder.com/600x400" alt="Gambar Berita"
-                            class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <span
-                                class="inline-block px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-semibold">DMI
-                                Jateng</span>
-                            <h3 class="mt-2 text-lg font-semibold text-gray-800 truncate">Judul Berita Kelima</h3>
-                            <p class="mt-2 text-gray-600 text-sm line-clamp-2">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.</p>
-                            <div class="mt-3 flex items-center">
-                                <img src="https://via.placeholder.com/30" alt="Penulis" class="w-8 h-8 rounded-full">
-                                <div class="ml-2">
-                                    <p class="text-xs font-medium text-gray-700">Dewi Lestari</p>
-                                    <p class="text-xs text-gray-500">2 minggu lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <style>
-            /* menyembunyikan scroll-bar */
-            #news-scroll-container::-webkit-scrollbar {
-                display: none;
-            }
-        </style>
-        <script>
-            // Variabel untuk drag gesture
-            let isDragging = false;
-            let startX;
-            let scrollLeft;
-            let momentumId;
-            let lastPos = 0;
-            let velocity = 0;
-            let lastTime = 0;
-
-            // Variabel untuk auto scroll
-            let autoScrollInterval;
-            const scrollSpeed = 0.8;
-
-            // Fungsi untuk memulai auto scroll dengan easing
-            function startAutoScroll() {
-                const container = document.getElementById('news-scroll-container');
-                let startTime = null;
-                const duration = 30000;
-
-                function animateScroll(timestamp) {
-                    if (!startTime) startTime = timestamp;
-                    const progress = (timestamp - startTime) / duration;
-
-                    const easeProgress = progress < 0.5
-                        ? 2 * progress * progress
-                        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-
-                    const scrollWidth = container.scrollWidth - container.clientWidth;
-                    const scrollPos = easeProgress * scrollWidth;
-
-                    container.scrollLeft = scrollPos;
-
-                    if (progress < 1) {
-                        autoScrollInterval = requestAnimationFrame(animateScroll);
-                    } else {
-                        startTime = null;
-                        container.scrollLeft = 0;
-                        autoScrollInterval = requestAnimationFrame(animateScroll);
-                    }
-                }
-
-                stopAutoScroll();
-                autoScrollInterval = requestAnimationFrame(animateScroll);
-            }
-
-            function stopAutoScroll() {
-                cancelAnimationFrame(autoScrollInterval);
-            }
-
-            function momentumScroll(velocity, container) {
-                const startPos = container.scrollLeft;
-                const amplitude = velocity * 30;
-                let startTime = 0;
-
-                function animate(timestamp) {
-                    if (!startTime) startTime = timestamp;
-                    const elapsed = timestamp - startTime;
-
-                    const delta = -amplitude * Math.exp(-elapsed / 325);
-
-                    if (delta < 0.5 && delta > -0.5) {
-                        startAutoScroll();
-                        return;
-                    }
-
-                    container.scrollLeft = startPos + delta;
-                    momentumId = requestAnimationFrame(animate);
-                }
-
-                cancelAnimationFrame(momentumId);
-                momentumId = requestAnimationFrame(animate);
-            }
-
-            function handleMouseDown(e) {
-                const container = document.getElementById('news-scroll-container');
-                isDragging = true;
-                container.style.scrollBehavior = 'auto';
-                container.classList.add('grabbing');
-                startX = e.pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-                lastTime = performance.now();
-                lastPos = container.scrollLeft;
-                stopAutoScroll();
-                cancelAnimationFrame(momentumId);
-            }
-
-            function handleMouseMove(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                const container = document.getElementById('news-scroll-container');
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 2;
-
-                const now = performance.now();
-                const timeDiff = now - lastTime;
-                if (timeDiff > 0) {
-                    velocity = (container.scrollLeft - lastPos) / timeDiff;
-                    lastPos = container.scrollLeft;
-                    lastTime = now;
-                }
-
-                container.scrollLeft = scrollLeft - walk;
-            }
-
-            function handleMouseUp() {
-                isDragging = false;
-                const container = document.getElementById('news-scroll-container');
-                container.classList.remove('grabbing');
-                container.style.scrollBehavior = 'smooth';
-
-                if (Math.abs(velocity) > 0.1) {
-                    momentumScroll(velocity, container);
-                } else {
-                    startAutoScroll();
-                }
-
-                velocity = 0;
-            }
-
-            function handleTouchStart(e) {
-                const container = document.getElementById('news-scroll-container');
-                isDragging = true;
-                container.style.scrollBehavior = 'auto';
-                startX = e.touches[0].pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-                lastTime = performance.now();
-                lastPos = container.scrollLeft;
-                stopAutoScroll();
-                cancelAnimationFrame(momentumId);
-            }
-
-            function handleTouchMove(e) {
-                if (!isDragging) return;
-                const container = document.getElementById('news-scroll-container');
-                const x = e.touches[0].pageX - container.offsetLeft;
-                const walk = (x - startX) * 2;
-
-                const now = performance.now();
-                const timeDiff = now - lastTime;
-                if (timeDiff > 0) {
-                    velocity = (container.scrollLeft - lastPos) / timeDiff;
-                    lastPos = container.scrollLeft;
-                    lastTime = now;
-                }
-
-                container.scrollLeft = scrollLeft - walk;
-            }
-
-            function handleTouchEnd() {
-                isDragging = false;
-                const container = document.getElementById('news-scroll-container');
-                container.style.scrollBehavior = 'smooth';
-
-                if (Math.abs(velocity) > 0.1) {
-                    momentumScroll(velocity, container);
-                } else {
-                    startAutoScroll();
-                }
-
-                velocity = 0;
-            }
-
-            // Mulai auto scroll ketika halaman dimuat
-            document.addEventListener('DOMContentLoaded', () => {
-                startAutoScroll();
-
-                const container = document.getElementById('news-scroll-container');
-                container.addEventListener('mouseenter', stopAutoScroll);
-                container.addEventListener('mouseleave', () => {
-                    if (!isDragging) startAutoScroll();
-                });
-            });
-        </script>
-        <!-- Berita end -->
-        <!-- Berita card 2 start -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-10 md:px-20">
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x360">
-                    <div class="absolute top-0 right-0 bg-indigo-500 text-white font-bold px-2 py-1 m-2 rounded-md">New
-                    </div>
-                    <div class="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">3 min
-                        read
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="text-lg font-medium text-gray-800 mb-2">Title</div>
-                    <p class="text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        auctor, mi sed
-                        egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.</p>
-                </div>
-            </div>
-
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x360">
-                    <div class="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">3 min
-                        read
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="text-lg font-medium text-gray-800 mb-2">Title</div>
-                    <p class="text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        auctor, mi sed
-                        egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.</p>
-                </div>
-            </div>
-
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x360">
-                    <div class="absolute top-0 right-0 bg-indigo-500 text-white font-bold px-2 py-1 m-2 rounded-md">New
-                    </div>
-                    <div class="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">3 min
-                        read
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="text-lg font-medium text-gray-800 mb-2">Title</div>
-                    <p class="text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        auctor, mi sed
-                        egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x360">
-                    <div class="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">3 min
-                        read
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="text-lg font-medium text-gray-800 mb-2">Title</div>
-                    <p class="text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        auctor, mi sed
-                        egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.</p>
-                </div>
-            </div>
-
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x360">
-                    <div class="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">3 min
-                        read
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="text-lg font-medium text-gray-800 mb-2">Title</div>
-                    <p class="text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        auctor, mi sed
-                        egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.</p>
-                </div>
-            </div>
-
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x360">
-                    <div class="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">3 min
-                        read
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="text-lg font-medium text-gray-800 mb-2">Title</div>
-                    <p class="text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        auctor, mi sed
-                        egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.</p>
-                </div>
-            </div>
-
-
-        </div>
-        <!-- Berita card 2 end -->
-
-
-    </div>
-</div>
-
-
-<!-- End Body -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuBtn = document.getElementById('mobile-menu-button');
-        const menu = document.getElementById('main-nav');
-        menuBtn?.addEventListener('click', function () {
-            menu.classList.toggle('hidden');
-        });
-    });
-</script>
-<!-- Section Bottom start -->
-<footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-    <div class="container mx-auto px-4 py-12">
-        <div class="flex flex-col md:flex-row justify-between">
-            <!-- Branding Section -->
-            <div class="mb-8 md:mb-0">
-                <a href="#" class="flex items-center">
-                    <span class="text-2xl font-bold text-gray-800 dark:text-white">Dewan Masjid Indonesia</span>
-                </a>
-                <p class="mt-2 text-gray-600 dark:text-gray-300 max-w-xs">
-                    Website Resmi dari DMI
+    <!-- Jadwal Sholat Section -->
+    <section id="jadwal-sholat" class="py-16 bg-gradient-to-b from-white to-green-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-green-800 mb-3 relative inline-block">
+                    <span class="relative z-10">Jadwal Sholat Hari Ini</span>
+                    <span class="absolute bottom-0 left-0 w-full h-2 bg-green-200/70 z-0 -rotate-1"></span>
+                </h2>
+                <p class="text-lg text-gray-600">
+                    {{ now()->translatedFormat('l, d F Y') }}
                 </p>
             </div>
 
-            <!-- Links Sections -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <!-- Documentation Column -->
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Dokumentasi</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#"
-                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-                                Contoh</a></li>
-                </div>
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="grid grid-cols-2 md:grid-cols-6 gap-px bg-gray-200">
+                    @php
+                        date_default_timezone_set('Asia/Jakarta');
+                        $currentTime = now()->format('H:i');
+                        
+                        $prayerTimes = [
+                            'Imsak' => ['time' => '04:20', 'active' => ($currentTime >= '04:20' && $currentTime < '04:30')],
+                            'Subuh' => ['time' => '04:30', 'active' => ($currentTime >= '04:30' && $currentTime < '05:50')],
+                            'Dzuhur' => ['time' => '12:00', 'active' => ($currentTime >= '12:00' && $currentTime < '14:00')],
+                            'Ashar' => ['time' => '15:15', 'active' => ($currentTime >= '15:15' && $currentTime < '17:15')],
+                            'Maghrib' => ['time' => '18:20', 'active' => ($currentTime >= '18:20' && $currentTime < '19:50')],
+                            'Isya' => ['time' => '19:35', 'active' => ($currentTime >= '19:35' || $currentTime < '04:20')],
+                        ];
+                    @endphp
 
-                <!-- Help & Support Column -->
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Bantuan & Kontak</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#"
-                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Telepon/WA
-                                : 0821 3457 5163</a></li>
-                        <li><a href="#"
-                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Email
-                                : dmijateng@gmail.com</a></li>
-                    </ul>
-                </div>
-
-                <!-- Follow Us Column -->
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Ikuti Kami</h3>
-                    <ul class="space-y-2">
-                        <li><a href="https://uiverse.io/AKAspidey01/selfish-puma-31"><button
-                                    class="relative w-12 h-12 rounded-full group">
-                                    <div
-                                        class="floater w-full h-full absolute top-0 left-0 bg-violet-400 rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl">
-                                    </div>
-                                    <div
-                                        class="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-violet-400 rounded-full">
-                                        <svg fill="none" viewBox="0 0 22 22" height="22" width="22"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M21.94 6.46809C21.8884 5.2991 21.6994 4.49551 21.4285 3.79911C21.1492 3.05994 20.7194 2.39818 20.1564 1.84802C19.6062 1.28932 18.9401 0.855163 18.2094 0.580194C17.5091 0.309437 16.7096 0.120336 15.5407 0.0688497C14.363 0.0128932 13.9891 0 11.0022 0C8.01527 0 7.64141 0.0128932 6.46808 0.064466C5.29914 0.116039 4.49551 0.305225 3.79932 0.57581C3.05994 0.855163 2.39818 1.28494 1.84802 1.84802C1.28932 2.39813 0.855377 3.06428 0.580193 3.7949C0.309437 4.49551 0.120379 5.2948 0.0688496 6.4637C0.0129362 7.64141 0 8.01527 0 11.0022C0 13.9891 0.0129362 14.363 0.0644659 15.5363C0.116039 16.7053 0.305225 17.5089 0.576025 18.2053C0.855377 18.9444 1.28932 19.6062 1.84802 20.1564C2.39818 20.7151 3.06432 21.1492 3.79494 21.4242C4.49547 21.6949 5.29476 21.884 6.46391 21.9355C7.63702 21.9873 8.0111 22 10.998 22C13.9849 22 14.3588 21.9873 15.5321 21.9355C16.7011 21.884 17.5047 21.695 18.2009 21.4242C18.9321 21.1415 19.5961 20.7091 20.1505 20.1548C20.7048 19.6005 21.1373 18.9365 21.42 18.2053C21.6906 17.5047 21.8798 16.7052 21.9314 15.5363C21.9829 14.363 21.9958 13.9891 21.9958 11.0022C21.9958 8.01527 21.9914 7.64137 21.94 6.46809ZM19.9588 15.4503C19.9114 16.5248 19.731 17.105 19.5805 17.4918C19.2109 18.4502 18.4502 19.2109 17.4918 19.5805C17.105 19.731 16.5206 19.9114 15.4503 19.9586C14.29 20.0103 13.942 20.023 11.0066 20.023C8.07118 20.023 7.71881 20.0103 6.56259 19.9586C5.48816 19.9114 4.90796 19.731 4.52117 19.5805C4.04425 19.4043 3.61014 19.1249 3.25772 18.7596C2.89242 18.4029 2.61306 17.9731 2.43677 17.4961C2.28635 17.1094 2.10589 16.5248 2.05874 15.4547C2.007 14.2943 1.99428 13.9461 1.99428 11.0107C1.99428 8.07535 2.007 7.72298 2.05874 6.56698C2.10589 5.49254 2.28635 4.91235 2.43677 4.52555C2.61306 4.04842 2.89241 3.61439 3.26211 3.26189C3.61865 2.89658 4.04842 2.61723 4.52555 2.44115C4.91235 2.29073 5.49692 2.11023 6.56697 2.06291C7.72736 2.01134 8.07556 1.99844 11.0107 1.99844C13.9505 1.99844 14.2985 2.01134 15.4547 2.06291C16.5292 2.11027 17.1093 2.29069 17.4961 2.44111C17.9731 2.61723 18.4072 2.89658 18.7596 3.26189C19.1249 3.61865 19.4042 4.04842 19.5805 4.52555C19.731 4.91235 19.9114 5.49671 19.9587 6.56698C20.0103 7.72736 20.0232 8.07535 20.0232 11.0107C20.0232 13.9461 20.0104 14.29 19.9588 15.4503Z"
-                                                class="group-hover:fill-[#ffff] fill-white duration-300"></path>
-                                            <path
-                                                d="M11.0026 5.35054C7.88252 5.35054 5.35107 7.88182 5.35107 11.0021C5.35107 14.1223 7.88252 16.6536 11.0026 16.6536C14.1227 16.6536 16.6541 14.1223 16.6541 11.0021C16.6541 7.88182 14.1227 5.35054 11.0026 5.35054ZM11.0026 14.668C8.97844 14.668 7.33654 13.0264 7.33654 11.0021C7.33654 8.97774 8.97844 7.33609 11.0025 7.33609C13.0269 7.33609 14.6685 8.97774 14.6685 11.0021C14.6685 13.0264 13.0268 14.668 11.0026 14.668ZM18.1971 5.12706C18.1971 5.85569 17.6063 6.44646 16.8775 6.44646C16.1489 6.44646 15.5581 5.85569 15.5581 5.12706C15.5581 4.39833 16.1489 3.80774 16.8775 3.80774C17.6063 3.80774 18.1971 4.39829 18.1971 5.12706Z"
-                                                class="group-hover:fill-[#ffff] fill-white duration-300"></path>
-                                        </svg>
-                                    </div>
-                                </button></a>
-                            <button class="relative w-12 h-12 rounded-full group">
-                                <div
-                                    class="floater w-full h-full absolute top-0 left-0 bg-red-400 rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl">
+                    @foreach($prayerTimes as $name => $prayer)
+                        <div class="bg-white p-4 text-center group transition-all duration-300 
+                                    {{ $prayer['active'] ? 'bg-green-700 text-white scale-105 z-10 shadow-lg' : 'hover:bg-green-50' }}">
+                            <div class="flex flex-col items-center h-full justify-between">
+                                <h3 class="text-lg font-semibold mb-2 {{ $prayer['active'] ? 'text-gray-900' : 'text-green-700' }}">
+                                    {{ $name }}
+                                </h3>
+                                <div class="text-2xl font-bold {{ $prayer['active'] ? 'text-gray-900' : 'text-gray-800' }}">
+                                    {{ $prayer['time'] }}
                                 </div>
-                                <div
-                                    class="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-red-400 rounded-full">
-                                    <svg fill="none" viewBox="0 0 30 22" height="22" width="30"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M18.9945 9.70081L12.5775 6.18974C12.2085 5.98783 11.7724 5.99538 11.4108 6.20965C11.0489 6.42415 10.833 6.80311 10.833 7.22372V14.1857C10.833 14.6043 11.0476 14.9826 11.407 15.1973C11.5947 15.3094 11.8028 15.3657 12.0113 15.3657C12.2064 15.3654 12.3984 15.3166 12.57 15.2237L18.9872 11.7731C19.1742 11.6726 19.3305 11.5235 19.4397 11.3415C19.5489 11.1596 19.6069 10.9515 19.6077 10.7393C19.6086 10.527 19.552 10.3184 19.4441 10.1356C19.3362 9.95283 19.1808 9.80259 18.9945 9.70081ZM12.5352 13.3099V8.10662L17.3312 10.7308L12.5352 13.3099Z"
-                                            class="group-hover:fill-[#ffff] fill-white duration-300"></path>
-                                        <path
-                                            d="M28.8325 5.19239L28.8312 5.17912C28.8065 4.94533 28.5617 2.86581 27.5508 1.80806C26.3822 0.56396 25.0574 0.412829 24.4203 0.340384C24.3722 0.335071 24.3241 0.329304 24.276 0.323081L24.2253 0.317805C20.3854 0.0385769 14.5862 0.000453846 14.5282 0.000226923L14.5231 0L14.518 0.000226923C14.4599 0.000453846 8.66074 0.0385769 4.7862 0.317805L4.73503 0.323081C4.69379 0.328641 4.64834 0.333747 4.59893 0.339533C3.96916 0.412149 2.65857 0.563563 1.48674 1.8526C0.523851 2.89905 0.245531 4.93404 0.216938 5.16272L0.213648 5.19239C0.204968 5.28969 0 7.60572 0 9.93077V12.1042C0 14.4293 0.204968 16.7453 0.213648 16.8428L0.21518 16.8574C0.239801 17.0875 0.484424 19.1289 1.49071 20.1871C2.58947 21.3895 3.97869 21.5486 4.72595 21.6341C4.84407 21.6476 4.94578 21.6592 5.01511 21.6714L5.08228 21.6807C7.29943 21.8916 14.2509 21.9955 14.5456 21.9998L14.5545 22L14.5634 21.9998C14.6214 21.9995 20.4204 21.9614 24.2604 21.6822L24.3111 21.6769C24.3597 21.6705 24.4142 21.6647 24.474 21.6585C25.1003 21.592 26.4037 21.454 27.5594 20.1823C28.5223 19.1358 28.8008 17.1007 28.8292 16.8723L28.8325 16.8426C28.8412 16.7451 29.0464 14.4293 29.0464 12.1042V9.93077C29.0461 7.60566 28.8412 5.28991 28.8325 5.19239ZM27.344 12.1042C27.344 14.2563 27.1561 16.4725 27.1383 16.6759C27.0661 17.2364 26.7724 18.5239 26.3033 19.0338C25.58 19.8296 24.837 19.9085 24.2945 19.9659C24.234 19.9721 24.1736 19.9789 24.1132 19.9863C20.3991 20.2549 14.8189 20.296 14.5619 20.2976C14.2736 20.2934 7.42372 20.1886 5.2742 19.989C5.16403 19.971 5.04501 19.9572 4.91963 19.9431C4.2834 19.8702 3.41247 19.7704 2.74282 19.0338L2.72705 19.017C2.26611 18.5368 1.98092 17.3328 1.90842 16.6826C1.89492 16.5288 1.70215 14.2864 1.70215 12.1042V9.93077C1.70215 7.78124 1.88964 5.56738 1.9078 5.35975C1.99403 4.69957 2.29317 3.49007 2.74282 3.00117C3.48826 2.18124 4.27432 2.09041 4.7942 2.03034C4.84384 2.02455 4.89013 2.01927 4.93291 2.01371C8.70107 1.74379 14.3214 1.70368 14.5231 1.70215C14.7247 1.70345 20.3431 1.74379 24.0778 2.01371C24.1236 2.0195 24.1737 2.02523 24.2275 2.03147C24.7623 2.0924 25.5705 2.18459 26.3122 2.9757L26.319 2.98301C26.78 3.46324 27.0652 4.68828 27.1376 5.35152C27.1505 5.4967 27.344 7.74397 27.344 9.93077V12.1042Z"
-                                            class="group-hover:fill-[#ffff] fill-white duration-300"></path>
-                                    </svg>
+                                <div class="text-sm {{ $prayer['active'] ? 'text-gray-900' : 'text-gray-500' }}">
+                                    WIB
                                 </div>
-                            </button>
-                        </li>
-                        <li><a href="#"><button class="relative w-12 h-12 rounded-full group">
-                                    <div
-                                        class="floater w-full h-full absolute top-0 left-0 bg-black rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl">
+                                @if($prayer['active'])
+                                    <div class="mt-2 animate-pulse">
+                                        <span class="inline-block px-2 py-1 text-xs font-bold bg-white text-green-700 rounded-full">
+                                            WAKTU SHOLAT
+                                        </span>
                                     </div>
-                                    <div
-                                        class="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-black rounded-full">
-                                        <svg fill="none" viewBox="0 0 22 22" height="22" width="22"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12.8115 9.3155L20.8253 0H18.9263L11.9679 8.08852L6.41015 0H0L8.40433 12.2313L0 22H1.89914L9.24745 13.4583L15.1168 22H21.5269L12.811 9.3155H12.8115ZM10.2103 12.339L9.35878 11.1211L2.58343 1.42964H5.5004L10.9682 9.25094L11.8197 10.4689L18.9272 20.6354H16.0102L10.2103 12.3395V12.339Z"
-                                                class="group-hover:fill-[#ffff] fill-white duration-300"></path>
-                                        </svg>
-                                    </div>
-                                </button></a>
-                        </li>
-                        <li><a href="#"><button class="relative w-12 h-12 rounded-full group">
-                                    <div
-                                        class="floater w-full h-full absolute top-0 left-0 bg-blue-500 rounded-full duration-300 group-hover:-top-8 group-hover:shadow-2xl">
-                                    </div>
-                                    <div
-                                        class="icon relative z-10 w-full h-full flex items-center justify-center border-2 border-blue-500 rounded-full">
-                                        <svg fill="none" viewBox="0 0 13 22" height="22" width="13"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M7.71289 22H4.1898C3.60134 22 3.12262 21.5213 3.12262 20.9328V12.9863H1.06717C0.478672 12.9863 0 12.5074 0 11.9191V8.514C0 7.9255 0.478672 7.44683 1.06717 7.44683H3.12262V5.74166C3.12262 4.05092 3.6535 2.6125 4.65773 1.58207C5.6665 0.546992 7.07627 0 8.7346 0L11.4214 0.00438281C12.0089 0.00537109 12.4868 0.484086 12.4868 1.07151V4.23311C12.4868 4.82157 12.0083 5.30028 11.4199 5.30028L9.61091 5.30093C9.05919 5.30093 8.91868 5.41153 8.88864 5.44543C8.83914 5.50172 8.78023 5.66062 8.78023 6.09954V7.4467H11.284C11.4725 7.4467 11.6551 7.49319 11.812 7.58076C12.1506 7.76995 12.3611 8.12762 12.3611 8.51417L12.3597 11.9193C12.3597 12.5074 11.881 12.9861 11.2926 12.9861H8.78019V20.9328C8.78023 21.5213 8.30139 22 7.71289 22ZM4.41233 20.7103H7.49031V12.4089C7.49031 12.016 7.81009 11.6964 8.20282 11.6964H11.07L11.0712 8.73662H8.20265C7.80991 8.73662 7.49031 8.41706 7.49031 8.02411V6.09959C7.49031 5.59573 7.54153 5.0227 7.92185 4.59198C8.38144 4.07133 9.10568 4.01126 9.61056 4.01126L11.1971 4.01057V1.29375L8.73357 1.28975C6.06848 1.28975 4.41238 2.99574 4.41238 5.7417V8.02407C4.41238 8.4168 4.09277 8.73658 3.7 8.73658H1.28975V11.6964H3.7C4.09277 11.6964 4.41238 12.016 4.41238 12.4089L4.41233 20.7103Z"
-                                                class="group-hover:fill-[#ffff] fill-white duration-300"></path>
-                                        </svg>
-                                    </div>
-                                </button></a>
-                        </li>
-                    </ul>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-
-                <!-- Legal Column -->
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">LEGAL</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#"
-                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">License
-                                (EULA)</a></li>
-                        <li><a href="#"
-                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Privacy
-                                policy</a></li>
-                        <li><a href="#"
-                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Terms
-                                & conditions</a></li>
-                        <li><a href="#"
-                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Brand
-                                guideline</a></li>
-                    </ul>
+                
+                <div class="p-4 bg-gray-50 text-center">
+                    <p class="text-sm text-gray-600">
+                        Jadwal sholat berdasarkan lokasi Masjid Agung Jawa Tengah
+                    </p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Pro Version Section -->
-        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-green-700">
+    <!-- Profil Pengurus Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-green-800 mb-3">
+                    Pengurus DMI Jateng
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Kenali para pengurus yang mengelola dan memakmurkan masjid-masjid di Jawa Tengah
+                </p>
+            </div>
 
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Ketua -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://source.unsplash.com/random/600x400/?portrait,muslim" 
+                             alt="Ketua DMI" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <h3 class="text-xl font-bold text-white">Ust. Ahmad Maulana</h3>
+                            <p class="text-green-300 font-medium">Ketua DMI Jateng</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            Memimpin DMI Jateng sejak 2018 dengan visi memakmurkan masjid sebagai pusat peradaban umat.
+                        </p>
+                        <a href="#" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
+                            Lihat Profil Lengkap
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sekretaris -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://source.unsplash.com/random/600x400/?portrait,muslim,man" 
+                             alt="Sekretaris DMI" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <h3 class="text-xl font-bold text-white">Dr. Muhammad Faisal</h3>
+                            <p class="text-green-300 font-medium">Sekretaris DMI Jateng</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            Mengkoordinasikan seluruh kegiatan DMI Jateng dan memastikan program berjalan sesuai rencana.
+                        </p>
+                        <a href="#" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
+                            Lihat Profil Lengkap
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bendahara -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://source.unsplash.com/random/600x400/?portrait,muslim,woman" 
+                             alt="Bendahara DMI" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <h3 class="text-xl font-bold text-white">Hj. Siti Aminah</h3>
+                            <p class="text-green-300 font-medium">Bendahara DMI Jateng</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            Mengelola keuangan DMI Jateng dengan transparan dan akuntabel untuk kemaslahatan umat.
+                        </p>
+                        <a href="#" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
+                            Lihat Profil Lengkap
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="{{ url('/pengurus') }}" 
+                   class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md transition-all duration-300">
+                    Lihat Seluruh Pengurus
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </a>
+            </div>
         </div>
-    </div>
-</footer>
-<!-- Section Bottom end -->
+    </section>
 
-<!-- Footer Start -->
-<footer class="bg-zinc-50 text-center dark:bg-green-700 lg:text-left">
-    <div class="bg-black/5 p-4 text-center text-surface dark:text-white">
-        © 2025
-        <a href="https://tw-elements.com/">DMI Jawa Tengah</a>
-    </div>
-</footer>
-<!-- Footer End -->
+    <!-- Lokasi Masjid Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center gap-8 max-w-6xl mx-auto">
+                <div class="lg:w-1/2">
+                    <div class="bg-green-700 rounded-xl p-8 text-white shadow-lg h-full">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4">Masjid Agung Jawa Tengah</h2>
+                        <p class="text-lg mb-6">
+                            Komplek Masjid Agung Jawa Tengah (MAJT), Jalan Gajah Raya, Kota Semarang
+                        </p>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <div>
+                                    <h3 class="font-semibold">Alamat Lengkap</h3>
+                                    <p class="text-green-100">Jl. Gajah Raya No.1, Sambirejo, Kec. Gayamsari, Kota Semarang, Jawa Tengah 50166</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                                <div>
+                                    <h3 class="font-semibold">Telepon</h3>
+                                    <p class="text-green-100">(024) 1234567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <div>
+                                    <h3 class="font-semibold">Email</h3>
+                                    <p class="text-green-100">info@dmijawatengah.id</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="https://maps.app.goo.gl/hpTASvVzyLjQyySY7" target="_blank" 
+                           class="inline-flex items-center bg-white text-green-700 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 transition duration-300">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                            </svg>
+                            Buka di Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 h-96 rounded-xl overflow-hidden shadow-xl">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.225201202107!2d110.4451181!3d-6.9835851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708cb76c98241f%3A0x6afb73af24d41bf9!2sMasjid%20Agung%20Jawa%20Tengah%20(MAJT)!5e0!3m2!1sen!2sid!4v1712345678901!5m2!1sen!2sid" 
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Berita Terkini Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-green-800 mb-2">Berita Terkini</h2>
+                    <p class="text-lg text-gray-600">Update terbaru seputar kegiatan DMI Provinsi Jawa Tengah</p>
+                </div>
+                <a href="{{ route('berita.publicIndex') }}" 
+                   class="mt-4 md:mt-0 inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-300">
+                    Lihat Semua Berita
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Featured News (Carousel) -->
+            <div class="relative mb-16">
+                <div class="swiper-container news-carousel">
+                    <div class="swiper-wrapper">
+                        @foreach($beritas->where('is_published', true)->sortByDesc('created_at')->take(5) as $berita)
+                        <div class="swiper-slide">
+                            <div class="relative h-96 rounded-xl overflow-hidden group">
+                                <img src="{{ $berita->image ? asset('storage/' . $berita->image) : 'https://source.unsplash.com/random/1200x800/?mosque' }}" 
+                                     alt="{{ $berita->title }}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 p-8 w-full">
+                                    <div class="mb-4">
+                                        <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-semibold rounded-full">
+                                            {{ $berita->tag ?? 'Berita' }}
+                                        </span>
+                                        <span class="ml-2 text-white text-sm">
+                                            {{ $berita->created_at->diffForHumans() }}
+                                        </span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-white mb-3">{{ $berita->title }}</h3>
+                                    <p class="text-white/90 mb-4 line-clamp-2">{{ Str::limit(strip_tags($berita->content), 150) }}</p>
+                                    <a href="{{ route('berita.show', $berita->id) }}" 
+                                       class="inline-flex items-center text-white font-medium hover:text-green-300 transition duration-300">
+                                        Baca Selengkapnya
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <!-- Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <!-- Grid Berita -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($beritas->where('is_published', true)->sortByDesc('created_at')->skip(5)->take(6) as $berita)
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ $berita->image ? asset('storage/' . $berita->image) : 'https://source.unsplash.com/random/600x400/?islamic' }}" 
+                             alt="{{ $berita->title }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 right-4">
+                            <span class="inline-block px-2 py-1 bg-green-600 text-white text-xs font-semibold rounded-full">
+                                {{ $berita->tag ?? 'Berita' }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            {{ $berita->created_at->diffForHumans() }}
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">{{ $berita->title }}</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">{{ Str::limit(strip_tags($berita->content), 120) }}</p>
+                        <a href="{{ route('berita.show', $berita->id) }}" 
+                           class="inline-flex items-center text-green-600 hover:text-green-800 font-medium transition duration-300">
+                            Baca Selengkapnya
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistik Section -->
+    <section class="py-16 bg-green-700 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3">DMI Jateng dalam Angka</h2>
+                <p class="text-lg text-green-100 max-w-2xl mx-auto">
+                    Kontribusi nyata kami dalam memakmurkan masjid di Jawa Tengah
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="1250">0</div>
+                    <div class="text-lg">Masjid Terdaftar</div>
+                </div>
+                
+                <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="350">0</div>
+                    <div class="text-lg">Kegiatan Tahunan</div>
+                </div>
+                
+                <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="42">0</div>
+                    <div class="text-lg">Kabupaten/Kota</div>
+                </div>
+                
+                <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
+                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="25">0</div>
+                    <div class="text-lg">Tahun Berkarya</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-green-800 mb-3">Galeri Kegiatan</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Dokumentasi berbagai kegiatan yang telah kami selenggarakan
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach(range(1, 8) as $i)
+                <div class="relative group overflow-hidden rounded-xl aspect-square">
+                    <img src="https://source.unsplash.com/random/600x600/?mosque,event,{{ $i }}" 
+                         alt="Galeri Kegiatan {{ $i }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#" 
+                   class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md transition duration-300">
+                    Lihat Galeri Lengkap
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+@extends('partials.footer')
+
+@push('styles')
+<style>
+    .animate-fade-in-down {
+        animation: fadeInDown 1s ease-out forwards;
+    }
+    
+    .animate-fade-in-down.delay-100 {
+        animation-delay: 0.1s;
+    }
+    
+    .animate-fade-in-down.delay-200 {
+        animation-delay: 0.2s;
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 1s ease-out forwards;
+        animation-delay: 0.3s;
+    }
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+@endpush
+
+@push('scripts')
+<!-- Swiper JS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    // Initialize Swiper
+    document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.news-carousel', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+        
+        // Animated counter
+        const counters = document.querySelectorAll('.animate-count');
+        const speed = 200;
+        
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+            const increment = target / speed;
+            
+            if (count < target) {
+                const updateCount = () => {
+                    const currentCount = +counter.innerText;
+                    const newCount = Math.ceil(currentCount + increment);
+                    
+                    if (newCount < target) {
+                        counter.innerText = newCount;
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                updateCount();
+            }
+        });
+    });
+</script>
+@endpush

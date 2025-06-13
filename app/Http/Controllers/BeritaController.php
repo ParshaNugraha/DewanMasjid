@@ -9,13 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class BeritaController extends Controller
 {
-
     public function __construct()
     {
-        // Middleware 'auth' dan cek role superadmin hanya untuk method selain publicIndex dan publicShow
         $this->middleware(['auth', 'role:superadmin'])->except(['publicIndex', 'publicShow']);
     }
-
 
     public function index()
     {
@@ -76,7 +73,6 @@ class BeritaController extends Controller
 
         $imagePath = $berita->image;
 
-        // Jika user klik hapus gambar
         if ($request->input('remove_image') == '1') {
             if ($berita->image && \Storage::disk('public')->exists($berita->image)) {
                 \Storage::disk('public')->delete($berita->image);
@@ -84,9 +80,7 @@ class BeritaController extends Controller
             $imagePath = null;
         }
 
-        // Jika ada upload gambar baru
         if ($request->hasFile('image')) {
-            // Hapus gambar lama dulu jika ada
             if ($berita->image && \Storage::disk('public')->exists($berita->image)) {
                 \Storage::disk('public')->delete($berita->image);
             }
@@ -97,7 +91,6 @@ class BeritaController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'image' => $imagePath ?? $request->input('image_path'),
-
             'tag' => $request->tag,
             'read_duration' => $request->read_duration ?? 3,
             'is_published' => $request->has('is_published'),
@@ -105,7 +98,6 @@ class BeritaController extends Controller
 
         return redirect()->route('superadmin.berita.index')->with('success', 'Berita berhasil diperbarui.');
     }
-
 
     public function destroy($id)
     {
@@ -115,21 +107,79 @@ class BeritaController extends Controller
         return back()->with('success', 'Berita berhasil dihapus.');
     }
 
-
-    // =============================
-    // Bagian Public (Tampilan Berita)
-    // =============================
+    // ========== PUBLIC METHODS ==========
     public function publicIndex(Request $request)
     {
         VisitorHelper::recordVisitor($request, 'berita');
-        $beritas = Berita::where('is_published', true)->latest()->get();
-        return view('berita.index', compact('beritas'));
+
+        // Query dasar
+        $query = Berita::where('is_published', true);
+
+        // Filter pencarian
+        if ($request->has('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('content', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Filter tag
+        if ($request->has('tag') && $request->tag != '') {
+            $query->where('tag', $request->tag);
+        }
+
+        // Sorting
+        $sort = $request->get('sort', 'newest');
+        $beritas = ($sort === 'oldest')
+            ? $query->oldest()->paginate(9)
+            : $query->latest()->paginate(9);
+
+        // Ambil semua tag unik untuk dropdown filter
+        $tags = Berita::where('is_published', true)
+            ->whereNotNull('tag')
+            ->distinct()
+            ->pluck('tag')
+            ->filter()
+            ->values();
+
+        return view('berita.index', compact('beritas', 'tags'));
     }
 
     public function publicShow(Request $request, $id)
     {
         VisitorHelper::recordVisitor($request, 'berita');
-        $berita = Berita::where('is_published', true)->findOrFail($id);
-        return view('berita.show', compact('berita'));
+
+        $berita = Berita::where('is_published', true)
+            ->findOrFail($id);
+
+        // Ambil 2 berita terkait dengan tag yang sama
+        $beritaTerkait = Berita::where('is_published', true)
+            ->where('id', '!=', $berita->id)
+            ->where('tag', $berita->tag)
+            ->latest()
+            ->take(2)
+            ->get();
+
+        // Jika berita terkait kurang dari 2, ambil berita terbaru
+        if ($beritaTerkait->count() < 2) {
+            $additional = Berita::where('is_published', true)
+                ->where('id', '!=', $berita->id)
+                ->latest()
+                ->take(2 - $beritaTerkait->count())
+                ->get();
+
+            $beritaTerkait = $beritaTerkait->merge($additional);
+        }
+
+        return view('berita.show', compact('berita', 'beritaTerkait'));
+    }
+    public function tentangDmi()
+    {
+        $beritas = Berita::where('is_published', true)
+            ->where('tag', 'DMI') // Filter khusus berita bertag DMI
+            ->orderBy('created_at', 'desc')
+            ->paginate(9); // Sesuaikan dengan kebutuhan pagination
+
+        return view('tentangdmi.index', compact('beritas'));
     }
 }
