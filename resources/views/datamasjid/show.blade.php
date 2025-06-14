@@ -164,7 +164,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                             </svg>
                                             <h3 class="text-lg font-bold text-gray-800 mb-1">Data Masjid Tersalin</h3>
-                                            <p class="text-gray-600 mb-4">Anda dapat membagikan Data Masjid sekarang</p>
+                                            <p class="text-gray-600 mb-4">Anda dapat membagikan Data Masjid ini</p>
                                             <button onclick="this.closest('div[class*=\\'fixed\\']').remove()" 
                                                 class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
                                                 Tutup

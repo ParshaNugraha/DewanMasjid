@@ -32,8 +32,7 @@
                     class="fixed top-4 right-4 z-50 p-4 bg-green-50 border border-green-200 text-green-600 rounded-lg shadow-lg transform transition-all duration-300 opacity-0 translate-y-2">
                     <div class="flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 13l4 4L19 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                         {{ session('success') }}
                     </div>
@@ -93,9 +92,19 @@
             <!-- KANAN: Tombol Login & Daftar -->
             <div class="hidden md:flex items-center space-x-2">
                 <button onclick="showLoginPopup()"
-                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200">Masuk</button>
+                    class="flex items-center gap-2 bg-gradient-to-r from-green-400 to-green-500 text-white px-5 py-2.5 rounded-lg hover:from-green-500 hover:to-green-600 transition-all duration-300 shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    </svg>
+                    Masuk
+                </button>
                 <button onclick="showRegisterPopup()"
-                    class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 transition-colors duration-200">Daftar</button>
+                    class="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-5 py-2.5 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-md hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                    Daftar
+                </button>
             </div>
 
             <!-- Mobile Button -->
@@ -108,52 +117,68 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pb-4">
-            <ul class="space-y-2">
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pb-4 shadow-lg rounded-b-lg">
+            <ul class="space-y-3">
                 <li>
                     <a href="{{ url('/') }}"
-                        class="block py-2 {{ request()->is('/') ? 'text-green-800 font-semibold' : 'text-gray-600' }}">
-                        Beranda
+                        class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('/') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
+                        <i class="fas fa-home mr-2"></i> Beranda
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/berita') }}"
-                        class="block py-2 {{ request()->is('berita*') ? 'text-green-800 font-semibold' : 'text-gray-600' }}">
-                        Berita
+                        class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('berita*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
+                        <i class="fas fa-newspaper mr-2"></i> Berita
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/tentangdmi') }}"
-                        class="block py-2 {{ request()->is('tentangdmi*') ? 'text-green-800 font-semibold' : 'text-gray-600' }}">
-                        Tentang DMI Jateng
+                        class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('tentangdmi*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
+                        <i class="fas fa-info-circle mr-2"></i> Tentang DMI Jateng
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/masjid') }}"
-                        class="block py-2 {{ request()->is('masjid*') ? 'text-green-800 font-semibold' : 'text-gray-600' }}">
-                        Data Masjid
+                        class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('masjid*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
+                        <i class="fas fa-mosque mr-2"></i> Data Masjid
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/pengurus') }}"
-                        class="block py-2 {{ request()->is('pengurus*') ? 'text-green-800 font-semibold' : 'text-gray-600' }}">
-                        Pengurus
+                        class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('pengurus*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
+                        <i class="fas fa-users mr-2"></i> Pengurus
                     </a>
                 </li>
                 <li>
-                    <button onclick="showLoginPopup()" class="block py-2 text-green-600 w-full text-left">Masuk</button>
+                    <a href="{{ url('/galeri') }}"
+                        class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('galeri*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
+                        <i class="fas fa-images mr-2"></i> Galeri
+                    </a>
+                </li>
+                <li class="pt-2 border-t border-gray-100">
+                    <button onclick="showLoginPopup()" 
+                        class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-green-100 text-green-700 hover:bg-green-200 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                        </svg>
+                        <span>Masuk</span>
+                    </button>
                 </li>
                 <li>
                     <button onclick="showRegisterPopup()"
-                        class="block py-2 text-green-700 w-full text-left">Daftar</button>
+                        class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                        </svg>
+                        <span>Daftar</span>
+                    </button>
                 </li>
             </ul>
         </div>
     </div>
 
     <!-- Popup Overlay -->
-    <div id="popup-overlay"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden transition-opacity duration-300">
+    <div id="popup-overlay" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
         <!-- Login Popup -->
         <div id="login-popup"
             class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 hidden transform transition-all duration-300">

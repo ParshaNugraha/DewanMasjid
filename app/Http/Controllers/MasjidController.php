@@ -23,4 +23,26 @@ class MasjidController extends Controller
         $masjid = Masjid::findOrFail($id);
         return view('datamasjid.show', compact('masjid'));
     }
+
+    // Fungsi untuk pencarian masjid
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        
+        $masjids = Masjid::whereHas('user', function($query) {
+                $query->where('status', 'approved');
+            })
+            ->where(function($query) use ($search) {
+                $query->where('nama_masjid', 'like', "%$search%")
+                    ->orWhere('alamat', 'like', "%$search%")
+                    ->orWhere('kecamatan', 'like', "%$search%")
+                    ->orWhere('kabupaten', 'like', "%$search%")
+                    ->orWhere('topologi_masjid', 'like', "%$search%")
+                    ->orWhere('tahun', 'like', "%$search%");
+            })
+            ->paginate()
+            ->appends(['search' => $search]);
+
+        return view('datamasjid.index', compact('masjids'));
+    }
 }

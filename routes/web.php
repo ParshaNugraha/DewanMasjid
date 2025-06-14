@@ -125,5 +125,12 @@ Route::prefix('galeri')->name('galeri.')->group(function () {
     Route::get('/search', [GaleriController::class, 'search'])->name('search');
 });
 
+// Route untuk pencarian data masjid publik
+Route::prefix('datamasjid')->name('datamasjid.')->group(function () {
+    Route::get('/search', [MasjidController::class, 'search'])->name('search');
+});
+
+
+
 
 
