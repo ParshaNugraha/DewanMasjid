@@ -62,32 +62,63 @@
                         $currentTime = now()->format('H:i');
                         
                         $prayerTimes = [
-                            'Imsak' => ['time' => '04:20', 'active' => ($currentTime >= '04:20' && $currentTime < '04:30')],
-                            'Subuh' => ['time' => '04:30', 'active' => ($currentTime >= '04:30' && $currentTime < '05:50')],
-                            'Dzuhur' => ['time' => '12:00', 'active' => ($currentTime >= '12:00' && $currentTime < '14:00')],
-                            'Ashar' => ['time' => '15:15', 'active' => ($currentTime >= '15:15' && $currentTime < '17:15')],
-                            'Maghrib' => ['time' => '18:20', 'active' => ($currentTime >= '18:20' && $currentTime < '19:50')],
-                            'Isya' => ['time' => '19:35', 'active' => ($currentTime >= '19:35' || $currentTime < '04:20')],
+                            'Imsak' => [
+                                'time' => '04:33', 
+                                'active' => ($currentTime >= '04:33' && $currentTime < '05:47'),
+                                'upcoming' => false // Tidak ada notifikasi untuk Imsak
+                            ],
+                            'Subuh' => [
+                                'time' => '05:47', 
+                                'active' => ($currentTime >= '05:47' && $currentTime < '11:39'),
+                                'upcoming' => ($currentTime >= '05:17' && $currentTime < '05:47')
+                            ],
+                            'Dzuhur' => [
+                                'time' => '11:39', 
+                                'active' => ($currentTime >= '11:39' && $currentTime < '15:01'),
+                                'upcoming' => ($currentTime >= '11:09' && $currentTime < '11:39')
+                            ],
+                            'Ashar' => [
+                                'time' => '15:01', 
+                                'active' => ($currentTime >= '15:01' && $currentTime < '17:31'),
+                                'upcoming' => ($currentTime >= '14:31' && $currentTime < '15:01')
+                            ],
+                            'Maghrib' => [
+                                'time' => '17:31', 
+                                'active' => ($currentTime >= '17:31' && $currentTime < '18:46'),
+                                'upcoming' => ($currentTime >= '17:01' && $currentTime < '17:31')
+                            ],
+                            'Isya' => [
+                                'time' => '18:46', 
+                                'active' => ($currentTime >= '18:46' || $currentTime < '04:33'),
+                                'upcoming' => ($currentTime >= '18:16' && $currentTime < '18:46')
+                            ],
                         ];
                     @endphp
 
                     @foreach($prayerTimes as $name => $prayer)
                         <div class="bg-white p-4 text-center group transition-all duration-300 
-                                    {{ $prayer['active'] ? 'bg-green-700 text-white scale-105 z-10 shadow-lg' : 'hover:bg-green-50' }}">
+                                    {{ $prayer['active'] ? 'bg-green-700 text-white scale-105 z-10 shadow-lg' : 'hover:bg-green-50' }}
+                                    {{ $prayer['upcoming'] ? 'bg-yellow-100' : '' }}">
                             <div class="flex flex-col items-center h-full justify-between">
-                                <h3 class="text-lg font-semibold mb-2 {{ $prayer['active'] ? 'text-gray-900' : 'text-green-700' }}">
+                                <h3 class="text-lg font-semibold mb-2 {{ $prayer['active'] ? 'text-gray-900' : ($prayer['upcoming'] ? 'text-yellow-700' : 'text-green-700') }}">
                                     {{ $name }}
                                 </h3>
-                                <div class="text-2xl font-bold {{ $prayer['active'] ? 'text-gray-900' : 'text-gray-800' }}">
+                                <div class="text-2xl font-bold {{ $prayer['active'] ? 'text-gray-900' : ($prayer['upcoming'] ? 'text-yellow-800' : 'text-gray-800') }}">
                                     {{ $prayer['time'] }}
                                 </div>
-                                <div class="text-sm {{ $prayer['active'] ? 'text-gray-900' : 'text-gray-500' }}">
+                                <div class="text-sm {{ $prayer['active'] ? 'text-gray-900' : ($prayer['upcoming'] ? 'text-yellow-600' : 'text-gray-500') }}">
                                     WIB
                                 </div>
                                 @if($prayer['active'])
                                     <div class="mt-2 animate-pulse">
                                         <span class="inline-block px-2 py-1 text-xs font-bold bg-white text-green-700 rounded-full">
                                             WAKTU SHOLAT
+                                        </span>
+                                    </div>
+                                @elseif($prayer['upcoming'])
+                                    <div class="mt-2">
+                                        <span class="inline-block px-2 py-1 text-xs font-bold bg-yellow-500 text-white rounded-full">
+                                            SEGERA WAKTU SHOLAT
                                         </span>
                                     </div>
                                 @endif
