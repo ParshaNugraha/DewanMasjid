@@ -30,7 +30,12 @@
                 <a href="{{ route('superadmin.masjids.index') }}" class="px-4 py-2 md:py-3 rounded-md hover:bg-green-200">🕌 Kelola Masjid & Admin</a>
                 <a href="{{ route('superadmin.pendaftar.index') }}" class="px-4 py-2 md:py-3 rounded-md hover:bg-green-200 relative">
                     ✅ Verifikasi Admin
-                    @if (!empty($pendingAdminCount) && $pendingAdminCount > 0)
+                    @php
+                        $pendingAdminCount = App\Models\User::where('role', 'admin')
+                            ->where('status', 'pending')
+                            ->count();
+                    @endphp
+                    @if($pendingAdminCount > 0)
                         <span class="absolute top-1 right-3 px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
                             {{ $pendingAdminCount }}
                         </span>
