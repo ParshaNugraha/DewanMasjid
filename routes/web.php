@@ -28,7 +28,18 @@ Route::get('/', function (Request $request) {
     $beritas = Berita::latest()->get();
     $galeris = Galeri::latest()->get();
     
-    return view('home', compact('beritas', 'galeris'));
+    // Hitung jumlah masjid yang terdaftar dan disetujui
+    $totalMasjid = \App\Models\Masjid::whereHas('user', function($query) {
+        $query->where('status', 'approved');
+    })->count();
+    
+    // Hitung total berita yang diupload
+    $totalKegiatan = \App\Models\Berita::where('is_published', true)->count();
+    
+    // Hitung total galeri untuk dokumentasi DMI
+    $totalDokumentasi = \App\Models\Galeri::count();
+    
+    return view('home', compact('beritas', 'galeris', 'totalMasjid', 'totalKegiatan', 'totalDokumentasi'));
 })->name('home');
 
 // Route untuk halaman pending verifikasi
@@ -129,6 +140,8 @@ Route::prefix('galeri')->name('galeri.')->group(function () {
 Route::prefix('datamasjid')->name('datamasjid.')->group(function () {
     Route::get('/search', [MasjidController::class, 'search'])->name('search');
 });
+
+
 
 
 

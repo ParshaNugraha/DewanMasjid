@@ -45,4 +45,6 @@ class MasjidController extends Controller
 
         return view('datamasjid.index', compact('masjids'));
     }
+
+    
 }

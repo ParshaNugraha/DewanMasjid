@@ -69,7 +69,7 @@
                             ],
                             'Subuh' => [
                                 'time' => '05:47', 
-                                'active' => ($currentTime >= '05:47' && $currentTime < '11:39'),
+                                'active' => ($currentTime >= '05:47' && $currentTime < '06:00'),
                                 'upcoming' => ($currentTime >= '05:17' && $currentTime < '05:47')
                             ],
                             'Dzuhur' => [
@@ -399,22 +399,26 @@
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
                 <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
-                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="1250">0</div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">
+                        {{ $totalMasjid }}
+                    </div>
                     <div class="text-lg">Masjid Terdaftar</div>
                 </div>
                 
                 <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
-                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="350">0</div>
-                    <div class="text-lg">Kegiatan Tahunan</div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">
+                        {{ $totalKegiatan }}
+                    </div>
+                    <div class="text-lg">Kegiatan DMI</div>
                 </div>
                 
                 <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
-                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="42">0</div>
-                    <div class="text-lg">Kabupaten/Kota</div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">{{ $totalDokumentasi }}</div>
+                    <div class="text-lg">Dokumentasi DMI</div>
                 </div>
                 
                 <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
-                    <div class="text-4xl md:text-5xl font-bold mb-2 animate-count" data-target="25">0</div>
+                    <div class="text-4xl md:text-5xl font-bold mb-2">25</div>
                     <div class="text-lg">Tahun Berkarya</div>
                 </div>
             </div>
