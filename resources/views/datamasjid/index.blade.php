@@ -137,19 +137,13 @@
         </div>
 
         <!-- Modal Gambar -->
-        <div id="imageModal"
-            class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
-            <div
-                class="relative max-w-4xl w-full bg-white rounded-xl overflow-hidden shadow-2xl transform transition-all duration-300 scale-95 group-hover:scale-100">
-                <button onclick="hideImageModal()"
-                    class="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all hover:rotate-90">
+        <div id="imageModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+            <div class="relative max-w-4xl w-full bg-white rounded-xl overflow-hidden shadow-2xl transform transition-all duration-300 scale-95 group-hover:scale-100">
+                <button onclick="hideImageModal()" class="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all hover:rotate-90">
                     &times;
                 </button>
-                <img id="modalImage" src="" alt=""
-                    class="w-full h-auto max-h-[80vh] object-contain transition-transform duration-500 group-hover:scale-105">
-                <p id="modalCaption"
-                    class="text-center py-4 text-xl font-semibold text-gray-800 bg-white bg-opacity-90 backdrop-blur-sm">
-                </p>
+                <img id="modalImage" src="" alt="" class="w-full h-auto max-h-[80vh] object-contain transition-transform duration-500 group-hover:scale-105">
+                <p id="modalCaption" class="text-center py-4 text-xl font-semibold text-gray-800 bg-white bg-opacity-90 backdrop-blur-sm"></p>
             </div>
         </div>
 
@@ -165,6 +159,13 @@
                 document.getElementById('imageModal').classList.add('hidden');
                 document.body.style.overflow = 'auto';
             }
+
+            // Tutup modal saat klik di luar gambar
+            document.getElementById('imageModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideImageModal();
+                }
+            });
         </script>
     </div>
 </main>

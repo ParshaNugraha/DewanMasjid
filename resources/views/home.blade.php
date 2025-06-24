@@ -61,39 +61,61 @@
                     @php
                         date_default_timezone_set('Asia/Jakarta');
                         $currentTime = now()->format('H:i');
-
-                        $prayerTimes = [
-                            'Imsak' => [
-                                'time' => '04:33',
-                                'active' => ($currentTime >= '04:33' && $currentTime < '05:47'),
-                                'upcoming' => false // Tidak ada notifikasi untuk Imsak
-                            ],
-                            'Subuh' => [
-                                'time' => '05:47',
-                                'active' => ($currentTime >= '05:47' && $currentTime < '06:00'),
-                                'upcoming' => ($currentTime >= '05:17' && $currentTime < '05:47')
-                            ],
-                            'Dzuhur' => [
-                                'time' => '11:39',
-                                'active' => ($currentTime >= '11:39' && $currentTime < '15:01'),
-                                'upcoming' => ($currentTime >= '11:09' && $currentTime < '11:39')
-                            ],
-                            'Ashar' => [
-                                'time' => '15:01',
-                                'active' => ($currentTime >= '15:01' && $currentTime < '17:31'),
-                                'upcoming' => ($currentTime >= '14:31' && $currentTime < '15:01')
-                            ],
-                            'Maghrib' => [
-                                'time' => '17:31',
-                                'active' => ($currentTime >= '17:31' && $currentTime < '18:46'),
-                                'upcoming' => ($currentTime >= '17:01' && $currentTime < '17:31')
-                            ],
-                            'Isya' => [
-                                'time' => '18:46',
-                                'active' => ($currentTime >= '18:46' || $currentTime < '04:33'),
-                                'upcoming' => ($currentTime >= '18:16' && $currentTime < '18:46')
-                            ],
-                        ];
+                        
+                        // Ambil data jadwal sholat dari API Aladhan
+                        $latitude = -6.9667; // Koordinat Semarang
+                        $longitude = 110.4167;
+                        $date = date('d-m-Y');
+                        $apiUrl = "http://api.aladhan.com/v1/timings/$date?latitude=$latitude&longitude=$longitude&method=2";
+                        
+                        try {
+                            $response = file_get_contents($apiUrl);
+                            $data = json_decode($response, true);
+                            $jadwal = $data['data']['timings'];
+                            
+                            $prayerTimes = [
+                                'Imsak' => [
+                                    'time' => $jadwal['Imsak'],
+                                    'active' => ($currentTime >= $jadwal['Imsak'] && $currentTime < $jadwal['Fajr']),
+                                    'upcoming' => false
+                                ],
+                                'Subuh' => [
+                                    'time' => $jadwal['Fajr'],
+                                    'active' => ($currentTime >= $jadwal['Fajr'] && $currentTime < $jadwal['Sunrise']),
+                                    'upcoming' => ($currentTime >= date('H:i', strtotime('-30 minutes', strtotime($jadwal['Fajr']))) && $currentTime < $jadwal['Fajr'])
+                                ],
+                                'Dzuhur' => [
+                                    'time' => $jadwal['Dhuhr'],
+                                    'active' => ($currentTime >= $jadwal['Dhuhr'] && $currentTime < $jadwal['Asr']),
+                                    'upcoming' => ($currentTime >= date('H:i', strtotime('-30 minutes', strtotime($jadwal['Dhuhr']))) && $currentTime < $jadwal['Dhuhr'])
+                                ],
+                                'Ashar' => [
+                                    'time' => $jadwal['Asr'],
+                                    'active' => ($currentTime >= $jadwal['Asr'] && $currentTime < $jadwal['Maghrib']),
+                                    'upcoming' => ($currentTime >= date('H:i', strtotime('-30 minutes', strtotime($jadwal['Asr']))) && $currentTime < $jadwal['Asr'])
+                                ],
+                                'Maghrib' => [
+                                    'time' => $jadwal['Maghrib'],
+                                    'active' => ($currentTime >= $jadwal['Maghrib'] && $currentTime < $jadwal['Isha']),
+                                    'upcoming' => ($currentTime >= date('H:i', strtotime('-30 minutes', strtotime($jadwal['Maghrib']))) && $currentTime < $jadwal['Maghrib'])
+                                ],
+                                'Isya' => [
+                                    'time' => $jadwal['Isha'],
+                                    'active' => ($currentTime >= $jadwal['Isha'] || $currentTime < $jadwal['Imsak']),
+                                    'upcoming' => ($currentTime >= date('H:i', strtotime('-30 minutes', strtotime($jadwal['Isha']))) && $currentTime < $jadwal['Isha'])
+                                ],
+                            ];
+                        } catch (Exception $e) {
+                            // Fallback jika API tidak bisa diakses
+                            $prayerTimes = [
+                                'Imsak' => ['time' => '04:33', 'active' => false, 'upcoming' => false],
+                                'Subuh' => ['time' => '05:47', 'active' => false, 'upcoming' => false],
+                                'Dzuhur' => ['time' => '11:39', 'active' => false, 'upcoming' => false],
+                                'Ashar' => ['time' => '15:01', 'active' => false, 'upcoming' => false],
+                                'Maghrib' => ['time' => '17:31', 'active' => false, 'upcoming' => false],
+                                'Isya' => ['time' => '18:46', 'active' => false, 'upcoming' => false],
+                            ];
+                        }
                     @endphp
 
                     @foreach($prayerTimes as $name => $prayer)
@@ -131,12 +153,6 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
-
-                <div class="p-4 bg-gray-50 text-center">
-                    <p class="text-sm text-gray-600">
-                        Jadwal sholat berdasarkan lokasi Masjid Agung Jawa Tengah
-                    </p>
                 </div>
             </div>
         </div>
