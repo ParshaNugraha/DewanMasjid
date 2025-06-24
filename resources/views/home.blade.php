@@ -159,18 +159,18 @@
                 <div
                     class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
                     <div class="relative h-64 overflow-hidden">
-                        <img src="https://source.unsplash.com/random/600x400/?portrait,muslim" alt="Ketua DMI"
+                        <img src="{{ Vite::asset('resources/image/Ahmad_Rofiq.png') }}" alt="Ketua DMI"
                             class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
                         </div>
                         <div class="absolute bottom-4 left-4">
-                            <h3 class="text-xl font-bold text-white">Ust. Ahmad Maulana</h3>
+                            <h3 class="text-xl font-bold text-white">Prof. Dr. H. Ahmad Rofiq, MA.</h3>
                             <p class="text-green-300 font-medium">Ketua DMI Jateng</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <p class="text-gray-600 mb-4 line-clamp-3">
-                            Memimpin DMI Jateng sejak 2018 dengan visi memakmurkan masjid sebagai pusat peradaban umat.
+                            Memimpin DMI Jateng dengan visi memakmurkan masjid sebagai pusat peradaban umat.
                         </p>
                         <a href="#" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
                             Lihat Profil Lengkap
@@ -186,12 +186,12 @@
                 <div
                     class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
                     <div class="relative h-64 overflow-hidden">
-                        <img src="https://source.unsplash.com/random/600x400/?portrait,muslim,man" alt="Sekretaris DMI"
+                        <img src="{{ Vite::asset('resources\image\Imam_Yahya..png') }}" alt="Sekretaris DMI"
                             class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
                         </div>
                         <div class="absolute bottom-4 left-4">
-                            <h3 class="text-xl font-bold text-white">Dr. Muhammad Faisal</h3>
+                            <h3 class="text-xl font-bold text-white">Dr. H. Imam Yahya, M.Ag.</h3>
                             <p class="text-green-300 font-medium">Sekretaris DMI Jateng</p>
                         </div>
                     </div>
@@ -214,12 +214,12 @@
                 <div
                     class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
                     <div class="relative h-64 overflow-hidden">
-                        <img src="https://source.unsplash.com/random/600x400/?portrait,muslim,woman" alt="Bendahara DMI"
+                        <img src="{{ Vite::asset('resources\image\Mardiyah.jpg') }}" alt="Bendahara DMI"
                             class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
                         </div>
                         <div class="absolute bottom-4 left-4">
-                            <h3 class="text-xl font-bold text-white">Hj. Siti Aminah</h3>
+                            <h3 class="text-xl font-bold text-white">Dr. Hj. Mardiyah, SKM, M. Kes.</h3>
                             <p class="text-green-300 font-medium">Bendahara DMI Jateng</p>
                         </div>
                     </div>
@@ -236,17 +236,6 @@
                         </a>
                     </div>
                 </div>
-            </div>
-
-            <div class="text-center mt-10">
-                <a href="{{ url('/pengurus') }}"
-                    class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md transition-all duration-300">
-                    Lihat Seluruh Pengurus
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </a>
             </div>
         </div>
     </section>
@@ -438,7 +427,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                 <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
                     <div class="text-4xl md:text-5xl font-bold mb-2">
                         {{ $totalMasjid }}
@@ -456,11 +445,6 @@
                 <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
                     <div class="text-4xl md:text-5xl font-bold mb-2">{{ $totalDokumentasi }}</div>
                     <div class="text-lg">Dokumentasi DMI</div>
-                </div>
-
-                <div class="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
-                    <div class="text-4xl md:text-5xl font-bold mb-2">52</div>
-                    <div class="text-lg">Tahun Berkarya</div>
                 </div>
             </div>
         </div>

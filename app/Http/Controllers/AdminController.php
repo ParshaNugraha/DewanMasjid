@@ -216,7 +216,7 @@ class AdminController extends Controller
             'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
-            'deskripsi' => 'required|string|max:1000',
+            'deskripsi' => 'required|string|max:10000',
             'alamat' => 'required|string|max:500',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',

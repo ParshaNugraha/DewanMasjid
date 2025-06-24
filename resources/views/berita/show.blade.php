@@ -97,8 +97,8 @@
                 </div>
 
                 <!-- Konten -->
-                <div class="prose max-w-none text-gray-700">
-                    {!! $berita->content !!}
+                <div class="prose max-w-none text-gray-700 text-justify leading-relaxed">
+                    {!! nl2br(e($berita->content)) !!}
                 </div>
 
                 <!-- Bagikan -->

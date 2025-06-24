@@ -13,6 +13,8 @@ use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PendaftarController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Tanpa login)

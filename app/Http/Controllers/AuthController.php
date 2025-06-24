@@ -35,9 +35,7 @@ class AuthController extends Controller
             // Cek status jika user adalah admin
             if ($user->role === 'admin' && $user->status === 'pending') {
                 Auth::logout();
-                return redirect()->route('login')->withErrors([
-                    'login' => 'Akun Anda belum disetujui oleh superadmin.',
-                ]);
+                return redirect()->route('login')->with('error', 'Akun Anda belum disetujui oleh superadmin.');
             }
 
             if ($user->role === 'superadmin') {
@@ -50,9 +48,8 @@ class AuthController extends Controller
         }
 
         // Jika gagal login
-        return back()->withErrors([
-            'login' => 'Username atau Email dan Password salah.',
-        ])->onlyInput('login');
+        return back()->with('error', 'Username atau Email dan Password salah.')
+                    ->onlyInput('login');
     }
 
     public function logout(Request $request)

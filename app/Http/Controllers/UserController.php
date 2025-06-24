@@ -36,7 +36,7 @@ class UserController extends Controller
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
             'alamat' => 'required|string|max:500',
-            'deskripsi' => 'nullable|string|max:1000',
+            'deskripsi' => 'nullable|string|max:10000',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => ['required', 'regex:/^08[0-9]{8,15}$/'],

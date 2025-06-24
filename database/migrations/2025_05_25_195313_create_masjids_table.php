@@ -15,7 +15,7 @@ class CreateMasjidsTable extends Migration
             $table->string('nama_takmir');
             $table->integer('tahun');
             $table->enum('status_tanah', ['Milik Sendiri', 'Wakaf', 'Sewa', 'Pinjam Pakai']);
-            $table->enum('topologi_masjid', ['Masjid Jami', 'Masjid Negara', 'Masjid Agung', 'Masjid Raya', 'Masjid Besar', 'Masjid Kecil']);
+            $table->enum('topologi_masjid', ['Masjid Jami', 'Masjid Negara', 'Masjid Agung', 'Masjid Raya', 'Masjid Besar', 'Masjid Kecil', 'Masjid Bersejarah']);
             $table->string('kecamatan');
             $table->string('kabupaten');
             $table->string('alamat');
