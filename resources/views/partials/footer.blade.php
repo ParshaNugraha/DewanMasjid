@@ -6,7 +6,7 @@
             <!-- Branding Section -->
             <div class="mb-8 md:mb-0">
                 <a href="#" class="flex items-center">
-                    <img src="{{ Vite::asset('resources/image/logo-dmi.jpg') }}" alt="" class="h-16 md:h-20 w-auto rounded-full">
+                    <img src="{{ Vite::asset('resources/image/logo-dmi.jpg') }}" alt="" class="h-16 md:h-20 w-auto rounded-2xl">
                     <span class="text-2xl font-bold text-gray-800 dark:text-white ml-2">Dewan Masjid Indonesia<br><span class="text-lg">Provinsi Jawa Tengah</span></span>
                 </a>
                 <p class="mt-2 text-gray-600 dark:text-gray-300 max-w-xs">

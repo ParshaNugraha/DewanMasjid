@@ -140,6 +140,7 @@
                                 <option value="Masjid Besar" {{ old('topologi_masjid') == 'Masjid Besar' ? 'selected' : '' }}>Masjid Besar</option>
                                 <option value="Masjid Kecil" {{ old('topologi_masjid') == 'Masjid Kecil' ? 'selected' : '' }}>Masjid Kecil</option>
                                 <option value="Masjid Bersejarah" {{ old('topologi_masjid') == 'Masjid Bersejarah' ? 'selected' : '' }}>Masjid Bersejarah</option>
+                                <option value="Masjid Kampus" {{ old('topologi_masjid') == 'Masjid Kampus' ? 'selected' : '' }}>Masjid Kampus</option>
                             </select>
                             @error('topologi_masjid')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

@@ -19,8 +19,8 @@
                     <img src="{{ Vite::asset('resources/image/logo-dmi.jpg') }}" alt="" class="h-16 md:h-20 w-auto">
                     <div class="ml-2 md:ml-3">
                         <h3 class="text-sm md:text-xl font-bold">
-                            <span class="block">Dewan Masjid Indonesia</span>
-                            <span class="block text-sm">Provinsi Jawa Tengah</span>
+                            <span class="block">DEWAN MASJID INDONESIA</span>
+                            <span class="block text-sm">PROVINSI JAWA TENGAH</span>
                         </h3>
                     </div>
                 </a>
@@ -80,27 +80,27 @@
             <nav class="hidden md:flex space-x-6">
                 <a href="{{ url('/') }}"
                     class="px-1 transition-colors duration-200 {{ request()->is('/') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
-                    Beranda
+                    BERANDA
                 </a>
                 <a href="{{ url('/berita') }}"
                     class="px-1 transition-colors duration-200 {{ request()->is('berita*') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
-                    Berita
+                    BERITA
                 </a>
                 <a href="{{ url('/tentangdmi') }}"
                     class="px-1 transition-colors duration-200 {{ request()->is('tentangdmi*') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
-                    Tentang DMI Jateng
+                    TENTANG DMI JATENG
                 </a>
                 <a href="{{ url('/masjid') }}"
                     class="px-1 transition-colors duration-200 {{ request()->is('masjid*') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
-                    Data Masjid
+                    DATA MASJID
                 </a>
                 <a href="{{ url('/pengurus') }}"
                     class="px-1 transition-colors duration-200 {{ request()->is('pengurus*') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
-                    Pengurus
+                    PENGURUS
                 </a>
                 <a href="{{ url('/galeri') }}"
                     class="px-1 transition-colors duration-200 {{ request()->is('galeri*') ? 'text-green-800 font-semibold border-b-2 border-green-500' : 'text-gray-600 hover:text-green-700' }}">
-                    Galeri
+                    GALERI
                 </a>
             </nav>
 
@@ -112,14 +112,14 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                         </svg>
-                        Masuk
+                        MASUK
                     </button>
                     <button onclick="showRegisterPopup()"
                         class="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-5 py-2.5 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-md hover:shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                         </svg>
-                        Daftar
+                        DAFTAR
                     </button>
                 @endguest
                 @auth
@@ -129,7 +129,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
-                            Dashboard
+                            DASHBOARD
                         </a>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
@@ -138,7 +138,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
                                 </svg>
-                                Keluar
+                                KELUAR
                             </button>
                         </form>
                     </div>
@@ -160,37 +160,37 @@
                 <li>
                     <a href="{{ url('/') }}"
                         class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('/') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
-                        <i class="fas fa-home mr-2"></i> Beranda
+                        <i class="fas fa-home mr-2"></i> BERANDA
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/berita') }}"
                         class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('berita*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
-                        <i class="fas fa-newspaper mr-2"></i> Berita
+                        <i class="fas fa-newspaper mr-2"></i> BERITA
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/tentangdmi') }}"
                         class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('tentangdmi*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
-                        <i class="fas fa-info-circle mr-2"></i> Tentang DMI Jateng
+                        <i class="fas fa-info-circle mr-2"></i> TENTANG DMI JATENG
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/masjid') }}"
                         class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('masjid*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
-                        <i class="fas fa-mosque mr-2"></i> Data Masjid
+                        <i class="fas fa-mosque mr-2"></i> DATA MASJID
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/pengurus') }}"
                         class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('pengurus*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
-                        <i class="fas fa-users mr-2"></i> Pengurus
+                        <i class="fas fa-users mr-2"></i> PENGURUS
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/galeri') }}"
                         class="block py-2 px-3 rounded-lg transition-colors {{ request()->is('galeri*') ? 'bg-green-50 text-green-800 font-semibold' : 'text-gray-600 hover:bg-green-50' }}">
-                        <i class="fas fa-images mr-2"></i> Galeri
+                        <i class="fas fa-images mr-2"></i> GALERI
                     </a>
                 </li>
                 <li class="pt-2 border-t border-gray-100">
@@ -200,7 +200,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                             </svg>
-                            <span>Masuk</span>
+                            <span>MASUK</span>
                         </button>
                     @endguest
                     @auth
@@ -209,7 +209,7 @@
                             <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
-                            <span>Dashboard</span>
+                            <span>DASHBOARD</span>
                         </a>
                     @endauth
                 </li>
@@ -220,7 +220,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                             </svg>
-                            <span>Daftar</span>
+                            <span>DAFTAR</span>
                         </button>
                     @endguest
                     @auth
@@ -231,7 +231,7 @@
                                 <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
                                 </svg>
-                                <span>Keluar</span>
+                                <span>KELUAR</span>
                             </button>
                         </form>
                     @endauth

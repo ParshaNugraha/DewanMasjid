@@ -57,13 +57,18 @@
                     <h1 class="text-lg md:text-2xl font-bold text-green-800 whitespace-nowrap">
                         Dewan Masjid Indonesia
                     </h1>
+                </div>        
+                <div class="flex items-center gap-2">
+                    <a href="{{ url('/') }}" class="bg-green-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded text-sm md:text-base transition-colors duration-200">
+                        Kembali ke Beranda
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded text-sm md:text-base" type="submit">
+                            Keluar
+                        </button>
+                    </form>
                 </div>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded text-sm md:text-base" type="submit">
-                        Logout
-                    </button>
-                </form>
             </header>
 
             <!-- Konten halaman -->

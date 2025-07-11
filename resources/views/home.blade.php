@@ -188,13 +188,6 @@
                         <p class="text-gray-600 mb-4 line-clamp-3">
                             Memimpin DMI Jateng dengan visi memakmurkan masjid sebagai pusat peradaban umat.
                         </p>
-                        <a href="#" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
-                            Lihat Profil Lengkap
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
 
@@ -216,13 +209,6 @@
                             Mengkoordinasikan seluruh kegiatan DMI Jateng dan memastikan program berjalan sesuai
                             rencana.
                         </p>
-                        <a href="#" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
-                            Lihat Profil Lengkap
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
 
@@ -243,13 +229,6 @@
                         <p class="text-gray-600 mb-4 line-clamp-3">
                             Mengelola keuangan DMI Jateng dengan transparan dan akuntabel untuk kemaslahatan umat.
                         </p>
-                        <a href="#" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
-                            Lihat Profil Lengkap
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -330,17 +309,17 @@
     </section>
 
     <!-- Berita Terkini Section -->
-    <section class="py-16 bg-white">
+    <section class="py-8 md:py-16 bg-white">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-green-800 mb-2">Berita Terkini</h2>
-                    <p class="text-lg text-gray-600">Update terbaru seputar kegiatan DMI Provinsi Jawa Tengah</p>
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 md:mb-12">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl md:text-4xl font-bold text-green-800 mb-2">Berita Terkini</h2>
+                    <p class="text-base md:text-lg text-gray-600">Update terbaru seputar kegiatan DMI Provinsi Jawa Tengah</p>
                 </div>
                 <a href="{{ route('berita.publicIndex') }}"
-                    class="mt-4 md:mt-0 inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-300">
+                    class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 md:px-6 md:py-3 rounded-lg shadow-md transition duration-300 text-sm md:text-base">
                     Lihat Semua Berita
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
@@ -348,35 +327,35 @@
             </div>
 
             <!-- Featured News (Carousel) -->
-            <div class="relative mb-16">
+            <div class="relative mb-8 md:mb-16">
                 <div class="swiper-container news-carousel">
                     <div class="swiper-wrapper">
                         @foreach($beritas->where('is_published', true)->sortByDesc('created_at')->take(5) as $berita)
                             <div class="swiper-slide">
-                                <div class="relative h-96 rounded-xl overflow-hidden group">
+                                <div class="relative h-64 md:h-96 rounded-xl overflow-hidden group my-4">
                                     <img src="{{ $berita->image ? asset('storage/' . $berita->image) : 'https://source.unsplash.com/random/1200x800/?mosque' }}"
                                         alt="{{ $berita->title }}"
                                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
                                     <div
                                         class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
                                     </div>
-                                    <div class="absolute bottom-0 left-0 p-8 w-full">
-                                        <div class="mb-4">
+                                    <div class="absolute bottom-0 left-0 p-4 md:p-8 w-full">
+                                        <div class="mb-2 md:mb-4">
                                             <span
-                                                class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-semibold rounded-full">
+                                                class="inline-block px-2 py-1 md:px-3 md:py-1 bg-green-600 text-white text-xs md:text-sm font-semibold rounded-full">
                                                 {{ $berita->tag ?? 'Berita' }}
                                             </span>
-                                            <span class="ml-2 text-white text-sm">
+                                            <span class="ml-2 text-white text-xs md:text-sm">
                                                 {{ $berita->created_at->diffForHumans() }}
                                             </span>
                                         </div>
-                                        <h3 class="text-2xl font-bold text-white mb-3">{{ $berita->title }}</h3>
-                                        <p class="text-white/90 mb-4 line-clamp-2">
+                                        <h3 class="text-lg md:text-2xl font-bold text-white mb-2 md:mb-3">{{ $berita->title }}</h3>
+                                        <p class="text-white/90 mb-2 md:mb-4 line-clamp-2 text-sm md:text-base">
                                             {{ Str::limit(strip_tags($berita->content), 150) }}</p>
                                         <a href="{{ route('berita.show', $berita->id) }}"
-                                            class="inline-flex items-center text-white font-medium hover:text-green-300 transition duration-300">
+                                            class="inline-flex items-center text-white font-medium hover:text-green-300 transition duration-300 text-sm md:text-base">
                                             Baca Selengkapnya
-                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-3 h-3 md:w-4 md:h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M9 5l7 7-7 7" />
                                             </svg>
@@ -387,7 +366,7 @@
                         @endforeach
                     </div>
                     <!-- Pagination -->
-                    <div class="swiper-pagination"></div>
+                    <div class="swiper-pagination mt-4 md:mt-0"></div>
                 </div>
             </div>
 
