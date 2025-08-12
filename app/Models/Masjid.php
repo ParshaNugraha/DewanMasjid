@@ -24,9 +24,12 @@ class Masjid extends Model
         'kecamatan',
         'kabupaten',
         'alamat',
+        'lokasi',
         'deskripsi',
         'gambar',
         'surat',
+        'surat_wakaf',
+        'surat_takmir',
         'notlp',
         'donasi',
 

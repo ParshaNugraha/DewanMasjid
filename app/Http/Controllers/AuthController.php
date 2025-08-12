@@ -35,7 +35,7 @@ class AuthController extends Controller
             // Cek status jika user adalah admin
             if ($user->role === 'admin' && $user->status === 'pending') {
                 Auth::logout();
-                return redirect()->route('home')->with('error', 'Akun Anda belum disetujui oleh superadmin.');
+                return redirect()->route('home')->with('error', 'Akun Anda belum disetujui oleh Admin, Kami akan menghubungi anda jika akun anda sudah disetujui.');
             }
 
             if ($user->role === 'superadmin') {

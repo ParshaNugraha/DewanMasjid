@@ -158,83 +158,6 @@
         </div>
     </section>
 
-    <!-- Profil Pengurus Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-green-800 mb-3">
-                    Pengurus DMI Jateng
-                </h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Kenali para pengurus yang mengelola dan memakmurkan masjid-masjid di Jawa Tengah
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Ketua -->
-                <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
-                    <div class="relative h-64 overflow-hidden">
-                        <img src="{{ Vite::asset('resources/image/Ahmad_Rofiq.png') }}" alt="Ketua DMI"
-                            class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
-                        </div>
-                        <div class="absolute bottom-4 left-4">
-                            <h3 class="text-xl font-bold text-white">Prof. Dr. H. Ahmad Rofiq, MA.</h3>
-                            <p class="text-green-300 font-medium">Ketua DMI Jateng</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 mb-4 line-clamp-3">
-                            Memimpin DMI Jateng dengan visi memakmurkan masjid sebagai pusat peradaban umat.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Sekretaris -->
-                <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
-                    <div class="relative h-64 overflow-hidden">
-                        <img src="{{ Vite::asset('resources\image\Imam_Yahya..png') }}" alt="Sekretaris DMI"
-                            class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
-                        </div>
-                        <div class="absolute bottom-4 left-4">
-                            <h3 class="text-xl font-bold text-white">Dr. H. Imam Yahya, M.Ag.</h3>
-                            <p class="text-green-300 font-medium">Sekretaris DMI Jateng</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 mb-4 line-clamp-3">
-                            Mengkoordinasikan seluruh kegiatan DMI Jateng dan memastikan program berjalan sesuai
-                            rencana.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Bendahara -->
-                <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 group">
-                    <div class="relative h-64 overflow-hidden">
-                        <img src="{{ Vite::asset('resources\image\Mardiyah.jpg') }}" alt="Bendahara DMI"
-                            class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
-                        </div>
-                        <div class="absolute bottom-4 left-4">
-                            <h3 class="text-xl font-bold text-white">Dr. Hj. Mardiyah, SKM, M. Kes.</h3>
-                            <p class="text-green-300 font-medium">Bendahara DMI Jateng</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 mb-4 line-clamp-3">
-                            Mengelola keuangan DMI Jateng dengan transparan dan akuntabel untuk kemaslahatan umat.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Lokasi Masjid Section -->
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
@@ -326,53 +249,9 @@
                 </a>
             </div>
 
-            <!-- Featured News (Carousel) -->
-            <div class="relative mb-8 md:mb-16">
-                <div class="swiper-container news-carousel">
-                    <div class="swiper-wrapper">
-                        @foreach($beritas->where('is_published', true)->sortByDesc('created_at')->take(5) as $berita)
-                            <div class="swiper-slide">
-                                <div class="relative h-64 md:h-96 rounded-xl overflow-hidden group my-4">
-                                    <img src="{{ $berita->image ? asset('storage/' . $berita->image) : 'https://source.unsplash.com/random/1200x800/?mosque' }}"
-                                        alt="{{ $berita->title }}"
-                                        class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
-                                    </div>
-                                    <div class="absolute bottom-0 left-0 p-4 md:p-8 w-full">
-                                        <div class="mb-2 md:mb-4">
-                                            <span
-                                                class="inline-block px-2 py-1 md:px-3 md:py-1 bg-green-600 text-white text-xs md:text-sm font-semibold rounded-full">
-                                                {{ $berita->tag ?? 'Berita' }}
-                                            </span>
-                                            <span class="ml-2 text-white text-xs md:text-sm">
-                                                {{ $berita->created_at->diffForHumans() }}
-                                            </span>
-                                        </div>
-                                        <h3 class="text-lg md:text-2xl font-bold text-white mb-2 md:mb-3">{{ $berita->title }}</h3>
-                                        <p class="text-white/90 mb-2 md:mb-4 line-clamp-2 text-sm md:text-base">
-                                            {{ Str::limit(strip_tags($berita->content), 150) }}</p>
-                                        <a href="{{ route('berita.show', $berita->id) }}"
-                                            class="inline-flex items-center text-white font-medium hover:text-green-300 transition duration-300 text-sm md:text-base">
-                                            Baca Selengkapnya
-                                            <svg class="w-3 h-3 md:w-4 md:h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <!-- Pagination -->
-                    <div class="swiper-pagination mt-4 md:mt-0"></div>
-                </div>
-            </div>
-
             <!-- Grid Berita -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach($beritas->where('is_published', true)->sortByDesc('created_at')->skip(5)->take(6) as $berita)
+                @foreach($beritas->where('is_published', true)->sortByDesc('created_at')->take(9) as $berita)
                     <div
                         class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2 group">
                         <div class="relative h-48 overflow-hidden">

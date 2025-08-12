@@ -32,13 +32,16 @@ class UserController extends Controller
             'nama_takmir' => 'required|string|max:255',
             'tahun' => 'required|integer|min:1000|max:9999',
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
-            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Bersejarah,Masjid Kampus',
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
             'alamat' => 'required|string|max:500',
+            'lokasi' => 'required|string|max:255',
             'deskripsi' => 'nullable|string|max:10000',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
+            'surat_wakaf' => 'nullable|file|mimes:pdf|max:5120',
+            'surat_takmir' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => ['required', 'regex:/^08[0-9]{8,15}$/'],
             'donasi'=> 'nullable|string|max:100',
         ], [
@@ -55,13 +58,23 @@ class UserController extends Controller
         ]);
 
         // Simpan file gambar masjid jika ada
-        if (request()->hasFile('gambar')) {
-            $validated['gambar'] = request()->file('gambar')->store('gambar_masjid', 'public');
+        if ($request->hasFile('gambar')) {
+            $validated['gambar'] = $request->file('gambar')->store('gambar_masjid', 'public');
         }
 
         // Simpan file surat masjid jika ada
-        if (request()->hasFile('surat')) {
-            $validated['surat'] = request()->file('surat')->store('surat_masjid', 'public');
+        if ($request->hasFile('surat')) {
+            $validated['surat'] = $request->file('surat')->store('surat_masjid', 'public');
+        }
+
+        // Simpan file surat wakaf jika ada
+        if ($request->hasFile('surat_wakaf')) {
+            $validated['surat_wakaf'] = $request->file('surat_wakaf')->store('surat_wakaf', 'public');
+        }
+
+        // Simpan file surat takmir/pengurus jika ada
+        if ($request->hasFile('surat_takmir')) {
+            $validated['surat_takmir'] = $request->file('surat_takmir')->store('surat_takmir', 'public');
         }
 
         // Buat data masjid terkait user baru

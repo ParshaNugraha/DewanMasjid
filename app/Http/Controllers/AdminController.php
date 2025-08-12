@@ -115,7 +115,7 @@ class AdminController extends Controller
     }
     public function store(Request $request)
     {
-        // validasi data user admin + data masjid
+        // Validasi data user admin + data masjid, termasuk surat wakaf & surat takmir
         $validated = $request->validate([
             // user admin
             'username' => 'required|string|max:255|unique:users,username',
@@ -127,30 +127,33 @@ class AdminController extends Controller
             'nama_takmir' => 'required|string|max:255',
             'tahun' => 'required|integer|min:1000|max:' . date('Y'),
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
-            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Bersejarah,Masjid Kampus',
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
             'deskripsi' => 'required|string|max:1000',
             'alamat' => 'required|string|max:500',
+            'lokasi' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
+            'surat_wakaf' => 'nullable|file|mimes:pdf|max:5120',
+            'surat_takmir' => 'nullable|file|mimes:pdf|max:5120',
             'notlp' => 'nullable|string|max:15',
             'donasi' => 'nullable|string|max:100',
         ]);
 
-        // hash password
+        // Hash password
         $password_hashed = bcrypt($validated['password']);
 
-        // buat user admin baru
+        // Buat user admin baru
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => $password_hashed,
-            'role' => 'admin',        // role admin
-            'status' => 'approved',    // sesuai kebutuhan, bisa disesuaikan
+            'role' => 'admin',
+            'status' => 'approved',
         ]);
 
-        // upload gambar dan surat jika ada
+        // Siapkan data masjid
         $masjidData = [
             'nama_masjid' => $validated['nama_masjid'],
             'nama_takmir' => $validated['nama_takmir'],
@@ -161,11 +164,13 @@ class AdminController extends Controller
             'kabupaten' => $validated['kabupaten'],
             'deskripsi' => $validated['deskripsi'],
             'alamat' => $validated['alamat'],
+            'lokasi' => $validated['lokasi'],
             'notlp' => $validated['notlp'] ?? null,
             'donasi' => $validated['donasi'],
             'user_id' => $user->id,
         ];
 
+        // Upload file jika ada
         if ($request->hasFile('gambar')) {
             $masjidData['gambar'] = $request->file('gambar')->store('gambar_masjid', 'public');
         }
@@ -174,7 +179,15 @@ class AdminController extends Controller
             $masjidData['surat'] = $request->file('surat')->store('surat_masjid', 'public');
         }
 
-        // simpan data masjid
+        if ($request->hasFile('surat_wakaf')) {
+            $masjidData['surat_wakaf'] = $request->file('surat_wakaf')->store('surat_wakaf', 'public');
+        }
+
+        if ($request->hasFile('surat_takmir')) {
+            $masjidData['surat_takmir'] = $request->file('surat_takmir')->store('surat_takmir', 'public');
+        }
+
+        // Simpan data masjid
         Masjid::create($masjidData);
 
         return redirect()->route('superadmin.masjids.index')
@@ -208,50 +221,77 @@ class AdminController extends Controller
             abort(403, 'Unauthorized');
         }
 
+        // Validasi request
         $validated = $request->validate([
             'nama_masjid' => 'required|string|max:255',
             'nama_takmir' => 'required|string|max:255',
             'tahun' => 'required|integer|min:1000|max:' . date('Y'),
             'status_tanah' => 'required|in:Milik Sendiri,Wakaf,Sewa,Pinjam Pakai',
-            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Besar,Masjid Kecil',
+            'topologi_masjid' => 'required|in:Masjid Jami,Masjid Negara,Masjid Agung,Masjid Raya,Masjid Bersejarah,Masjid Kampus',
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
             'deskripsi' => 'required|string|max:10000',
             'alamat' => 'required|string|max:500',
+            'lokasi' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'surat' => 'nullable|file|mimes:pdf|max:5120',
-            'notlp' => 'nullable|string|max:15',
+            'surat_wakaf' => 'nullable|file|mimes:pdf|max:5120',
+            'surat_takmir' => 'nullable|file|mimes:pdf|max:5120',
+            'notlp' => ['nullable', 'regex:/^08[0-9]{8,15}$/'],
             'donasi' => 'nullable|string|max:100',
+        ], [
+            'notlp.regex' => 'Nomor telepon harus valid, hanya angka, dan dimulai dengan 08.',
         ]);
 
+        // Handle upload gambar
         if ($request->hasFile('gambar')) {
-            if ($masjid->gambar) {
+            if ($masjid->gambar && Storage::disk('public')->exists($masjid->gambar)) {
                 Storage::disk('public')->delete($masjid->gambar);
             }
             $validated['gambar'] = $request->file('gambar')->store('gambar_masjid', 'public');
         }
 
+        // Handle upload surat
         if ($request->hasFile('surat')) {
-            if ($masjid->surat) {
+            if ($masjid->surat && Storage::disk('public')->exists($masjid->surat)) {
                 Storage::disk('public')->delete($masjid->surat);
             }
             $validated['surat'] = $request->file('surat')->store('surat_masjid', 'public');
         }
 
+        // Handle upload surat wakaf
+        if ($request->hasFile('surat_wakaf')) {
+            if ($masjid->surat_wakaf && Storage::disk('public')->exists($masjid->surat_wakaf)) {
+                Storage::disk('public')->delete($masjid->surat_wakaf);
+            }
+            $validated['surat_wakaf'] = $request->file('surat_wakaf')->store('surat_wakaf', 'public');
+        }
+
+        // Handle upload surat takmir
+        if ($request->hasFile('surat_takmir')) {
+            if ($masjid->surat_takmir && Storage::disk('public')->exists($masjid->surat_takmir)) {
+                Storage::disk('public')->delete($masjid->surat_takmir);
+            }
+            $validated['surat_takmir'] = $request->file('surat_takmir')->store('surat_takmir', 'public');
+        }
+
+        // Update data masjid
         $masjid->update($validated);
 
-        // Jika superadmin, izinkan update user (termasuk password)
+        // Jika superadmin, update juga data user admin
         if ($user->role === 'superadmin') {
             $targetUser = $masjid->user;
 
             $request->validate([
-                'username' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:users,username,' . $targetUser->id,
                 'email' => 'required|email|unique:users,email,' . $targetUser->id,
                 'password' => 'nullable|string|min:6',
+                'status' => 'required|in:approved,pending',
             ]);
 
             $targetUser->username = $request->username;
             $targetUser->email = $request->email;
+            $targetUser->status = $request->status;
 
             if ($request->filled('password')) {
                 $targetUser->password = Hash::make($request->password);
@@ -273,13 +313,24 @@ class AdminController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        // Hapus file
-        if ($masjid->gambar) {
+        // Hapus file gambar jika ada
+        if ($masjid->gambar && Storage::disk('public')->exists($masjid->gambar)) {
             Storage::disk('public')->delete($masjid->gambar);
         }
 
-        if ($masjid->surat) {
+        // Hapus file surat jika ada
+        if ($masjid->surat && Storage::disk('public')->exists($masjid->surat)) {
             Storage::disk('public')->delete($masjid->surat);
+        }
+
+        // Hapus file surat_wakaf jika ada
+        if ($masjid->surat_wakaf && Storage::disk('public')->exists($masjid->surat_wakaf)) {
+            Storage::disk('public')->delete($masjid->surat_wakaf);
+        }
+
+        // Hapus file surat_takmir jika ada
+        if ($masjid->surat_takmir && Storage::disk('public')->exists($masjid->surat_takmir)) {
+            Storage::disk('public')->delete($masjid->surat_takmir);
         }
 
         // Simpan user sebelum hapus masjid
@@ -293,7 +344,7 @@ class AdminController extends Controller
         }
 
         return redirect()->route($user->role === 'superadmin' ? 'superadmin.masjids.index' : 'admin.masjids.index')
-            ->with('success', 'Data masjid berhasil dihapus.');
+            ->with('success', 'Data masjid dan seluruh file terkait berhasil dihapus.');
     }
 
     public function showChangePasswordForm()

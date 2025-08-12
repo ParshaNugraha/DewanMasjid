@@ -70,17 +70,38 @@
 
                         <div
                             class="bg-green-50/30 p-4 rounded-lg border-l-4 border-green-500 hover:shadow-md transition-all duration-300 animate-fade-in-down delay-300">
-                            <h3 class="text-sm font-semibold text-green-600 uppercase tracking-wider flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                </svg>
-                                Lokasi
-                            </h3>
-                            <p class="mt-1 text-gray-800">
-                                <span class="font-medium">{{ $masjid->kecamatan }}</span>,
-                                {{ $masjid->kabupaten }}
-                            </p>
+                            <a href="{{ $masjid->lokasi }}" target="_blank" class="group">
+                                <div class="flex justify-between items-center">
+                                    {{-- Bagian Kiri: Teks Lokasi --}}
+                                    <div>
+                                        <h3
+                                            class="text-sm font-semibold text-green-600 uppercase tracking-wider flex items-center">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            </svg>
+                                            Lokasi
+                                        </h3>
+                                        <p class="mt-1 text-gray-800">
+                                            <span class="font-medium">{{ $masjid->kecamatan }}</span>,
+                                            {{ $masjid->kabupaten }}
+                                        </p>
+                                    </div>
+
+                                    {{-- Bagian Kanan: Ikon Jari dengan Animasi Klik --}}
+                                    <div class="text-green-500 flex flex-col items-center">
+                                        {{-- Ganti SVG dan class animasinya di sini --}}
+                                        <svg class="w-10 h-10 transform transition-transform duration-200 ease-in-out group-hover:scale-90 group-hover:translate-y-0.5"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672z" />
+                                        </svg>
+                                        <p class="text-xs text-gray-600 mt-1">klik untuk lokasi</p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
 
@@ -155,7 +176,7 @@
                                     // Buat overlay dan notifikasi
                                     const overlay = document.createElement('div');
                                     overlay.className = 'fixed inset-0 bg-black/30 z-40 flex items-center justify-center';
-                                    
+
                                     const notif = document.createElement('div');
                                     notif.className = 'bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 animate-fade-in-down';
                                     notif.innerHTML = `
@@ -171,10 +192,10 @@
                                             </button>
                                         </div>
                                     `;
-                                    
+
                                     overlay.appendChild(notif);
                                     document.body.appendChild(overlay);
-                                    
+
                                 }).catch(err => {
                                     console.error('Gagal menyalin: ', err);
                                 });
